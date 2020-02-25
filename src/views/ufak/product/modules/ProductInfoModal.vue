@@ -84,9 +84,9 @@
                 @preview="handlePreview"
                 @change="imageChange"
               >
-                <div v-if="fileList.length < 300">
+                <div v-if="fileList.length < 10">
                   <a-icon type="plus"/>
-                  <div class="ant-upload-text">Upload</div>
+                  <div class="ant-upload-text">上传</div>
                 </div>
               </a-upload>
               <a-modal :visible="previewVisible" :footer="null" @cancel="imageCancel">
@@ -140,7 +140,6 @@
                 form: this.$form.createForm(this),
                 validatorRules: {},
                 headers: {},
-                uploadLoading: false,
                 previewVisible: false,
                 previewImage: '',
                 fileList: [],
@@ -149,7 +148,6 @@
                     add: "/productInfo/add",
                     edit: "/productInfo/edit",
                     fileUpload: window._CONFIG['domianURL'] + "/sys/common/upload",
-                    imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
                     removeFile: window._CONFIG['domianURL'] + "/sys/common/remove",
                 },
             }

@@ -65,11 +65,11 @@
         },
         data () {
             return {
-                description: '分类字典管理页面',
+                description: '商品分类管理页面',
                 // 表头
                 columns: [
                     {
-                        title:'类型名称',
+                        title:'分类名称',
                         align:"left",
                         dataIndex: 'name'
                     },
