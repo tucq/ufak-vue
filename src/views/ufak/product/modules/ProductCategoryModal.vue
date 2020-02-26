@@ -182,7 +182,7 @@
             let formData = Object.assign(this.model, values);
 
 
-            if (formData.pid && this.fileList.length == 0) {
+            if ((formData.pid && formData.pid != 0) && this.fileList.length == 0) {
               that.$message.warning("请上传商品图片！");
               that.confirmLoading = false;
               return;
@@ -221,6 +221,17 @@
         })
       },
       handleCancel () {
+        let files = [];
+        for (let i = 0; i < this.fileList.length; i++) {
+            let img = this.fileList[i];
+            if (!img.isCommit) {
+                files.push(img.response.message);
+            }
+        }
+        console.log("未提交的图片：",files);
+        // 关闭成功后服务器删除未提交的图片
+        this.handleRemoveFile(files);
+
         this.close()
       },
       popupCallback(row){

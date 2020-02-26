@@ -55,6 +55,11 @@
         :loading="loading"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
+        <span slot="image" slot-scope="image">
+            <a-row>
+              <img :src="getAvatarView(image.split(',')[0])" style="height:50px;max-width:50px"/>
+            </a-row>
+        </span>
 
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
@@ -109,7 +114,8 @@
                     {
                         title: '商品图片',
                         align: "center",
-                        dataIndex: 'image'
+                        dataIndex: 'image',
+                        scopedSlots: {customRender: 'image'},
                     },
                     {
                         title: '商品名称',
@@ -147,11 +153,16 @@
                     list: "/productInfo/list",
                     delete: "/productInfo/delete",
                     deleteBatch: "/productInfo/deleteBatch",
+                    imgerver: window._CONFIG['domianURL']+"/sys/common/view",
                 },
             }
         },
         computed: {},
-        methods: {}
+        methods: {
+            getAvatarView(image){
+                return this.url.imgerver +"/"+ image;
+            },
+        }
     }
 </script>
 <style scoped>

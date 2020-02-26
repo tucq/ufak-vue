@@ -1,7 +1,7 @@
 <template>
   <a-modal
     :title="title"
-    :width="900"
+    :width="950"
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleOk"
@@ -72,7 +72,7 @@
           <a-tabs defaultActiveKey="1">
             <a-tab-pane key="1">
               <span slot="tab">
-                <a-icon type="table"/>商品图片
+                <a-icon type="picture"/>商品图片
               </span>
               <a-upload
                 :action="uploadAction"
@@ -86,24 +86,52 @@
               >
                 <div v-if="fileList.length < 10">
                   <a-icon type="plus"/>
-                  <div class="ant-upload-text">上传</div>
+                  <div class="ant-upload-text">上传主图</div>
                 </div>
               </a-upload>
               <a-modal :visible="previewVisible" :footer="null" @cancel="imageCancel">
                 <img alt="example" style="width: 100%" :src="previewImage"/>
               </a-modal>
+
+<!--              <a-upload-->
+<!--                :action="uploadAction"-->
+<!--                listType="picture-card"-->
+<!--                :fileList="fileList"-->
+<!--                :headers="headers"-->
+<!--                :beforeUpload="beforeUpload"-->
+<!--                :remove="imageRemove"-->
+<!--                @preview="handlePreview"-->
+<!--                @change="imageChange"-->
+<!--              >-->
+<!--                <div v-if="fileList.length < 10">-->
+<!--                  <a-icon type="plus"/>-->
+<!--                  <div class="ant-upload-text">上传详图</div>-->
+<!--                </div>-->
+<!--              </a-upload>-->
+<!--              <a-modal :visible="previewVisible" :footer="null" @cancel="imageCancel">-->
+<!--                <img alt="example" style="width: 100%" :src="previewImage"/>-->
+<!--              </a-modal>-->
+
+
             </a-tab-pane>
             <a-tab-pane key="2">
               <span slot="tab">
-                <a-icon type="table"/>商品规格
+                <a-icon type="setting"/>商品规格
               </span>
+              <product-specs ref="productSpecs"></product-specs>
             </a-tab-pane>
             <a-tab-pane key="3">
               <span slot="tab">
-                <a-icon type="table"/>图文详情
+                <a-icon type="file-jpg"/>图文详情
               </span>
-
             </a-tab-pane>
+            <a-tab-pane key="4">
+              <span slot="tab">
+                <a-icon type="setting"/>商品规格22
+              </span>
+              <product-specs2 ref="productSpecs2"></product-specs2>
+            </a-tab-pane>
+
           </a-tabs>
         </a-row>
 
@@ -119,9 +147,15 @@
     import moment from "moment"
     import Vue from 'vue'
     import {ACCESS_TOKEN} from "@/store/mutation-types"
+    import ProductSpecs from "./ProductSpecs";
+    import ProductSpecs2 from "./ProductSpecs2";
 
     export default {
         name: "ProductInfoModal",
+        components: {
+            ProductSpecs,
+            ProductSpecs2,
+        },
         data() {
             return {
                 title: "操作",

@@ -18,10 +18,10 @@
 
     <!-- table区域-begin -->
     <div>
-      <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
-        <a style="margin-left: 24px" @click="onClearSelected">清空</a>
-      </div>
+<!--      <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">-->
+<!--        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项-->
+<!--        <a style="margin-left: 24px" @click="onClearSelected">清空</a>-->
+<!--      </div>-->
 
       <a-table
         ref="table"
@@ -35,6 +35,11 @@
         @change="handleTableChange"
         @expand="handleExpand"
         v-bind="tableProps">
+        <span slot="image" slot-scope="image">
+            <a-row>
+              <img v-if="image != ''" :src="getAvatarView(image)" style="height:50px;max-width:50px"/>
+            </a-row>
+        </span>
 
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
@@ -42,6 +47,7 @@
           <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
             <a>删除</a>
           </a-popconfirm>
+
         </span>
 
       </a-table>
@@ -79,6 +85,12 @@
                         dataIndex: 'code'
                     },
                     {
+                        title:'图片',
+                        align:"left",
+                        dataIndex: 'image',
+                        scopedSlots: {customRender: 'image'},
+                    },
+                    {
                         title: '操作',
                         dataIndex: 'action',
                         align:"center",
@@ -92,6 +104,7 @@
                     deleteBatch: "/product/category/deleteBatch",
                     exportXlsUrl: "/product/category/exportXls",
                     importExcelUrl: "/product/category/importExcel",
+                    imgerver: window._CONFIG['domianURL']+"/sys/common/view",
                 },
                 expandedRowKeys:[],
                 hasChildrenField:"hasChild",
@@ -105,14 +118,14 @@
                 return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
             },
             tableProps() {
-                let _this = this
-                return {
-                    // 列表项是否可选择
-                    rowSelection: {
-                        selectedRowKeys: _this.selectedRowKeys,
-                        onChange: (selectedRowKeys) => _this.selectedRowKeys = selectedRowKeys
-                    }
-                }
+                // let _this = this
+                // return {
+                //     // 列表项是否可选择
+                //     rowSelection: {
+                //         selectedRowKeys: _this.selectedRowKeys,
+                //         onChange: (selectedRowKeys) => _this.selectedRowKeys = selectedRowKeys
+                //     }
+                // }
             }
         },
         methods: {
@@ -247,7 +260,9 @@
                     }
                 }
             },
-
+            getAvatarView(image){
+                return this.url.imgerver +"/"+ image;
+            },
 
         }
     }
