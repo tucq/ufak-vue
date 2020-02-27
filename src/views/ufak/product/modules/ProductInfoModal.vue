@@ -124,7 +124,8 @@
               <span slot="tab">
                 <a-icon type="setting"/>商品规格
               </span>
-              <product-specs ref="productSpecs"></product-specs>
+              <product-specs ref="productSpecs" @dataOne="handelDataOne" @dataTwo="handelDataTwo"
+                             @specsTitleOne="handelSpecsTitleOne" @specsTitleTwo="handelSpecsTitleTwo"></product-specs>
             </a-tab-pane>
             <a-tab-pane key="4">
               <span slot="tab">
@@ -170,7 +171,10 @@
                     xs: {span: 24},
                     sm: {span: 16},
                 },
-
+                specsTitleOne:'',
+                specsTitleTwo:'',
+                dataOne: [],
+                dataTwo: [],
                 confirmLoading: false,
                 form: this.$form.createForm(this),
                 validatorRules: {},
@@ -231,17 +235,34 @@
                 }
 
                 console.log("图片渲染fileList:",this.fileList);
+
+                if(this.$refs.productSpecs){
+                  this.$refs.productSpecs.dataOne = []
+                  this.$refs.productSpecs.dataTwo = []
+                  this.$refs.productSpecs.specsTitleOne = 'xxxxxxxxx';
+                  this.$refs.productSpecs.specsTitleTwo = 'vvvvvvvvv';
+                }
+
             },
             close() {
                 this.$emit('close');
                 this.visible = false;
             },
             handleOk() {
+                console.log("this.dataOne",this.dataOne);
+                console.log("this.dataTwo",this.dataTwo);
+                console.log("this.specsTitleOne",this.specsTitleOne);
+                console.log("this.specsTitleTwo",this.specsTitleTwo);
                 const that = this;
                 if (this.fileList.length == 0) {
                     that.$message.warning("请上传商品图片！");
                     return;
                 }
+                if(!this.specsTitleOne || this.dataOne.length == 0){
+                    that.$message.warning("请完善商品一级规格内容！");
+                    return
+                }
+
                 console.log("this.fileList=", this.fileList);
                 let imageUrls = "";
                 for (let i = 0; i < this.fileList.length; i++) {
@@ -253,6 +274,7 @@
                     }
                 }
                 console.log("商品图片路径：" + imageUrls);
+
 
                 // 触发表单验证
                 this.form.validateFields((err, values) => {
@@ -339,7 +361,19 @@
                 postAction(this.url.removeFile, {filePaths:files}).then((res) => {
 
                 });
-            }
+            },
+            handelDataOne(obj){
+              this.dataOne = obj;
+            },
+            handelDataTwo(obj){
+              this.dataTwo = obj;
+            },
+            handelSpecsTitleOne(value){
+              this.specsTitleOne = value;
+            },
+            handelSpecsTitleTwo(value){
+              this.specsTitleTwo = value;
+            },
 
         }
     }
