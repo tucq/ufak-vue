@@ -1,271 +1,162 @@
 <template>
-  <div>
-    <a-button class="editable-add-btn" @click="handleAdd">Add</a-button>
-    <a-table bordered :dataSource="specsDataSource" :columns="specsColumns">
-      <template
-        v-for="col in ['specsName', 'virtualPrice', 'discount','price','stock','stats']"
-        :slot="col" slot-scope="text, record, index"
-        :indentSize="30"
-      >
-        <div :key="col">
-          <a-input
-            v-if="record.editable"
-            style="margin: -5px 0"
-            :value="text"
-            @change="e => handleChange(e.target.value, record.key, col)"
+  <div class="product-specs">
+    <a-form-item label="一级规格描述" :labelCol="labelCol" :wrapperCol="wrapperCol">
+      <a-row>
+        <a-col :span="12" style="padding-left: 10px">
+          <a-input v-decorator="[ 'salesVolume', {}]" style="width:150px;"/>
+        </a-col>
+        <a-col :span="12">
+          <a-button type="primary" @click="handleAddOne">
+            <a-icon type="plus"/>
+          </a-button>
+        </a-col>
+      </a-row>
+    </a-form-item>
+
+    <a-list :grid="{ gutter: 10, column: 4 }" :dataSource="dataOne">
+      <a-list-item slot="renderItem" slot-scope="item, index">
+        <a-card :bodyStyle="{'padding-top': '15px','padding-left':'10px','padding-right':'10px','padding-bottom':'15px'}">
+          <img
+            alt="图片"
+            :src="item.specsImage"
+            slot="cover"
           />
-          <template v-else
-          >{{text}}</template
-          >
-        </div>
-      </template>
+          <a-card-meta>
+            <template slot="description">
+              <a-input
+                v-if="isEdit"
+                :value="item.specsTitle"
+                @change="e => handleTitleChange(e.target.value)"/>
+              <template v-else>{{item.specsTitle}}</template>
+            </template>
+          </a-card-meta>
+          <template class="ant-card-actions" slot="actions">
+            <a-upload
+              :data="{'jsonData': {
+                'index':index,
+                'item':item
+              }}"
+              :showUploadList="false"
+              :headers="headers"
+              :action="uploadAction"
+              :beforeUpload="beforeUpload"
+              @change="handleImageChange"
+            >
+              <a-icon type="upload"/>
+            </a-upload>
 
-<!--      <template slot="specsName" slot-scope="text, record">-->
-<!--        <editable-cell :text="text" @change="onCellChange(record.key, 'specsName', $event)" />-->
-<!--      </template>-->
+<!--            <a-upload-->
+<!--              :action="uploadAction"-->
+<!--              :headers="headers"-->
+<!--              @change="imageChange"-->
+<!--            >-->
+<!--              <a-icon type="upload"/>-->
+<!--            </a-upload>-->
 
-      <template slot="operation" slot-scope="text, record, index">
-        <div class="editable-row-operations">
-          <span v-if="record.editable">
-            <a @click="() => save(record.key)">Save</a>
-            <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
-              <a>Cancel</a>
-            </a-popconfirm>
-          </span>
-          <span v-else>
-            <a @click="() => edit(record.key)">Edit</a>
-          </span>
 
-          <a-divider type="vertical"/>
-
-          <a-popconfirm
-            v-if="specsDataSource.length"
-            title="Sure to delete?"
-            @confirm="() => onDelete(record.key)"
-          >
-            <a href="javascript:;">Delete</a>
-          </a-popconfirm>
-
-        </div>
-      </template>
-
-<!--      <template slot="operation" slot-scope="text, record">-->
-<!--        <a-popconfirm-->
-<!--          v-if="specsDataSource.length"-->
-<!--          title="Sure to delete?"-->
-<!--          @confirm="() => onDelete(record.key)"-->
-<!--        >-->
-<!--          <a href="javascript:;">Delete</a>-->
-<!--        </a-popconfirm>-->
-<!--      </template>-->
-    </a-table>
+            <a-icon :type="editIcon" @click="editIconClick()"/>
+            <a-icon type="close"/>
+            <a-switch checkedChildren="开" unCheckedChildren="关" defaultChecked/>
+            <!--          <a-icon :type="disabledIcon" @click="handelDisabled()" />-->
+          </template>
+        </a-card>
+      </a-list-item>
+    </a-list>
   </div>
 </template>
 
 <script>
-    import EditableCell from '@/views/ufak/common/EditableCell';
-
-    const data = [
-        {
-            key: '1',
-            specsName: '白色',
-            specsImage: '32',
-            virtualPrice: '200',
-            discount: '1',
-            price: '200',
-            stock: '100',
-            stats: '启用',
-        },
-        {
-            key: '2',
-            specsName: '红色',
-            specsImage: '20',
-            virtualPrice: '300',
-            discount: '1',
-            price: '200',
-            stock: '100',
-            stats: '启用',
-        },
-    ];
+    import {httpAction, getAction, postAction} from '@/api/manage'
+    import Vue from 'vue'
+    import {ACCESS_TOKEN} from "@/store/mutation-types"
 
     export default {
-        name: "ProductSpecs",
-        components: {
-            EditableCell,
-        },
         data() {
-            this.cacheData = data.map(item => ({ ...item }));
             return {
-                specsDataSource: data,
-                count: 2,
-                specsColumns: [
-                    {
-                        title: '规格名称',
-                        dataIndex: 'specsName',
-                        width: '20%',
-                        scopedSlots: { customRender: 'specsName' },
-                    },
-                    {
-                        title: '规格图片',
-                        width: '15%',
-                        dataIndex: 'specsImage',
-                    },
-                    {
-                        title: '虚拟价',
-                        width: '10%',
-                        dataIndex: 'virtualPrice',
-                        scopedSlots: { customRender: 'virtualPrice' },
+                labelCol: {
+                    xs: {span: 24},
+                    sm: {span: 5},
+                },
+                wrapperCol: {
+                    xs: {span: 24},
+                    sm: {span: 16},
+                },
+                dataOne:[],
+                editIcon: 'edit',
+                isEdit: true,
+                disabledIcon: 'check-circle',
+                isDisabled: false,
+                headers: {},
+                previewVisible: false,
+                previewImage: '',
+                fileList: [],
+                removeFileList: [],
+                srcUrl: '',
+                url: {
+                    fileUpload: window._CONFIG['domianURL'] + "/sys/common/upload",
+                    removeFile: window._CONFIG['domianURL'] + "/sys/common/remove",
+                },
 
-                    },
-                    {
-                        title: '折扣',
-                        width: '10%',
-                        dataIndex: 'discount',
-                        scopedSlots: { customRender: 'discount' },
-                    },
-                    {
-                        title: '售卖价',
-                        width: '10%',
-                        dataIndex: 'price',
-                        scopedSlots: { customRender: 'price' },
-                    },
-                    {
-                        title: '库存',
-                        width: '10%',
-                        dataIndex: 'stock',
-                        scopedSlots: { customRender: 'stock' },
-                    },
-                    {
-                        title: '启/停用',
-                        width: '10%',
-                        dataIndex: 'stats',
-                        scopedSlots: { customRender: 'stats' },
-                    },
-                    {
-                        title: '操作',
-                        width: '15%',
-                        dataIndex: 'operation',
-                        scopedSlots: { customRender: 'operation' },
-                    },
-                ],
-            };
+            }
+        },
+        created() {
+            const token = Vue.ls.get(ACCESS_TOKEN);
+            this.headers = {"X-Access-Token": token}
+        },
+        computed: {
+            uploadAction: function () {
+                return this.url.fileUpload;
+            }
         },
         methods: {
-            handleChange(value, key, column) {
-                const newData = [...this.specsDataSource];
-                const target = newData.filter(item => key === item.key)[0];
-                if (target) {
-                    target[column] = value;
-                    this.specsDataSource = newData;
+            handleAddOne() {
+                this.dataOne.push({
+                    specsTitle:'请输入规格名称',
+                    specsImage:'~@/assets/logo.svg',
+                });
+            },
+            editIconClick() {
+                this.isEdit = !this.isEdit;
+                this.editIcon = this.isEdit ? 'check' : 'edit';
+            },
+            handleTitleChange(value) {
+                this.testTxt = value
+            },
+            // handelDisabled() {
+            //     this.isDisabled = !this.isDisabled
+            //     this.disabledIcon = this.isDisabled ? 'check-circle' : 'stop';
+            // },
+            handleImageChange(info) {
+                if (info.file.status === 'uploading') {
+                    this.loading = true;
+                    return;
+                }
+                if (info.file.status === 'done') {
+                    console.log(info);
+                    // Get this url from response in real world.
+                    // getBase64(info.file.originFileObj, imageUrl => {
+                    //     this.dataOne[0].specsImage = imageUrl;
+                    //     alert(this.dataOne[0].specsImage);
+                    //     this.loading = false;
+                    // });
                 }
             },
-            edit(key) {
-                const newData = [...this.specsDataSource];
-                const target = newData.filter(item => key === item.key)[0];
-                if (target) {
-                    target.editable = true;
-                    this.specsDataSource = newData;
+            beforeUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                if (!isJPG) {
+                    this.$message.error('请上传图片！');
                 }
-            },
-            save(key) {
-                const newData = [...this.specsDataSource];
-                const newCacheData = [...this.cacheData];
-                const target = newData.filter(item => key === item.key)[0];
-                const targetCache = newCacheData.filter(item => key === item.key)[0];
-                if (target && targetCache) {
-                    delete target.editable;
-                    this.specsDataSource = newData;
-                    Object.assign(
-                        targetCache,
-                        target
-                    );
-                    this.cacheData = newCacheData;
+                const isLt2M = file.size / 1024 / 1024 < 0.5;
+                if (!isLt2M) {
+                    this.$message.error('Image must smaller than 0.5MB!');
                 }
-            },
-            cancel(key) {
-                const newData = [...this.specsDataSource];
-                const target = newData.filter(item => key === item.key)[0];
-                if (target) {
-                    Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
-                    delete target.editable;
-                    this.specsDataSource = newData;
-                }
-            },
-
-            onCellChange(key, dataIndex, value) {
-                const specsDataSource = [...this.specsDataSource];
-                const target = specsDataSource.find(item => item.key === key);
-                if (target) {
-                    target[dataIndex] = value;
-                    this.specsDataSource = specsDataSource;
-                }
-            },
-            onDelete(key) {
-                const specsDataSource = [...this.specsDataSource];
-                this.specsDataSource = specsDataSource.filter(item => item.key !== key);
-            },
-            handleAdd() {
-                const { count, specsDataSource } = this;
-                const newData = {
-                    key: count,
-                    name: `Edward King ${count}`,
-                    age: 32,
-                    address: `London, Park Lane no. ${count}`,
-                };
-                this.specsDataSource = [...specsDataSource, newData];
-                this.count = count + 1;
+                return isJPG && isLt2M;
             },
         },
-    }
+
+    };
 </script>
-
 <style scoped>
-  .editable-cell {
-    position: relative;
-  }
-
-  .editable-cell-input-wrapper,
-  .editable-cell-text-wrapper {
-    padding-right: 24px;
-  }
-
-  .editable-cell-text-wrapper {
-    padding: 5px 24px 5px 5px;
-  }
-
-  .editable-cell-icon,
-  .editable-cell-icon-check {
-    position: absolute;
-    right: 0;
-    width: 20px;
-    cursor: pointer;
-  }
-
-  .editable-cell-icon {
-    line-height: 18px;
-    display: none;
-  }
-
-  .editable-cell-icon-check {
-    line-height: 28px;
-  }
-
-  .editable-cell:hover .editable-cell-icon {
-    display: inline-block;
-  }
-
-  .editable-cell-icon:hover,
-  .editable-cell-icon-check:hover {
-    color: #108ee9;
-  }
-
-  .editable-add-btn {
-    margin-bottom: 8px;
-  }
 
 
-  /********************/
-  .editable-row-operations a {
-    margin-right: 8px;
-  }
 </style>

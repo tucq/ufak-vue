@@ -1,7 +1,8 @@
 <template>
   <a-modal
     :title="title"
-    :width="950"
+    :width="900"
+    style=" top: 0px;"
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleOk"
@@ -116,20 +117,20 @@
             </a-tab-pane>
             <a-tab-pane key="2">
               <span slot="tab">
+                <a-icon type="file-jpg"/>详情图片
+              </span>
+            </a-tab-pane>
+            <a-tab-pane key="3">
+              <span slot="tab">
                 <a-icon type="setting"/>商品规格
               </span>
               <product-specs ref="productSpecs"></product-specs>
             </a-tab-pane>
-            <a-tab-pane key="3">
-              <span slot="tab">
-                <a-icon type="file-jpg"/>图文详情
-              </span>
-            </a-tab-pane>
             <a-tab-pane key="4">
               <span slot="tab">
-                <a-icon type="setting"/>商品规格22
+                <a-icon type="setting"/>售价库存
               </span>
-              <product-specs2 ref="productSpecs2"></product-specs2>
+              <product-price ref="productPrice"></product-price>
             </a-tab-pane>
 
           </a-tabs>
@@ -148,13 +149,13 @@
     import Vue from 'vue'
     import {ACCESS_TOKEN} from "@/store/mutation-types"
     import ProductSpecs from "./ProductSpecs";
-    import ProductSpecs2 from "./ProductSpecs2";
+    import ProductPrice from "./ProductPrice";
 
     export default {
         name: "ProductInfoModal",
         components: {
             ProductSpecs,
-            ProductSpecs2,
+            ProductPrice,
         },
         data() {
             return {
