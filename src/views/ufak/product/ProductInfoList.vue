@@ -150,9 +150,9 @@
                     }
                 ],
                 url: {
-                    list: "/productInfo/list",
-                    delete: "/productInfo/delete",
-                    deleteBatch: "/productInfo/deleteBatch",
+                    list: "/product/info/list",
+                    delete: "/product/info/delete",
+                    deleteBatch: "/product/info/deleteBatch",
                     imgerver: window._CONFIG['domianURL']+"/sys/common/view",
                 },
             }

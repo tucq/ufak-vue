@@ -5,7 +5,7 @@
         <span slot="tab">一级规格</span>
         <a-row style="padding-bottom: 15px;">
           <a-col :span="22" style="padding-left: 10px">
-            <a-input placeholder="请输入一级规格描述" v-model="specsTitleOne" style="width:200px;" />
+            <a-input placeholder="请输入一级规格描述" v-model="specsTitleOne.specsTitle" style="width:200px;" />
           </a-col>
           <a-col :span="2" style="">
             <a-button type="primary" @click="handleAddSpecs(1)">
@@ -48,7 +48,7 @@
                 <a-popconfirm title="确定删除吗?" @confirm="() => handelRemove(index,1)">
                   <a-icon type="close" />
                 </a-popconfirm>
-                <a-switch checkedChildren="开" unCheckedChildren="关" :checked="item.stats" @click="e => handelCheck(e,index,1)"/>
+                <a-switch checkedChildren="开" unCheckedChildren="关" :checked="item.stats == '0' ? true : false" @click="e => handelCheck(e,index,1)"/>
               </template>
             </a-card>
           </a-list-item>
@@ -59,7 +59,7 @@
         <span slot="tab">二级规格</span>
         <a-row style="padding-bottom: 15px;">
           <a-col :span="22" style="padding-left: 10px">
-            <a-input placeholder="请输入二级规格描述" v-model="specsTitleTwo" style="width:200px;" />
+            <a-input placeholder="请输入二级规格描述" v-model="specsTitleTwo.specsTitle" style="width:200px;" />
           </a-col>
           <a-col :span="2" style="">
             <a-button type="primary" @click="handleAddSpecs(2)">
@@ -86,7 +86,7 @@
                 <a-popconfirm title="确定删除吗?" @confirm="() => handelRemove(index,2)">
                   <a-icon type="close" />
                 </a-popconfirm>
-                <a-switch checkedChildren="开" unCheckedChildren="关" :checked="item.stats" @click="e => handelCheck(e,index,2)"/>
+                <a-switch checkedChildren="开" unCheckedChildren="关" :checked="item.stats == '0' ? true : false" @click="e => handelCheck(e,index,2)"/>
               </template>
             </a-card>
           </a-list-item>
@@ -103,20 +103,23 @@
     import {ACCESS_TOKEN} from "@/store/mutation-types"
 
     export default {
-//        props:{
-//          dataOne: Array,
-//          dataTwo: Array,
-//        },
         data() {
             return {
-              specsTitleOne: '',
-              specsTitleTwo: '',
+              specsTitleOne: {},
+              specsTitleTwo: {},
+              // productSpecsList: [
+              //     {
+              //       specsTitleOne: '',
+              //       specsTitleTwo: '',
+              //     }
+              // ],
               dataOne: [],
               dataTwo: [],
                 headers: {},
                 url: {
                     fileUpload: window._CONFIG['domianURL'] + "/sys/common/upload",
                     removeFile: window._CONFIG['domianURL'] + "/sys/common/remove",
+                    baseImgUrl: window._CONFIG['domianURL'] + "/sys/common/view/",
                 },
 
             }
@@ -145,20 +148,48 @@
             }
         },
         methods: {
+            loadData(productSpecsList){
+                console.log("loadData(productSpecsList)",productSpecsList);
+                for(let i=0;i<productSpecsList.length;i++){
+                    if(productSpecsList[i].level == '0'){
+                        this.specsTitleOne = productSpecsList[i];
+                    }
+                    if(productSpecsList[i].level == '1'){
+                        this.specsTitleTwo = productSpecsList[i];
+                    }
+                    if(productSpecsList[i].level == '0' && productSpecsList[i].pid != '0'){
+                        productSpecsList[i].isEdit = false;
+                        productSpecsList[i].editIcon = 'check';
+                        this.dataOne.push(productSpecsList[i]);
+                    }
+                    if(productSpecsList[i].level == '1' && productSpecsList[i].pid != '0'){
+                        productSpecsList[i].isEdit = false;
+                        productSpecsList[i].editIcon = 'check';
+                        this.dataTwo.push(productSpecsList[i]);
+                    }
+                }
+                console.log("this.dataOne",this.dataOne);
+                console.log("this.dataOne",this.dataTwo);
+
+            },
             handleAddSpecs(level) {
                 if(level === 1){
                   this.dataOne.push({
+                    pid: '0',
+                    level: '0',
                     isEdit: true,
-                    stats: true,
-                    editIcon: 'edit',
+                    stats: '0',
+                    editIcon: 'check',
                     specsTitle:'',
                     specsImage:'/img/logo.07b1638a.svg',
                   });
                 }else{
                   this.dataTwo.push({
+                    pid: '0',
+                    level: '1',
                     isEdit: true,
-                    stats: true,
-                    editIcon: 'edit',
+                    stats: '0',
+                    editIcon: 'check',
                     specsTitle:'',
                   });
                 }
@@ -181,9 +212,9 @@
             },
             handelCheck(check,index,level){
                 if(level === 1){
-                  this.dataOne[index].stats = check;
+                  this.dataOne[index].stats = check ? '0' : '1';
                 }else{
-                  this.dataTwo[index].stats = check;
+                  this.dataTwo[index].stats = check ? '0' : '1';
                 }
             },
             handelRemove(index,level){

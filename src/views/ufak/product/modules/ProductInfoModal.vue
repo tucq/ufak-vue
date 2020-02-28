@@ -70,7 +70,7 @@
         </a-row>
 
         <a-row :gutter="20" style="margin-left: 10px;margin-right: 10px">
-          <a-tabs defaultActiveKey="1">
+          <a-tabs defaultActiveKey="1" @change="handleChangeTabs">
             <a-tab-pane key="1">
               <span slot="tab">
                 <a-icon type="picture"/>商品图片
@@ -144,7 +144,7 @@
 </template>
 
 <script>
-    import {httpAction, postAction} from '@/api/manage'
+    import {httpAction, postAction,getAction} from '@/api/manage'
     import pick from 'lodash.pick'
     import moment from "moment"
     import Vue from 'vue'
@@ -183,9 +183,11 @@
                 previewImage: '',
                 fileList: [],
                 removeFileList: [],
+                productSpecsList: [],
                 url: {
-                    add: "/productInfo/add",
-                    edit: "/productInfo/edit",
+                    add: "/product/info/add",
+                    edit: "/product/info/edit",
+                    getProductSpecsList: "/product/specs/list",
                     fileUpload: window._CONFIG['domianURL'] + "/sys/common/upload",
                     removeFile: window._CONFIG['domianURL'] + "/sys/common/remove",
                 },
@@ -236,11 +238,29 @@
 
                 console.log("图片渲染fileList:",this.fileList);
 
-                if(this.$refs.productSpecs){
-                  this.$refs.productSpecs.dataOne = []
-                  this.$refs.productSpecs.dataTwo = []
-                  this.$refs.productSpecs.specsTitleOne = 'xxxxxxxxx';
-                  this.$refs.productSpecs.specsTitleTwo = 'vvvvvvvvv';
+                if(record.id){
+                    this.initProductSpecsList(record.id);
+                    this.$refs.productSpecs.loadData(this.productSpecsList);//渲染商品规格数据
+                }else{
+                    this.initProductSpecsList(null);
+                    if(this.$refs.productSpecs){
+                        alert(1);
+                        //页面清空
+                        this.$refs.productSpecs.dataOne = []
+                        this.$refs.productSpecs.dataTwo = []
+                        this.$refs.productSpecs.specsTitleOne = {
+                            pid:'0',
+                            level: '0',
+                            stats: '0',
+                        };
+                        this.$refs.productSpecs.specsTitleTwo = {
+                            pid:'0',
+                            level: '1',
+                            stats: '0',
+                        };
+                    }else{
+                        alert(2)
+                    }
                 }
 
             },
@@ -292,6 +312,11 @@
                         let formData = Object.assign(this.model, values);
                         //时间格式化
                         formData.image = imageUrls;
+
+                        /******** 商品规格 *********/
+                        this.setProductSpecsList();
+                        formData.productSpecsList = this.productSpecsList;
+                        /******** 商品规格 *********/
 
                         console.log(formData)
                         httpAction(httpurl, formData, method).then((res) => {
@@ -374,6 +399,44 @@
             handelSpecsTitleTwo(value){
               this.specsTitleTwo = value;
             },
+            initProductSpecsList(productId){
+                if(productId == null){
+                    return;
+                }
+                let params = {
+                    productId : productId,
+                    pageNo: 1,
+                    pageSize: 2147483647
+                };
+                getAction(this.url.getProductSpecsList, params).then((res)=>{
+                    if(res.success){
+                        this.productSpecsList = res.result.records;
+                    }
+                });
+
+                console.log("initProductSpecsList",this.productSpecsList);
+            },
+            setProductSpecsList(){
+                let productSpecsList = [];
+                if(this.specsTitleOne){
+                    productSpecsList.push(this.specsTitleOne);
+                }
+                if(this.dataOne.length > 0){
+                    for(let i=0;i<this.dataOne.length;i++){
+                        productSpecsList.push(this.dataOne[i]);
+                    }
+                }
+                if(this.specsTitleTwo){
+                    productSpecsList.push(this.specsTitleTwo);
+                }
+                if(this.dataTwo.length > 0){
+                    for(let i=0;i<this.dataTwo.length;i++){
+                        productSpecsList.push(this.dataTwo[i]);
+                    }
+                }
+
+                this.productSpecsList = productSpecsList;
+            }
 
         }
     }
