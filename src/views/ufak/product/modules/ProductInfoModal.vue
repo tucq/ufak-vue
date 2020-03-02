@@ -70,7 +70,7 @@
         </a-row>
 
         <a-row :gutter="20" style="margin-left: 10px;margin-right: 10px">
-          <a-tabs defaultActiveKey="1" @change="handleChangeTabs">
+          <a-tabs defaultActiveKey="1">
             <a-tab-pane key="1">
               <span slot="tab">
                 <a-icon type="picture"/>商品图片
@@ -125,7 +125,8 @@
                 <a-icon type="setting"/>商品规格
               </span>
               <product-specs ref="productSpecs" @dataOne="handelDataOne" @dataTwo="handelDataTwo"
-                             @specsTitleOne="handelSpecsTitleOne" @specsTitleTwo="handelSpecsTitleTwo"></product-specs>
+                             @specsTitleOne="handelSpecsTitleOne" @specsTitleTwo="handelSpecsTitleTwo"
+                             :productSpecsList="productSpecsList"></product-specs>
             </a-tab-pane>
             <a-tab-pane key="4">
               <span slot="tab">
@@ -235,33 +236,36 @@
                 }else{
                     this.fileList = [];
                 }
-
                 console.log("图片渲染fileList:",this.fileList);
+
+
+                //////////////////
 
                 if(record.id){
                     this.initProductSpecsList(record.id);
-                    this.$refs.productSpecs.loadData(this.productSpecsList);//渲染商品规格数据
+                    // this.$refs.productSpecs.loadData(this.productSpecsList);//渲染商品规格数据
                 }else{
                     this.initProductSpecsList(null);
-                    if(this.$refs.productSpecs){
-                        alert(1);
-                        //页面清空
-                        this.$refs.productSpecs.dataOne = []
-                        this.$refs.productSpecs.dataTwo = []
-                        this.$refs.productSpecs.specsTitleOne = {
-                            pid:'0',
-                            level: '0',
-                            stats: '0',
-                        };
-                        this.$refs.productSpecs.specsTitleTwo = {
-                            pid:'0',
-                            level: '1',
-                            stats: '0',
-                        };
-                    }else{
-                        alert(2)
-                    }
+                    // if(this.$refs.productSpecs){
+                    //     //页面清空
+                    //     this.$refs.productSpecs.dataOne = []
+                    //     this.$refs.productSpecs.dataTwo = []
+                    //     this.$refs.productSpecs.specsTitleOne = {
+                    //         pid:'0',
+                    //         level: '0',
+                    //         stats: '0',
+                    //     };
+                    //     this.$refs.productSpecs.specsTitleTwo = {
+                    //         pid:'0',
+                    //         level: '1',
+                    //         stats: '0',
+                    //     };
+                    // }else{
+                    //
+                    // }
                 }
+
+
 
             },
             close() {
@@ -401,6 +405,7 @@
             },
             initProductSpecsList(productId){
                 if(productId == null){
+                    this.productSpecsList = [];
                     return;
                 }
                 let params = {
@@ -436,7 +441,7 @@
                 }
 
                 this.productSpecsList = productSpecsList;
-            }
+            },
 
         }
     }

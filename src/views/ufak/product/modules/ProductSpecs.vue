@@ -103,6 +103,9 @@
     import {ACCESS_TOKEN} from "@/store/mutation-types"
 
     export default {
+        props: {
+            productSpecsList: Array,
+        },
         data() {
             return {
               specsTitleOne: {},
@@ -136,11 +139,15 @@
           },
           'specsTitleTwo':function () {
             this.$emit('specsTitleTwo', this.specsTitleTwo);
+          },
+          'productSpecsList':function () {
+              this.loadData(this.productSpecsList);
           }
         },
         created() {
             const token = Vue.ls.get(ACCESS_TOKEN);
-            this.headers = {"X-Access-Token": token}
+            this.headers = {"X-Access-Token": token};
+            this.loadData(this.productSpecsList);
         },
         computed: {
             uploadAction: function () {
@@ -150,6 +157,11 @@
         methods: {
             loadData(productSpecsList){
                 console.log("loadData(productSpecsList)",productSpecsList);
+                //每次数据重置加载
+                this.specsTitleOne = {};
+                this.specsTitleTwo = {};
+                this.dataOne = [];
+                this.dataTwo = [];
                 for(let i=0;i<productSpecsList.length;i++){
                     if(productSpecsList[i].level == '0'){
                         this.specsTitleOne = productSpecsList[i];
@@ -168,14 +180,14 @@
                         this.dataTwo.push(productSpecsList[i]);
                     }
                 }
+
                 console.log("this.dataOne",this.dataOne);
-                console.log("this.dataOne",this.dataTwo);
+                console.log("this.dataTwo",this.dataTwo);
 
             },
             handleAddSpecs(level) {
                 if(level === 1){
                   this.dataOne.push({
-                    pid: '0',
                     level: '0',
                     isEdit: true,
                     stats: '0',
@@ -185,7 +197,6 @@
                   });
                 }else{
                   this.dataTwo.push({
-                    pid: '0',
                     level: '1',
                     isEdit: true,
                     stats: '0',
