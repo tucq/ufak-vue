@@ -5,7 +5,7 @@
         <span slot="tab">一级规格</span>
         <a-row style="padding-bottom: 15px;">
           <a-col :span="22" style="padding-left: 10px">
-            <a-input placeholder="请输入一级规格描述" v-model="specsTitleOne.specsTitle" style="width:200px;" />
+            <a-input placeholder="请输入一级规格描述" v-model="specsTitleOne.specsTitle" style="width:200px;"/>
           </a-col>
           <a-col :span="2" style="">
             <a-button type="primary" @click="handleAddSpecs(1)">
@@ -16,7 +16,8 @@
 
         <a-list :grid="{ gutter: 10, column: 4 }" :dataSource="dataOne">
           <a-list-item slot="renderItem" slot-scope="item, index">
-            <a-card :bodyStyle="{'padding-top': '15px','padding-left':'10px','padding-right':'10px','padding-bottom':'15px'}">
+            <a-card
+              :bodyStyle="{'padding-top': '15px','padding-left':'10px','padding-right':'10px','padding-bottom':'15px'}">
               <img
                 alt="图片"
                 :src="item.specsImage"
@@ -46,9 +47,10 @@
 
                 <a-icon :type="item.editIcon" @click="editIconClick(index,1)"/>
                 <a-popconfirm title="确定删除吗?" @confirm="() => handelRemove(index,1)">
-                  <a-icon type="close" />
+                  <a-icon type="close"/>
                 </a-popconfirm>
-                <a-switch checkedChildren="开" unCheckedChildren="关" :checked="item.stats == '0' ? true : false" @click="e => handelCheck(e,index,1)"/>
+                <a-switch checkedChildren="开" unCheckedChildren="关" :checked="item.stats == '0' ? true : false"
+                          @click="e => handelCheck(e,index,1)"/>
               </template>
             </a-card>
           </a-list-item>
@@ -59,7 +61,7 @@
         <span slot="tab">二级规格</span>
         <a-row style="padding-bottom: 15px;">
           <a-col :span="22" style="padding-left: 10px">
-            <a-input placeholder="请输入二级规格描述" v-model="specsTitleTwo.specsTitle" style="width:200px;" />
+            <a-input placeholder="请输入二级规格描述" v-model="specsTitleTwo.specsTitle" style="width:200px;"/>
           </a-col>
           <a-col :span="2" style="">
             <a-button type="primary" @click="handleAddSpecs(2)">
@@ -70,7 +72,8 @@
 
         <a-list :grid="{ gutter: 10, column: 4 }" :dataSource="dataTwo">
           <a-list-item slot="renderItem" slot-scope="item, index">
-            <a-card :bodyStyle="{'padding-top': '15px','padding-left':'10px','padding-right':'10px','padding-bottom':'15px'}">
+            <a-card
+              :bodyStyle="{'padding-top': '15px','padding-left':'10px','padding-right':'10px','padding-bottom':'15px'}">
               <a-card-meta>
                 <template slot="description">
                   <a-input
@@ -84,9 +87,10 @@
               <template class="ant-card-actions" slot="actions">
                 <a-icon :type="item.editIcon" @click="editIconClick(index,2)"/>
                 <a-popconfirm title="确定删除吗?" @confirm="() => handelRemove(index,2)">
-                  <a-icon type="close" />
+                  <a-icon type="close"/>
                 </a-popconfirm>
-                <a-switch checkedChildren="开" unCheckedChildren="关" :checked="item.stats == '0' ? true : false" @click="e => handelCheck(e,index,2)"/>
+                <a-switch checkedChildren="开" unCheckedChildren="关" :checked="item.stats == '0' ? true : false"
+                          @click="e => handelCheck(e,index,2)"/>
               </template>
             </a-card>
           </a-list-item>
@@ -98,169 +102,182 @@
 </template>
 
 <script>
-    import {httpAction, getAction, postAction} from '@/api/manage'
-    import Vue from 'vue'
-    import {ACCESS_TOKEN} from "@/store/mutation-types"
+  import {httpAction, getAction, postAction} from '@/api/manage'
+  import Vue from 'vue'
+  import {ACCESS_TOKEN} from "@/store/mutation-types"
 
-    export default {
-        props: {
-            productSpecsList: Array,
+  export default {
+    props: {
+      productSpecsList: Array,
+    },
+    data() {
+      return {
+        specsTitleOne: {},
+        specsTitleTwo: {},
+        // productSpecsList: [
+        //     {
+        //       specsTitleOne: '',
+        //       specsTitleTwo: '',
+        //     }
+        // ],
+        dataOne: [],
+        dataTwo: [],
+        headers: {},
+        url: {
+          fileUpload: window._CONFIG['domianURL'] + "/sys/common/upload",
+          removeFile: window._CONFIG['domianURL'] + "/sys/common/remove",
+          baseImgUrl: window._CONFIG['domianURL'] + "/sys/common/view/",
         },
-        data() {
-            return {
-              specsTitleOne: {},
-              specsTitleTwo: {},
-              // productSpecsList: [
-              //     {
-              //       specsTitleOne: '',
-              //       specsTitleTwo: '',
-              //     }
-              // ],
-              dataOne: [],
-              dataTwo: [],
-                headers: {},
-                url: {
-                    fileUpload: window._CONFIG['domianURL'] + "/sys/common/upload",
-                    removeFile: window._CONFIG['domianURL'] + "/sys/common/remove",
-                    baseImgUrl: window._CONFIG['domianURL'] + "/sys/common/view/",
-                },
 
-            }
-        },
-        watch:{
-           'dataOne':function (){
-             this.$emit('dataOne', this.dataOne);
-           },
-          'dataTwo':function (){
-            this.$emit('dataTwo', this.dataTwo);
-          },
-          'specsTitleOne':function () {
-            this.$emit('specsTitleOne', this.specsTitleOne);
-          },
-          'specsTitleTwo':function () {
-            this.$emit('specsTitleTwo', this.specsTitleTwo);
-          },
-          'productSpecsList':function () {
-              this.loadData(this.productSpecsList);
+      }
+    },
+    watch: {
+      'dataOne': function () {
+        this.$emit('dataOne', this.dataOne);
+      },
+      'dataTwo': function () {
+        this.$emit('dataTwo', this.dataTwo);
+      },
+      'specsTitleOne': function () {
+        if (!this.specsTitleOne.pid) {
+          //新增初始值
+          this.specsTitleOne.pid = '0';
+          this.specsTitleOne.level = '0';
+          this.specsTitleOne.stats = '0';
+        }
+        this.$emit('specsTitleOne', this.specsTitleOne);
+      },
+      'specsTitleTwo': function () {
+        if (!this.specsTitleTwo.pid) {
+          //新增初始值
+          this.specsTitleTwo.pid = '0';
+          this.specsTitleTwo.level = '1';
+          this.specsTitleTwo.stats = '0';
+        }
+        this.$emit('specsTitleTwo', this.specsTitleTwo);
+      },
+      'productSpecsList': function () {
+        this.loadData(this.productSpecsList);
+      }
+    },
+    created() {
+      const token = Vue.ls.get(ACCESS_TOKEN);
+      this.headers = {"X-Access-Token": token};
+      this.loadData(this.productSpecsList);
+    },
+    computed: {
+      uploadAction: function () {
+        return this.url.fileUpload;
+      }
+    },
+    methods: {
+      loadData(productSpecsList){
+        console.log("loadData(productSpecsList)", productSpecsList);
+        //每次数据重置加载
+        this.specsTitleOne = {};
+        this.specsTitleTwo = {};
+        this.dataOne = [];
+        this.dataTwo = [];
+        for (let i = 0; i < productSpecsList.length; i++) {
+          if (productSpecsList[i].level == '0') {
+            this.specsTitleOne = productSpecsList[i];
           }
-        },
-        created() {
-            const token = Vue.ls.get(ACCESS_TOKEN);
-            this.headers = {"X-Access-Token": token};
-            this.loadData(this.productSpecsList);
-        },
-        computed: {
-            uploadAction: function () {
-                return this.url.fileUpload;
-            }
-        },
-        methods: {
-            loadData(productSpecsList){
-                console.log("loadData(productSpecsList)",productSpecsList);
-                //每次数据重置加载
-                this.specsTitleOne = {};
-                this.specsTitleTwo = {};
-                this.dataOne = [];
-                this.dataTwo = [];
-                for(let i=0;i<productSpecsList.length;i++){
-                    if(productSpecsList[i].level == '0'){
-                        this.specsTitleOne = productSpecsList[i];
-                    }
-                    if(productSpecsList[i].level == '1'){
-                        this.specsTitleTwo = productSpecsList[i];
-                    }
-                    if(productSpecsList[i].level == '0' && productSpecsList[i].pid != '0'){
-                        productSpecsList[i].isEdit = false;
-                        productSpecsList[i].editIcon = 'check';
-                        this.dataOne.push(productSpecsList[i]);
-                    }
-                    if(productSpecsList[i].level == '1' && productSpecsList[i].pid != '0'){
-                        productSpecsList[i].isEdit = false;
-                        productSpecsList[i].editIcon = 'check';
-                        this.dataTwo.push(productSpecsList[i]);
-                    }
-                }
+          if (productSpecsList[i].level == '1') {
+            this.specsTitleTwo = productSpecsList[i];
+          }
+          if (productSpecsList[i].level == '0' && productSpecsList[i].pid != '0') {
+            productSpecsList[i].isEdit = false;
+            productSpecsList[i].editIcon = 'check';
+            this.dataOne.push(productSpecsList[i]);
+          }
+          if (productSpecsList[i].level == '1' && productSpecsList[i].pid != '0') {
+            productSpecsList[i].isEdit = false;
+            productSpecsList[i].editIcon = 'check';
+            this.dataTwo.push(productSpecsList[i]);
+          }
+        }
 
-                console.log("this.dataOne",this.dataOne);
-                console.log("this.dataTwo",this.dataTwo);
+        console.log("this.dataOne", this.dataOne);
+        console.log("this.dataTwo", this.dataTwo);
 
-            },
-            handleAddSpecs(level) {
-                if(level === 1){
-                  this.dataOne.push({
-                    level: '0',
-                    isEdit: true,
-                    stats: '0',
-                    editIcon: 'check',
-                    specsTitle:'',
-                    specsImage:'/img/logo.07b1638a.svg',
-                  });
-                }else{
-                  this.dataTwo.push({
-                    level: '1',
-                    isEdit: true,
-                    stats: '0',
-                    editIcon: 'check',
-                    specsTitle:'',
-                  });
-                }
-            },
-            editIconClick(index,level) {
-                if(level === 1){
-                  this.dataOne[index].isEdit = !this.dataOne[index].isEdit;
-                  this.dataOne[index].editIcon = this.dataOne[index].isEdit ? 'check' : 'edit';
-                }else{
-                  this.dataTwo[index].isEdit = !this.dataTwo[index].isEdit;
-                  this.dataTwo[index].editIcon = this.dataTwo[index].isEdit ? 'check' : 'edit';
-                }
-            },
-            handleTitleChange(value,index,level) {
-                if(level === 1){
-                  this.dataOne[index].specsTitle = value;
-                }else{
-                  this.dataTwo[index].specsTitle = value;
-                }
-            },
-            handelCheck(check,index,level){
-                if(level === 1){
-                  this.dataOne[index].stats = check ? '0' : '1';
-                }else{
-                  this.dataTwo[index].stats = check ? '0' : '1';
-                }
-            },
-            handelRemove(index,level){
-              if(level === 1){
-                this.dataOne.splice(index,1);
-              }else{
-                this.dataTwo.splice(index,1);
-              }
-            },
-            handleImageChange(info) {
-                if (info.file.status === 'uploading') {
-                    this.loading = true;
-                    return;
-                }
-                if (info.file.status === 'done') {
-                  let idx = info.file.response.result
-                  this.dataOne[idx].specsImage = window._CONFIG['domianURL'] + "/sys/common/view/" + info.file.response.message;
-                }
-            },
-            beforeUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                if (!isJPG) {
-                    this.$message.error('请上传jpg格式图片！');
-                }
-                const isLt2M = file.size / 1024 / 1024 < 0.5;
-                if (!isLt2M) {
-                    this.$message.error('Image must smaller than 0.5MB!');
-                }
-                return isJPG && isLt2M;
-            },
+      },
+      handleAddSpecs(level) {
+        if (level === 1) {
+          this.dataOne.push({
+            level: '0',
+            isEdit: true,
+            stats: '0',
+            editIcon: 'check',
+            specsTitle: '',
+            specsImage: '/img/logo.07b1638a.svg',
+          });
+        } else {
+          this.dataTwo.push({
+            level: '1',
+            isEdit: true,
+            stats: '0',
+            editIcon: 'check',
+            specsTitle: '',
+          });
+        }
+        console.log("xxxxxxxxx",this.dataOne[this.dataOne.length-1]);
+      },
+      editIconClick(index, level) {
+        if (level === 1) {
+          this.dataOne[index].isEdit = !this.dataOne[index].isEdit;
+          this.dataOne[index].editIcon = this.dataOne[index].isEdit ? 'check' : 'edit';
+        } else {
+          this.dataTwo[index].isEdit = !this.dataTwo[index].isEdit;
+          this.dataTwo[index].editIcon = this.dataTwo[index].isEdit ? 'check' : 'edit';
+        }
+      },
+      handleTitleChange(value, index, level) {
+        if (level === 1) {
+          this.dataOne[index].specsTitle = value;
+        } else {
+          this.dataTwo[index].specsTitle = value;
+        }
+      },
+      handelCheck(check, index, level){
+        if (level === 1) {
+          this.dataOne[index].stats = check ? '0' : '1';
+        } else {
+          this.dataTwo[index].stats = check ? '0' : '1';
+        }
+      },
+      handelRemove(index, level){
+        if (level === 1) {
+          this.dataOne.splice(index, 1);
+        } else {
+          this.dataTwo.splice(index, 1);
+        }
+      },
+      handleImageChange(info) {
+        if (info.file.status === 'uploading') {
+          this.loading = true;
+          return;
+        }
+        if (info.file.status === 'done') {
+          let idx = info.file.response.result
+          this.dataOne[idx].specsImage = window._CONFIG['domianURL'] + "/sys/common/view/" + info.file.response.message;
+        }
+      },
+      beforeUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        if (!isJPG) {
+          this.$message.error('请上传jpg格式图片！');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 0.5;
+        if (!isLt2M) {
+          this.$message.error('Image must smaller than 0.5MB!');
+        }
+        return isJPG && isLt2M;
+      },
 
 
-        },
+    },
 
-    };
+  };
 </script>
 <style scoped>
 

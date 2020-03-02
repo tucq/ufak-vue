@@ -238,34 +238,12 @@
                 }
                 console.log("图片渲染fileList:",this.fileList);
 
-
-                //////////////////
-
+                // 查询规格数据
                 if(record.id){
                     this.initProductSpecsList(record.id);
-                    // this.$refs.productSpecs.loadData(this.productSpecsList);//渲染商品规格数据
                 }else{
                     this.initProductSpecsList(null);
-                    // if(this.$refs.productSpecs){
-                    //     //页面清空
-                    //     this.$refs.productSpecs.dataOne = []
-                    //     this.$refs.productSpecs.dataTwo = []
-                    //     this.$refs.productSpecs.specsTitleOne = {
-                    //         pid:'0',
-                    //         level: '0',
-                    //         stats: '0',
-                    //     };
-                    //     this.$refs.productSpecs.specsTitleTwo = {
-                    //         pid:'0',
-                    //         level: '1',
-                    //         stats: '0',
-                    //     };
-                    // }else{
-                    //
-                    // }
                 }
-
-
 
             },
             close() {
@@ -418,8 +396,6 @@
                         this.productSpecsList = res.result.records;
                     }
                 });
-
-                console.log("initProductSpecsList",this.productSpecsList);
             },
             setProductSpecsList(){
                 let productSpecsList = [];
@@ -427,8 +403,11 @@
                     productSpecsList.push(this.specsTitleOne);
                 }
                 if(this.dataOne.length > 0){
+                    debugger;
                     for(let i=0;i<this.dataOne.length;i++){
+                        this.dataOne[i].pid = 'AAA';
                         productSpecsList.push(this.dataOne[i]);
+                        console.log("规格"+i,this.dataOne[i]);
                     }
                 }
                 if(this.specsTitleTwo){
@@ -436,6 +415,7 @@
                 }
                 if(this.dataTwo.length > 0){
                     for(let i=0;i<this.dataTwo.length;i++){
+                      this.dataTwo[i].pid = 'AAA';
                         productSpecsList.push(this.dataTwo[i]);
                     }
                 }
