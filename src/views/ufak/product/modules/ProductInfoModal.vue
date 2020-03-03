@@ -94,26 +94,6 @@
                 <img alt="example" style="width: 100%" :src="previewImage"/>
               </a-modal>
 
-<!--              <a-upload-->
-<!--                :action="uploadAction"-->
-<!--                listType="picture-card"-->
-<!--                :fileList="fileList"-->
-<!--                :headers="headers"-->
-<!--                :beforeUpload="beforeUpload"-->
-<!--                :remove="imageRemove"-->
-<!--                @preview="handlePreview"-->
-<!--                @change="imageChange"-->
-<!--              >-->
-<!--                <div v-if="fileList.length < 10">-->
-<!--                  <a-icon type="plus"/>-->
-<!--                  <div class="ant-upload-text">上传详图</div>-->
-<!--                </div>-->
-<!--              </a-upload>-->
-<!--              <a-modal :visible="previewVisible" :footer="null" @cancel="imageCancel">-->
-<!--                <img alt="example" style="width: 100%" :src="previewImage"/>-->
-<!--              </a-modal>-->
-
-
             </a-tab-pane>
             <a-tab-pane key="2">
               <span slot="tab">
@@ -126,7 +106,7 @@
               </span>
               <product-specs ref="productSpecs" @dataOne="handelDataOne" @dataTwo="handelDataTwo"
                              @specsTitleOne="handelSpecsTitleOne" @specsTitleTwo="handelSpecsTitleTwo"
-                             :productSpecsList="productSpecsList"></product-specs>
+                             @removeProductSpecsList="handelRemoveSpecsList" :productSpecsList="productSpecsList"></product-specs>
             </a-tab-pane>
             <a-tab-pane key="4">
               <span slot="tab">
@@ -185,6 +165,7 @@
                 fileList: [],
                 removeFileList: [],
                 productSpecsList: [],
+                removeProductSpecsList: [],
                 url: {
                     add: "/product/info/add",
                     edit: "/product/info/edit",
@@ -298,6 +279,7 @@
                         /******** 商品规格 *********/
                         this.setProductSpecsList();
                         formData.productSpecsList = this.productSpecsList;
+                        formData.removeProductSpecsList = this.removeProductSpecsList;
                         /******** 商品规格 *********/
 
                         console.log(formData)
@@ -381,6 +363,9 @@
             handelSpecsTitleTwo(value){
               this.specsTitleTwo = value;
             },
+            handelRemoveSpecsList(obj){
+                this.removeProductSpecsList = obj;
+            },
             initProductSpecsList(productId){
                 if(productId == null){
                     this.productSpecsList = [];
@@ -388,6 +373,7 @@
                 }
                 let params = {
                     productId : productId,
+                    orderBy:'sort',
                     pageNo: 1,
                     pageSize: 2147483647
                 };
@@ -399,23 +385,22 @@
             },
             setProductSpecsList(){
                 let productSpecsList = [];
-                if(this.specsTitleOne){
+                if(this.specsTitleOne.specsTitle){
                     productSpecsList.push(this.specsTitleOne);
                 }
                 if(this.dataOne.length > 0){
-                    debugger;
                     for(let i=0;i<this.dataOne.length;i++){
-                        this.dataOne[i].pid = 'AAA';
+                        this.dataOne[i].pid = 'pid';//给个无用值,不然有些浏览器会自动赋值0
                         productSpecsList.push(this.dataOne[i]);
-                        console.log("规格"+i,this.dataOne[i]);
                     }
                 }
-                if(this.specsTitleTwo){
+
+                if(this.specsTitleTwo.specsTitle){
                     productSpecsList.push(this.specsTitleTwo);
                 }
                 if(this.dataTwo.length > 0){
                     for(let i=0;i<this.dataTwo.length;i++){
-                      this.dataTwo[i].pid = 'AAA';
+                      this.dataTwo[i].pid = 'pid';//给个无用值,不然有些浏览器会自动赋值0
                         productSpecsList.push(this.dataTwo[i]);
                     }
                 }

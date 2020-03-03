@@ -20,7 +20,7 @@
               :bodyStyle="{'padding-top': '15px','padding-left':'10px','padding-right':'10px','padding-bottom':'15px'}">
               <img
                 alt="图片"
-                :src="item.specsImage"
+                :src="previewUrl(item.specsImage)"
                 slot="cover"
               />
               <a-card-meta>
@@ -46,7 +46,7 @@
                 </a-upload>
 
                 <a-icon :type="item.editIcon" @click="editIconClick(index,1)"/>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handelRemove(index,1)">
+                <a-popconfirm title="确定删除吗?" @confirm="() => handelRemove(item,index,1)">
                   <a-icon type="close"/>
                 </a-popconfirm>
                 <a-switch checkedChildren="开" unCheckedChildren="关" :checked="item.stats == '0' ? true : false"
@@ -86,7 +86,7 @@
               </a-card-meta>
               <template class="ant-card-actions" slot="actions">
                 <a-icon :type="item.editIcon" @click="editIconClick(index,2)"/>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handelRemove(index,2)">
+                <a-popconfirm title="确定删除吗?" @confirm="() => handelRemove(item,index,2)">
                   <a-icon type="close"/>
                 </a-popconfirm>
                 <a-switch checkedChildren="开" unCheckedChildren="关" :checked="item.stats == '0' ? true : false"
@@ -114,15 +114,10 @@
       return {
         specsTitleOne: {},
         specsTitleTwo: {},
-        // productSpecsList: [
-        //     {
-        //       specsTitleOne: '',
-        //       specsTitleTwo: '',
-        //     }
-        // ],
         dataOne: [],
         dataTwo: [],
         headers: {},
+        removeProductSpecsList: [],
         url: {
           fileUpload: window._CONFIG['domianURL'] + "/sys/common/upload",
           removeFile: window._CONFIG['domianURL'] + "/sys/common/remove",
@@ -158,6 +153,9 @@
       },
       'productSpecsList': function () {
         this.loadData(this.productSpecsList);
+      },
+      'removeProductSpecsList': function () {
+          this.$emit('removeProductSpecsList', this.removeProductSpecsList);
       }
     },
     created() {
@@ -172,34 +170,29 @@
     },
     methods: {
       loadData(productSpecsList){
-        console.log("loadData(productSpecsList)", productSpecsList);
         //每次数据重置加载
         this.specsTitleOne = {};
         this.specsTitleTwo = {};
         this.dataOne = [];
         this.dataTwo = [];
         for (let i = 0; i < productSpecsList.length; i++) {
-          if (productSpecsList[i].level == '0') {
+          if (productSpecsList[i].level == '0' && productSpecsList[i].pid == '0') {
             this.specsTitleOne = productSpecsList[i];
           }
-          if (productSpecsList[i].level == '1') {
+          if (productSpecsList[i].level == '1' && productSpecsList[i].pid == '0') {
             this.specsTitleTwo = productSpecsList[i];
           }
           if (productSpecsList[i].level == '0' && productSpecsList[i].pid != '0') {
             productSpecsList[i].isEdit = false;
-            productSpecsList[i].editIcon = 'check';
+            productSpecsList[i].editIcon = 'edit';
             this.dataOne.push(productSpecsList[i]);
           }
           if (productSpecsList[i].level == '1' && productSpecsList[i].pid != '0') {
             productSpecsList[i].isEdit = false;
-            productSpecsList[i].editIcon = 'check';
+            productSpecsList[i].editIcon = 'edit';
             this.dataTwo.push(productSpecsList[i]);
           }
         }
-
-        console.log("this.dataOne", this.dataOne);
-        console.log("this.dataTwo", this.dataTwo);
-
       },
       handleAddSpecs(level) {
         if (level === 1) {
@@ -220,15 +213,20 @@
             specsTitle: '',
           });
         }
-        console.log("xxxxxxxxx",this.dataOne[this.dataOne.length-1]);
       },
       editIconClick(index, level) {
         if (level === 1) {
-          this.dataOne[index].isEdit = !this.dataOne[index].isEdit;
-          this.dataOne[index].editIcon = this.dataOne[index].isEdit ? 'check' : 'edit';
+            let tmpOne = this.dataOne;
+            this.dataOne = []; // 置空,否则list不刷新
+            tmpOne[index].isEdit = !tmpOne[index].isEdit;
+            tmpOne[index].editIcon = tmpOne[index].isEdit ? 'check' : 'edit';
+            this.dataOne = tmpOne;
         } else {
-          this.dataTwo[index].isEdit = !this.dataTwo[index].isEdit;
-          this.dataTwo[index].editIcon = this.dataTwo[index].isEdit ? 'check' : 'edit';
+            let tmpTwo = this.dataTwo;
+            this.dataTwo = [];
+            tmpTwo[index].isEdit = !tmpTwo[index].isEdit;
+            tmpTwo[index].editIcon = tmpTwo[index].isEdit ? 'check' : 'edit';
+            this.dataTwo = tmpTwo;
         }
       },
       handleTitleChange(value, index, level) {
@@ -245,7 +243,8 @@
           this.dataTwo[index].stats = check ? '0' : '1';
         }
       },
-      handelRemove(index, level){
+      handelRemove(item,index, level){
+        this.removeProductSpecsList.push(item);//删除的规格
         if (level === 1) {
           this.dataOne.splice(index, 1);
         } else {
@@ -259,10 +258,11 @@
         }
         if (info.file.status === 'done') {
           let idx = info.file.response.result
-          this.dataOne[idx].specsImage = window._CONFIG['domianURL'] + "/sys/common/view/" + info.file.response.message;
+          this.dataOne[idx].specsImage = info.file.response.message;
         }
       },
       beforeUpload(file) {
+          console.log(file);
         const isJPG = file.type === 'image/jpeg';
         if (!isJPG) {
           this.$message.error('请上传jpg格式图片！');
@@ -273,7 +273,13 @@
         }
         return isJPG && isLt2M;
       },
-
+      previewUrl(url){
+          if(url.indexOf("/img/logo.07b1638a.svg") != -1){
+              return url;
+          }else{
+              return window._CONFIG['domianURL'] + "/sys/common/view/" + url;
+          }
+      }
 
     },
 
