@@ -99,6 +99,8 @@
               <span slot="tab">
                 <a-icon type="file-jpg"/>详情图片
               </span>
+              <product-detail-images ref="productDetailImages" :headers="headers" @beforeUpload="beforeUpload" @imageRemove="imageRemove"
+                    :parentDetailImages="detailImages"  @changeDetailImages="changeDetailImages"/>
             </a-tab-pane>
             <a-tab-pane key="3">
               <span slot="tab">
@@ -130,12 +132,14 @@
     import moment from "moment"
     import Vue from 'vue'
     import {ACCESS_TOKEN} from "@/store/mutation-types"
+    import ProductDetailImages from "./ProductDetailImages";
     import ProductSpecs from "./ProductSpecs";
     import ProductPrice from "./ProductPrice";
 
     export default {
         name: "ProductInfoModal",
         components: {
+            ProductDetailImages,
             ProductSpecs,
             ProductPrice,
         },
@@ -165,6 +169,7 @@
                 fileList: [],
                 removeFileList: [],
                 productSpecsList: [],
+                detailImages: '',
                 removeProductSpecsList: [],
                 url: {
                     add: "/product/info/add",
@@ -198,6 +203,7 @@
                 });
 
                 /** 图片渲染 **/
+                this.fileList = [];
                 if(this.model.image){
                     let tmpUrls = this.model.image.substring(0,this.model.image.length-1).split(',');
                     let tmpIdx = 0;
@@ -214,10 +220,12 @@
                             isCommit: true, //图片是否已提交
                         }
                     }
-                }else{
-                    this.fileList = [];
                 }
+
                 console.log("图片渲染fileList:",this.fileList);
+
+                /** 明细图片渲染 **/
+                this.detailImages = this.model.detailImages;
 
                 // 查询规格数据
                 if(record.id){
@@ -232,10 +240,6 @@
                 this.visible = false;
             },
             handleOk() {
-                console.log("this.dataOne",this.dataOne);
-                console.log("this.dataTwo",this.dataTwo);
-                console.log("this.specsTitleOne",this.specsTitleOne);
-                console.log("this.specsTitleTwo",this.specsTitleTwo);
                 const that = this;
                 if (this.fileList.length == 0) {
                     that.$message.warning("请上传商品图片！");
@@ -246,6 +250,7 @@
                     return
                 }
 
+                /****** 商品图片 *******/
                 console.log("this.fileList=", this.fileList);
                 let imageUrls = "";
                 for (let i = 0; i < this.fileList.length; i++) {
@@ -257,7 +262,6 @@
                     }
                 }
                 console.log("商品图片路径：" + imageUrls);
-
 
                 // 触发表单验证
                 this.form.validateFields((err, values) => {
@@ -281,6 +285,8 @@
                         formData.productSpecsList = this.productSpecsList;
                         formData.removeProductSpecsList = this.removeProductSpecsList;
                         /******** 商品规格 *********/
+
+                        formData.detailImages = this.detailImages;//明细图片
 
                         console.log(formData)
                         httpAction(httpurl, formData, method).then((res) => {
@@ -308,9 +314,10 @@
                         files.push(img.response.message);
                     }
                 }
-                console.log("未提交的图片：",files);
                 // 关闭成功后服务器删除未提交的图片
                 this.handleRemoveFile(files);
+
+                this.$refs.productDetailImages.clearRemoveFile();//删除没用的图片
 
                 this.close()
             },
@@ -407,6 +414,9 @@
 
                 this.productSpecsList = productSpecsList;
             },
+            changeDetailImages(detailImages){
+                this.detailImages = detailImages;
+            }
 
         }
     }
