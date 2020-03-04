@@ -37,6 +37,7 @@
         previewVisible: false,
         previewImage: '',
         detailFileList: [],
+        detailImages: '',
         url: {
           fileUpload: window._CONFIG['domianURL'] + "/sys/common/upload",
           removeFile: window._CONFIG['domianURL'] + "/sys/common/remove",
@@ -44,8 +45,11 @@
       }
     },
     watch: {
-      'parentDetailImages': function () {
-          this.loadImage(this.parentDetailImages);
+      // 'parentDetailImages': function () {
+      //     this.loadImage(this.parentDetailImages);
+      // },
+      'detailImages': function () {
+          this.$emit('changeDetailImages', this.detailImages);
       },
     },
     created() {
@@ -62,6 +66,7 @@
         /** 图片渲染 **/
         this.detailFileList = [];
         if(parentDetailImages){
+          this.detailImages = parentDetailImages;
           let tmpUrls = parentDetailImages.substring(0,parentDetailImages.length-1).split(',');
           let tmpIdx = 0;
           let baseUrl = window._CONFIG['domianURL'] + "/sys/common/view/";
@@ -88,6 +93,16 @@
         this.previewVisible = true;
       },
       imageRemove(file) {
+        console.log("明细页面imageRemove",file);
+        let rmUrl = '';
+        if(file.url){
+            rmUrl = file.url.substring(file.url.indexOf("files"), file.url.length)+",";
+        }else{
+            rmUrl = file.response.message + ",";
+        }
+        let reg = new RegExp(rmUrl,"g");
+        this.detailImages = this.detailImages.replace(reg,'');
+
         this.$emit('imageRemove', file);
       },
       imageChange(info) {
@@ -102,7 +117,8 @@
               imageUrls += img.url.substring(img.url.indexOf("/files"), img.url.length) + ","
             }
           }
-          this.parentDetailImages = imageUrls
+          this.detailImages = imageUrls;
+          // this.$emit('changeDetailImages', imageUrls);
           console.log("明细图选择后的地址",this.parentDetailImages);
         }
 

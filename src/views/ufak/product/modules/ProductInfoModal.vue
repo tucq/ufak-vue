@@ -416,6 +416,7 @@
             },
             changeDetailImages(detailImages){
                 this.detailImages = detailImages;
+                console.log("changeDetailImages: ",detailImages);
             }
 
         }
