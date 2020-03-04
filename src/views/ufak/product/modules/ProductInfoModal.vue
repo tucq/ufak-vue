@@ -11,14 +11,13 @@
 
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-
         <a-row :gutter="20">
           <a-col :span="12">
             <a-form-item
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="商品名称">
-              <a-input placeholder="请输入商品名称" v-decorator="['name', {}]" maxlength="200"/>
+              <a-input placeholder="请输入商品名称" v-decorator="['name', validatorRules.name]" maxlength="200"/>
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -26,7 +25,7 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="商品描述">
-              <a-input placeholder="请输入商品描述" v-decorator="['description', {}]" maxlength="200"/>
+              <a-input placeholder="请输入商品描述" v-decorator="['description', validatorRules.description]" maxlength="200"/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -37,15 +36,15 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="商品分类">
-              <a-input placeholder="请输入商品分类" v-decorator="['productType', {}]"/>
+              <a-input placeholder="请选择商品分类" v-decorator="['productType', validatorRules.productType]"/>
             </a-form-item>
           </a-col>
           <a-col :span="12">
             <a-form-item
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
-              label="月销量">
-              <a-input v-decorator="[ 'salesVolume', {}]"/>
+              label="上下架">
+              <j-dict-select-tag v-decorator="['state', validatorRules.state]" :triggerChange="true" placeholder="请选择上下架" dictCode="product_state"/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -56,15 +55,28 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="服务">
-              <a-input placeholder="请输入服务" v-decorator="['service', {}]"/>
+              <!--<a-input placeholder="请输入服务" v-decorator="['service', {}]"/>-->
+              <!--<j-dict-select-tag v-decorator="['service', {}]" :triggerChange="true" placeholder="请输入服务" mode="multiple" dictCode="product_service"/>-->
+              <a-select
+                mode="multiple"
+                placeholder="请选择服务"
+                v-model="serviceValue"
+                @change="handleChangeService"
+              >
+                <a-select-option v-for="(item, key) in  serviceList" :key="key" :value="item.text">
+                  <span style="display: inline-block;width: 100%" :title=" item.text || item.label ">
+                    {{ item.text || item.label }}
+                  </span>
+                </a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
           <a-col :span="12">
             <a-form-item
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
-              label="上下架">
-              <a-input placeholder="请选择上下架" v-decorator="['state', {}]"/>
+              label="销量">
+              <a-input v-decorator="[ 'salesVolume', {}]" disabled/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -128,6 +140,7 @@
 
 <script>
     import {httpAction, postAction,getAction} from '@/api/manage'
+    import {ajaxGetDictItems} from '@/api/api'
     import pick from 'lodash.pick'
     import moment from "moment"
     import Vue from 'vue'
@@ -135,11 +148,12 @@
     import ProductDetailImages from "./ProductDetailImages";
     import ProductSpecs from "./ProductSpecs";
     import ProductPrice from "./ProductPrice";
+    import AInput from "ant-design-vue/es/input/Input";
 
     export default {
         name: "ProductInfoModal",
         components: {
-            ProductDetailImages,
+          AInput, ProductDetailImages,
             ProductSpecs,
             ProductPrice,
         },
@@ -171,6 +185,14 @@
                 productSpecsList: [],
                 detailImages: '',
                 removeProductSpecsList: [],
+                serviceList: [],
+                serviceValue: [],
+                validatorRules: {
+                  name: { rules: [{ required: true, message: '请输入商品名称' }] },
+                  description: { rules: [{ required: true, message: '请输入商品描述' }] },
+                  productType: { rules: [{ required: true, message: '请选择商品分类' }] },
+                  state: { rules: [{ required: true, message: '请选择上下架' }] },
+                },
                 url: {
                     add: "/product/info/add",
                     edit: "/product/info/edit",
@@ -183,6 +205,7 @@
         created() {
             const token = Vue.ls.get(ACCESS_TOKEN);
             this.headers = {"X-Access-Token": token}
+            this.initDictData();
         },
         computed: {
             uploadAction: function () {
@@ -201,6 +224,11 @@
                     this.form.setFieldsValue(pick(this.model, 'name', 'description', 'productType', 'salesVolume', 'service', 'state'))
                     //时间格式化
                 });
+                if(record.service){
+                    this.serviceValue = record.service.split(',');
+                }else{
+                  this.serviceValue = [];
+                }
 
                 /** 图片渲染 **/
                 this.fileList = [];
@@ -288,6 +316,8 @@
 
                         formData.detailImages = this.detailImages;//明细图片
 
+                        formData.service = this.serviceValue.join(','); // 服务
+
                         console.log(formData)
                         httpAction(httpurl, formData, method).then((res) => {
                             if (res.success) {
@@ -317,7 +347,9 @@
                 // 关闭成功后服务器删除未提交的图片
                 this.handleRemoveFile(files);
 
-                this.$refs.productDetailImages.clearRemoveFile();//删除没用的图片
+                if(this.$refs.productDetailImages){ // tab标签可能没有加载
+                  this.$refs.productDetailImages.clearRemoveFile();//删除没用的图片
+                }
 
                 this.close()
             },
@@ -417,7 +449,17 @@
             changeDetailImages(detailImages){
                 this.detailImages = detailImages;
                 console.log("changeDetailImages: ",detailImages);
-            }
+            },
+            initDictData() {
+              ajaxGetDictItems('product_service', null).then((res) => {
+                if (res.success) {
+                  this.serviceList = res.result;
+                }
+              })
+            },
+            handleChangeService(val){
+              this.serviceValue = val;
+            },
 
         }
     }

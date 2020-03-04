@@ -45,9 +45,9 @@
       }
     },
     watch: {
-      // 'parentDetailImages': function () {
-      //     this.loadImage(this.parentDetailImages);
-      // },
+       'parentDetailImages': function () {
+           this.loadImage(this.parentDetailImages);
+       },
       'detailImages': function () {
           this.$emit('changeDetailImages', this.detailImages);
       },
