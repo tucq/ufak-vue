@@ -36,7 +36,14 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="商品分类">
-              <a-input placeholder="请选择商品分类" v-decorator="['productType', validatorRules.productType]"/>
+                <j-tree-select
+                  ref="treeSelect"
+                  placeholder="请选择商品分类"
+                  v-decorator="['productType', validatorRules.productType]"
+                  dict="t_product_category,name,id"
+                  pidField="pid"
+                  pidValue="0">
+                </j-tree-select>
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -141,6 +148,7 @@
 <script>
     import {httpAction, postAction,getAction} from '@/api/manage'
     import {ajaxGetDictItems} from '@/api/api'
+    import JTreeSelect from '@/components/jeecg/JTreeSelect'
     import pick from 'lodash.pick'
     import moment from "moment"
     import Vue from 'vue'
@@ -156,6 +164,7 @@
           AInput, ProductDetailImages,
             ProductSpecs,
             ProductPrice,
+            JTreeSelect,
         },
         data() {
             return {
