@@ -62,8 +62,6 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="服务">
-              <!--<a-input placeholder="请输入服务" v-decorator="['service', {}]"/>-->
-              <!--<j-dict-select-tag v-decorator="['service', {}]" :triggerChange="true" placeholder="请输入服务" mode="multiple" dictCode="product_service"/>-->
               <a-select
                 mode="multiple"
                 placeholder="请选择服务"
@@ -129,12 +127,12 @@
                              @specsTitleOne="handelSpecsTitleOne" @specsTitleTwo="handelSpecsTitleTwo"
                              @removeProductSpecsList="handelRemoveSpecsList" :productSpecsList="productSpecsList"></product-specs>
             </a-tab-pane>
-            <a-tab-pane key="4">
-              <span slot="tab">
-                <a-icon type="setting"/>售价库存
-              </span>
-              <product-price ref="productPrice"></product-price>
-            </a-tab-pane>
+            <!--<a-tab-pane key="4">-->
+              <!--<span slot="tab">-->
+                <!--<a-icon type="setting"/>售价库存-->
+              <!--</span>-->
+              <!--<product-price ref="productPrice" :dataOne="dataOne" :dataTwo="dataTwo" :productSpecsList="productSpecsList"></product-price>-->
+            <!--</a-tab-pane>-->
 
           </a-tabs>
         </a-row>
@@ -155,7 +153,7 @@
     import {ACCESS_TOKEN} from "@/store/mutation-types"
     import ProductDetailImages from "./ProductDetailImages";
     import ProductSpecs from "./ProductSpecs";
-    import ProductPrice from "./ProductPrice";
+//    import ProductPrice from "./ProductPrice";
     import AInput from "ant-design-vue/es/input/Input";
 
     export default {
@@ -163,7 +161,7 @@
         components: {
           AInput, ProductDetailImages,
             ProductSpecs,
-            ProductPrice,
+//            ProductPrice,
             JTreeSelect,
         },
         data() {
