@@ -63,18 +63,12 @@
 
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
-
           <a-divider type="vertical"/>
-          <a-dropdown>
-            <a class="ant-dropdown-link">更多 <a-icon type="down"/></a>
-            <a-menu slot="overlay">
-              <a-menu-item>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
-                  <a>删除</a>
-                </a-popconfirm>
-              </a-menu-item>
-            </a-menu>
-          </a-dropdown>
+          <a @click="setPrice(record)">设置</a>
+          <a-divider type="vertical"/>
+          <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
+            <a>删除</a>
+          </a-popconfirm>
         </span>
 
       </a-table>
@@ -82,19 +76,22 @@
     <!-- table区域-end -->
 
     <!-- 表单区域 -->
-    <productInfo-modal ref="modalForm" @ok="modalFormOk"></productInfo-modal>
+    <productInfo-modal ref="modalForm" @ok="modalFormOk" />
+    <productPrice ref="productPrice" />
   </a-card>
 </template>
 
 <script>
     import ProductInfoModal from './modules/ProductInfoModal'
+    import ProductPrice from './modules/ProductPrice'
     import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 
     export default {
         name: "ProductInfoList",
         mixins: [JeecgListMixin],
         components: {
-            ProductInfoModal
+            ProductInfoModal,
+            ProductPrice,
         },
         data() {
             return {
@@ -162,6 +159,10 @@
             getAvatarView(image){
                 return this.url.imgerver +"/"+ image;
             },
+            setPrice(record){
+                this.$refs.productPrice.visible = true;
+                this.$refs.productPrice.edit(record);
+            }
         }
     }
 </script>
