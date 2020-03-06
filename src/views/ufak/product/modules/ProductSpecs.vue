@@ -2,10 +2,10 @@
   <div>
     <a-tabs defaultActiveKey="1" size="small">
       <a-tab-pane key="1">
-        <span slot="tab">一级规格</span>
+        <span slot="tab">规格一</span>
         <a-row style="padding-bottom: 15px;">
           <a-col :span="22" style="padding-left: 10px">
-            <a-input placeholder="请输入一级规格描述" v-model="specsTitleOne.specsTitle" style="width:200px;"/>
+            <a-input placeholder="请输入规格描述" v-model="specsTitleOne.specsTitle" style="width:200px;"/>
           </a-col>
           <a-col :span="2" style="">
             <a-button type="primary" @click="handleAddSpecs(1)">
@@ -58,10 +58,10 @@
       </a-tab-pane>
 
       <a-tab-pane key="2">
-        <span slot="tab">二级规格</span>
+        <span slot="tab">规格二</span>
         <a-row style="padding-bottom: 15px;">
           <a-col :span="22" style="padding-left: 10px">
-            <a-input placeholder="请输入二级规格描述" v-model="specsTitleTwo.specsTitle" style="width:200px;"/>
+            <a-input placeholder="请输入规格描述" v-model="specsTitleTwo.specsTitle" style="width:200px;"/>
           </a-col>
           <a-col :span="2" style="">
             <a-button type="primary" @click="handleAddSpecs(2)">
