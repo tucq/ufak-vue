@@ -1,225 +1,104 @@
 <template>
-  <div>
-    <a-button class="editable-add-btn" @click="handleAdd">Add</a-button>
-    <a-table bordered :dataSource="specsDataSource" :columns="specsColumns">
-      <template
-        v-for="col in ['specsName', 'virtualPrice', 'discount','price','stock','stats']"
-        :slot="col" slot-scope="text, record, index"
-        :indentSize="30"
-      >
-        <div :key="col">
-          <a-input
-            v-if="record.editable"
-            style="margin: -5px 0"
-            :value="text"
-            @change="e => handleChange(e.target.value, record.key, col)"
-          />
-          <template v-else
-          >{{text}}</template
-          >
-        </div>
-      </template>
-
-      <!--      <template slot="specsName" slot-scope="text, record">-->
-      <!--        <editable-cell :text="text" @change="onCellChange(record.key, 'specsName', $event)" />-->
-      <!--      </template>-->
-
-      <template slot="operation" slot-scope="text, record, index">
-        <div class="editable-row-operations">
-          <span v-if="record.editable">
-            <a @click="() => save(record.key)">Save</a>
-            <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
-              <a>Cancel</a>
-            </a-popconfirm>
-          </span>
-          <span v-else>
-            <a @click="() => edit(record.key)">Edit</a>
-          </span>
-
-          <a-divider type="vertical"/>
-
-          <a-popconfirm
-            v-if="specsDataSource.length"
-            title="Sure to delete?"
-            @confirm="() => onDelete(record.key)"
-          >
-            <a href="javascript:;">Delete</a>
-          </a-popconfirm>
-
-        </div>
-      </template>
-
-      <!--      <template slot="operation" slot-scope="text, record">-->
-      <!--        <a-popconfirm-->
-      <!--          v-if="specsDataSource.length"-->
-      <!--          title="Sure to delete?"-->
-      <!--          @confirm="() => onDelete(record.key)"-->
-      <!--        >-->
-      <!--          <a href="javascript:;">Delete</a>-->
-      <!--        </a-popconfirm>-->
-      <!--      </template>-->
-    </a-table>
-  </div>
+  <a-modal
+    title="设置价格库存"
+    :width="900"
+    :visible="visible"
+    :confirmLoading="confirmLoading"
+    @ok="handleOk"
+    @cancel="handleCancel"
+    cancelText="关闭">
+    <div>
+      <a-table bordered :dataSource="dataSource" :columns="columns">
+        <template slot="name" slot-scope="text, record">
+          <editable-cell :text="text" @change="onCellChange(record.key, 'name', $event)"/>
+        </template>
+      </a-table>
+    </div>
+  </a-modal>
 </template>
-
 <script>
-    import EditableCell from '@/views/ufak/common/EditableCell';
+  import EditableCell from '@/views/ufak/common/EditableCell'
+  import {getAction} from '@/api/manage'
 
-    const data = [
-        {
-            key: '1',
-            specsName: '白色',
-            specsImage: '32',
-            virtualPrice: '200',
-            discount: '1',
-            price: '200',
-            stock: '100',
-            stats: '启用',
+  export default {
+    components: {
+      EditableCell,
+    },
+    data () {
+      return {
+        visible: false,
+        confirmLoading: false,
+        dataSource: [],
+        productSpecsList: [],
+        columns: [{
+          title: '规格名称',
+          dataIndex: 'name',
+          width: '30%',
+          scopedSlots: {customRender: 'name'},
+        }, {
+          title: '虚拟价',
+          dataIndex: 'virtualPrice',
+          width: '17.5%',
+        }, {
+          title: '折扣',
+          dataIndex: 'discount',
+          width: '17.5%',
+        }, {
+          title: '售卖价',
+          dataIndex: 'price',
+          width: '17.5%',
+        }, {
+          title: '库存',
+          dataIndex: 'stock',
+          width: '17.5%',
+        }],
+        url: {
+          save: "/product/info/add",
+          getProductSpecsList: "/product/specs/list",
         },
-        {
-            key: '2',
-            specsName: '红色',
-            specsImage: '20',
-            virtualPrice: '300',
-            discount: '1',
-            price: '200',
-            stock: '100',
-            stats: '启用',
-        },
-    ];
+      }
+    },
+    created() {
+    },
+    methods: {
+//      onCellChange (key, dataIndex, value) {
+//        const dataSource = [...this.dataSource]
+//        const target = dataSource.find(item => item.key === key)
+//        if (target) {
+//          target[dataIndex] = value
+//          this.dataSource = dataSource
+//        }
+//      },
+      edit(record) {
+        let params = {
+          productId: record.id,
+          orderBy: 'sort',
+          pageNo: 1,
+          pageSize: 1000
+        };
+        getAction(this.url.getProductSpecsList, params).then((res) => {
+          if (res.success) {
+            this.productSpecsList = res.result.records;
+          }
+        });
 
-    export default {
-        name: "ProductSpecs",
-        components: {
-            EditableCell,
-        },
-        data() {
-            this.cacheData = data.map(item => ({ ...item }));
-            return {
-                specsDataSource: data,
-                count: 2,
-                specsColumns: [
-                    {
-                        title: '规格名称',
-                        dataIndex: 'specsName',
-                        width: '20%',
-                        scopedSlots: { customRender: 'specsName' },
-                    },
-                    {
-                        title: '规格图片',
-                        width: '15%',
-                        dataIndex: 'specsImage',
-                    },
-                    {
-                        title: '虚拟价',
-                        width: '10%',
-                        dataIndex: 'virtualPrice',
-                        scopedSlots: { customRender: 'virtualPrice' },
+      },
+      close() {
+        this.$emit('close');
+        this.visible = false;
+      },
+      handleOk() {
 
-                    },
-                    {
-                        title: '折扣',
-                        width: '10%',
-                        dataIndex: 'discount',
-                        scopedSlots: { customRender: 'discount' },
-                    },
-                    {
-                        title: '售卖价',
-                        width: '10%',
-                        dataIndex: 'price',
-                        scopedSlots: { customRender: 'price' },
-                    },
-                    {
-                        title: '库存',
-                        width: '10%',
-                        dataIndex: 'stock',
-                        scopedSlots: { customRender: 'stock' },
-                    },
-                    {
-                        title: '启/停用',
-                        width: '10%',
-                        dataIndex: 'stats',
-                        scopedSlots: { customRender: 'stats' },
-                    },
-                    {
-                        title: '操作',
-                        width: '15%',
-                        dataIndex: 'operation',
-                        scopedSlots: { customRender: 'operation' },
-                    },
-                ],
-            };
-        },
-        methods: {
-            handleChange(value, key, column) {
-                const newData = [...this.specsDataSource];
-                const target = newData.filter(item => key === item.key)[0];
-                if (target) {
-                    target[column] = value;
-                    this.specsDataSource = newData;
-                }
-            },
-            edit(key) {
-                const newData = [...this.specsDataSource];
-                const target = newData.filter(item => key === item.key)[0];
-                if (target) {
-                    target.editable = true;
-                    this.specsDataSource = newData;
-                }
-            },
-            save(key) {
-                const newData = [...this.specsDataSource];
-                const newCacheData = [...this.cacheData];
-                const target = newData.filter(item => key === item.key)[0];
-                const targetCache = newCacheData.filter(item => key === item.key)[0];
-                if (target && targetCache) {
-                    delete target.editable;
-                    this.specsDataSource = newData;
-                    Object.assign(
-                        targetCache,
-                        target
-                    );
-                    this.cacheData = newCacheData;
-                }
-            },
-            cancel(key) {
-                const newData = [...this.specsDataSource];
-                const target = newData.filter(item => key === item.key)[0];
-                if (target) {
-                    Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
-                    delete target.editable;
-                    this.specsDataSource = newData;
-                }
-            },
+      },
+      handleCancel() {
+        this.close()
+      },
 
-            onCellChange(key, dataIndex, value) {
-                const specsDataSource = [...this.specsDataSource];
-                const target = specsDataSource.find(item => item.key === key);
-                if (target) {
-                    target[dataIndex] = value;
-                    this.specsDataSource = specsDataSource;
-                }
-            },
-            onDelete(key) {
-                const specsDataSource = [...this.specsDataSource];
-                this.specsDataSource = specsDataSource.filter(item => item.key !== key);
-            },
-            handleAdd() {
-                const { count, specsDataSource } = this;
-                const newData = {
-                    key: count,
-                    name: `Edward King ${count}`,
-                    age: 32,
-                    address: `London, Park Lane no. ${count}`,
-                };
-                this.specsDataSource = [...specsDataSource, newData];
-                this.count = count + 1;
-            },
-        },
-    }
+
+    },
+  }
 </script>
-
-<style scoped>
+<style>
   .editable-cell {
     position: relative;
   }
@@ -261,11 +140,5 @@
 
   .editable-add-btn {
     margin-bottom: 8px;
-  }
-
-
-  /********************/
-  .editable-row-operations a {
-    margin-right: 8px;
   }
 </style>
