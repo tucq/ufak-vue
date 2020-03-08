@@ -16,13 +16,22 @@
 <script>
     export default {
         props: {
-            text: String,
+            text: [String,Number],
+            parentEditable : Boolean,
         },
         data() {
             return {
                 value: this.text,
                 editable: false,
             };
+        },
+        created() {
+          this.editable = this.parentEditable;
+        },
+        watch: {
+          'parentEditable': function () {
+            this.editable = this.parentEditable;
+          },
         },
         methods: {
             handleChange(e) {
