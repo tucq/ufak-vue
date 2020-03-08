@@ -332,7 +332,7 @@
                                 this.handleRemoveFile(this.removeFileList);
 
                                 that.$message.success(res.message);
-                                that.$emit('ok');
+                                that.$emit('ok',res.result);
                             } else {
                                 that.$message.warning(res.message);
                             }

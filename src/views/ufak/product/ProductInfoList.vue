@@ -162,6 +162,11 @@
             setPrice(record){
                 this.$refs.productPrice.visible = true;
                 this.$refs.productPrice.edit(record);
+            },
+            modalFormOk(productId) {
+                this.loadData();
+                this.$refs.productPrice.visible = true;
+                this.$refs.productPrice.edit({id : productId},'add');
             }
         }
     }
