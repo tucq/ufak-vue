@@ -46,7 +46,16 @@
         :pagination="ipagination"
         :loading="loading"
         @change="handleTableChange">
-
+        <span slot="imgUrl" slot-scope="imgUrl">
+            <a-row>
+              <img v-if="imgUrl != ''" :src="getAvatarView(imgUrl)" style="height:50px;max-width:50px"/>
+            </a-row>
+        </span>
+        <span slot="headImg" slot-scope="headImg">
+            <a-row>
+              <img v-if="headImg != ''" :src="getAvatarView(headImg)" style="height:50px;max-width:50px"/>
+            </a-row>
+        </span>
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
           <a-divider type="vertical"/>
@@ -92,22 +101,24 @@
           {
             title: '图片',
             align: "center",
-            dataIndex: 'imgUrl'
+            dataIndex: 'imgUrl',
+            scopedSlots: {customRender: 'imgUrl'},
           },
           {
             title: '类型',
             align: "center",
-            dataIndex: 'type'
+            dataIndex: 'type_dictText'
           },
           {
             title: '头部广告',
             align: "center",
-            dataIndex: 'headImg'
+            dataIndex: 'headImg',
+            scopedSlots: {customRender: 'headImg'},
           },
           {
             title: '排版',
             align: "center",
-            dataIndex: 'layout'
+            dataIndex: 'layout_dictText'
           },
           {
             title: '背景色',
@@ -115,14 +126,9 @@
             dataIndex: 'bgColor'
           },
           {
-            title: '排序',
-            align: "center",
-            dataIndex: 'sort'
-          },
-          {
             title: '状态',
             align: "center",
-            dataIndex: 'state'
+            dataIndex: 'state_dictText'
           },
           {
             title: '操作',
@@ -132,11 +138,12 @@
           }
         ],
         url: {
-          list: "/com.ufak/homepageAds/list",
-          delete: "/com.ufak/homepageAds/delete",
-          deleteBatch: "/com.ufak/homepageAds/deleteBatch",
-          exportXlsUrl: "com.ufak/homepageAds/exportXls",
-          importExcelUrl: "com.ufak/homepageAds/importExcel",
+          list: "/homepageAds/list",
+          delete: "/homepageAds/delete",
+          deleteBatch: "/homepageAds/deleteBatch",
+          exportXlsUrl: "/homepageAds/exportXls",
+          importExcelUrl: "/homepageAds/importExcel",
+          imgerver: window._CONFIG['domianURL']+"/sys/common/view",
         },
       }
     },
@@ -146,7 +153,9 @@
       }
     },
     methods: {
-
+        getAvatarView(image){
+          return this.url.imgerver +"/"+ image;
+        },
     }
   }
 </script>

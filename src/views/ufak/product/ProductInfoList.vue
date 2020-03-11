@@ -44,6 +44,7 @@
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
+
       <a-table
         ref="table"
         size="middle"
@@ -137,7 +138,7 @@
                     {
                         title: '上下架',
                         align: "center",
-                        dataIndex: 'state'
+                        dataIndex: 'state_dictText'
                     },
                     {
                         title: '操作',

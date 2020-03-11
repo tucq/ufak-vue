@@ -14,59 +14,65 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="广告类型">
-          <j-dict-select-tag v-decorator="['type', {}]" :triggerChange="true" placeholder="请输入广告类型" dictCode="ads_type"/>
+          <j-dict-select-tag v-decorator="['type', validatorRules.type]" :triggerChange="true" placeholder="请输入广告类型" dictCode="ads_type"/>
         </a-form-item>
-        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="广告图片">
-          <!--<a-input placeholder="请输入广告图片" v-decorator="['imgUrl', {}]" />-->
-          <a-upload
-            :action="uploadAction"
-            listType="picture-card"
-            :fileList="fileList"
-            :headers="headers"
-            :beforeUpload="beforeUpload"
-            :remove="imageRemove"
-            @preview="handlePreview"
-            @change="imageChange"
-          >
-            <div v-if="fileList.length < 1">
-              <a-icon type="plus"/>
-              <div class="ant-upload-text">上 传</div>
-            </div>
-          </a-upload>
-          <a-modal :visible="previewVisible" :footer="null" @cancel="imageCancel">
-            <img alt="example" style="width: 100%" :src="previewImage"/>
-          </a-modal>
-        </a-form-item>
+
+        <a-row>
+          <a-col :span="13" style="padding-left: 90px;">
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="广告图片">
+              <a-upload
+                :action="uploadAction"
+                listType="picture-card"
+                :fileList="fileList"
+                :headers="headers"
+                :beforeUpload="beforeUpload"
+                :remove="e => imageRemove(e,1)"
+                @preview="e => handlePreview(e,1)"
+                @change="e => imageChange(e,1)"
+              >
+                <div v-if="fileList.length < 1">
+                  <a-icon type="plus"/>
+                  <div class="ant-upload-text">上 传</div>
+                </div>
+              </a-upload>
+              <a-modal :visible="previewVisible" :footer="null" @cancel="() => imageCancel(1)">
+                <img alt="example" style="width: 100%" :src="previewImage"/>
+              </a-modal>
+            </a-form-item>
+          </a-col>
+          <a-col :span="11">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="详情头部">
+              <!--<a-input placeholder="请输入详情头部" v-decorator="['headImg', {}]" />-->
+              <a-upload
+                :action="uploadAction"
+                listType="picture-card"
+                :fileList="fileList2"
+                :headers="headers"
+                :beforeUpload="beforeUpload"
+                :remove="e => imageRemove(e,2)"
+                @preview="e => handlePreview(e,2)"
+                @change="e => imageChange(e,2)"
+              >
+                <div v-if="fileList2.length < 1">
+                  <a-icon type="plus"/>
+                  <div class="ant-upload-text">上 传</div>
+                </div>
+              </a-upload>
+              <a-modal :visible="previewVisible2" :footer="null" @cancel="() => imageCancel(2)">
+                <img alt="example" style="width: 100%" :src="previewImage2"/>
+              </a-modal>
+            </a-form-item>
+          </a-col>
+        </a-row>
 
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="详情头部图片">
-          <a-input placeholder="请输入头部广告" v-decorator="['headImg', {}]" />
-          <!--<a-upload-->
-            <!--:action="uploadAction"-->
-            <!--listType="picture-card"-->
-            <!--:fileList="fileList"-->
-            <!--:headers="headers"-->
-            <!--:beforeUpload="beforeUpload"-->
-            <!--:remove="imageRemove"-->
-            <!--@preview="handlePreview"-->
-            <!--@change="imageChange"-->
-          <!--&gt;-->
-            <!--<div v-if="fileList.length < 1">-->
-              <!--<a-icon type="plus"/>-->
-              <!--<div class="ant-upload-text">上 传</div>-->
-            <!--</div>-->
-          <!--</a-upload>-->
-          <!--<a-modal :visible="previewVisible" :footer="null" @cancel="imageCancel">-->
-            <!--<img alt="example" style="width: 100%" :src="previewImage"/>-->
-          <!--</a-modal>-->
-        </a-form-item>
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
           label="排版">
-          <j-dict-select-tag v-decorator="['layout', {}]" :triggerChange="true" placeholder="请输入排版" dictCode="ads_layout"/>
+          <j-dict-select-tag v-decorator="['layout', validatorRules.layout]" :triggerChange="true" placeholder="请输入排版" dictCode="ads_layout"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
@@ -78,7 +84,7 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="排序">
-          <a-input v-decorator="[ 'sort', {}]" />
+          <a-input v-decorator="[ 'sort',validatorRules.sort]" placeholder="请输入排序"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
@@ -98,9 +104,11 @@
   import moment from "moment"
   import Vue from 'vue'
   import {ACCESS_TOKEN} from "@/store/mutation-types"
+  import ARow from "ant-design-vue/es/grid/Row";
+  import ACol from "ant-design-vue/es/grid/Col";
 
   export default {
-    name: "HomepageAdsModal",
+    components: {ACol, ARow}, name: "HomepageAdsModal",
     data () {
       return {
         title:"操作",
@@ -116,13 +124,21 @@
           sm: { span: 16 },
         },
         headers: {},
+        opt: '',
         previewVisible: false,
+        previewVisible2: false,
         previewImage: '',
+        previewImage2: '',
         fileList: [],
+        fileList2: [],
         removeFileList: [],
+        removeFileList2: [],
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules:{
+          type:{rules: [{required: true, message: '请输入广告类型!'}]},
+          layout:{rules: [{required: true, message: '请输入排版!'}]},
+          sort:{rules: [{required: true, message: '请输入排序!'}]},
         },
         url: {
           add: "/com.ufak/homepageAds/add",
@@ -144,40 +160,56 @@
     methods: {
       add () {
         this.edit({state:'0'});
+        this.opt = 'add';
       },
       edit (record) {
+        this.opt = 'edit';
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'type','headImg','layout','bgColor','sort'));
+          this.form.setFieldsValue(pick(this.model,'type','layout','bgColor','sort'));
 
         });
         this.state = record.state;
 
         /** 图片渲染 **/
-        if(this.model.imgUrl){
-          let tmpUrls = this.model.imgUrl.split(',');
-          let tmpIdx = 0;
-          let baseUrl = window._CONFIG['domianURL'] + "/sys/common/view/";
-          for(let i=0;i<tmpUrls.length;i++){
-            let imgUrl = tmpUrls[i];
-            tmpIdx--;
-            this.fileList[i] = {
-              uid: tmpIdx, //根据官方API文档，该值最好给个负数值，以免与内部对象冲突
-              name: imgUrl.substring(imgUrl.lastIndexOf("/"),imgUrl.indexOf(".")),
-              status: 'done',
-              url: baseUrl + imgUrl,
-              thumbUrl: baseUrl + imgUrl,
-              isCommit: true, //图片是否已提交
-            }
-          }
+        let url = this.model.imgUrl;
+        if(url){
+          this.renderHtml(url,1);
         }else{
           this.fileList = [];
         }
-        console.log("图片渲染fileList:",this.fileList);
+        let url2 = this.model.headImg;
+        if(url2){
+          this.renderHtml(url2,2);
+        }else{
+          this.fileList2 = [];
+        }
 
+      },
+      renderHtml(url,flag){
+        let tmpUrls = url.split(',');
+        let tmpIdx = 0;
+        let baseUrl = window._CONFIG['domianURL'] + "/sys/common/view/";
+        for(let i=0;i<tmpUrls.length;i++){
+          let imgUrl = tmpUrls[i];
+          tmpIdx--;
+          let fileObj = {
+            uid: tmpIdx, //根据官方API文档，该值最好给个负数值，以免与内部对象冲突
+            name: imgUrl.substring(imgUrl.lastIndexOf("/"),imgUrl.indexOf(".")),
+            status: 'done',
+            url: baseUrl + imgUrl,
+            thumbUrl: baseUrl + imgUrl,
+            isCommit: true, //图片是否已提交
+          };
 
+          if(flag === 1){
+            this.fileList[i] = fileObj;
+          }else{
+            this.fileList2[i] = fileObj;
+          }
+        }
       },
       close () {
         this.$emit('close');
@@ -199,9 +231,10 @@
                method = 'put';
             }
             let formData = Object.assign(this.model, values);
+            formData.state = this.state;
 
             if (this.fileList.length == 0) {
-              that.$message.warning("请上传商品图片！");
+              that.$message.warning("请上传广告图片！");
               that.confirmLoading = false;
               return;
             }
@@ -215,16 +248,25 @@
                 imageUrls += img.url.substring(img.url.indexOf("/files"), img.url.length)
               }
             }
-            console.log("图片路径：" + imageUrls);
             formData.imgUrl = imageUrls;
-            formData.state = this.state;
 
-            
+            let imageUrls2 = "";
+            for (let i = 0; i < this.fileList2.length; i++) {
+              let img = this.fileList2[i];
+              if (img.response) {
+                imageUrls2 += img.response.message
+              } else {
+                imageUrls2 += img.url.substring(img.url.indexOf("/files"), img.url.length)
+              }
+            }
+            formData.headImg = imageUrls2;
+
             console.log(formData)
             httpAction(httpurl,formData,method).then((res)=>{
               if(res.success){
                 // 提交成功后服务器删除移除的图片
                 this.handleRemoveFile(this.removeFileList);
+                this.handleRemoveFile(this.removeFileList2);
                 that.$message.success(res.message);
                 that.$emit('ok');
               }else{
@@ -234,7 +276,6 @@
               that.confirmLoading = false;
               that.close();
             })
-
 
 
           }
@@ -248,9 +289,21 @@
             files.push(img.response.message);
           }
         }
+        for (let i = 0; i < this.fileList2.length; i++) {
+          let img = this.fileList2[i];
+          if (!img.isCommit) {
+            files.push(img.response.message);
+          }
+        }
         console.log("未提交的图片：",files);
         // 关闭成功后服务器删除未提交的图片
         this.handleRemoveFile(files);
+
+        if(this.opt == 'add'){
+          this.handleRemoveFile(this.removeFileList);
+          this.handleRemoveFile(this.removeFileList2);
+        }
+
         this.close()
       },
       handelCheck(check){
@@ -260,28 +313,48 @@
             this.state = '1';
           }
       },
-      imageCancel() {
-        this.previewVisible = false;
+      imageCancel(flag) {
+        if(flag === 1){
+          this.previewVisible = false;
+        }else{
+          this.previewVisible2 = false;
+        }
       },
-      handlePreview(file) {
-        this.previewImage = file.url || file.thumbUrl;
-        this.previewVisible = true;
+      handlePreview(file,flag) {
+        if(flag === 1){
+          this.previewImage = file.url || file.thumbUrl;
+          this.previewVisible = true;
+        }else{
+          this.previewImage2 = file.url || file.thumbUrl;
+          this.previewVisible2 = true;
+        }
       },
-      imageChange(info) {
-        this.fileList = info.fileList;
+      imageChange(info,flag) {
+        if(flag === 1){
+          this.fileList = info.fileList;
+        }else{
+          this.fileList2 = info.fileList;
+        }
         console.log("上传后：",this.fileList);
       },
-      imageRemove(file) {
+      imageRemove(file,flag) {
         if(file.url){
           let rmUrl = file.url.substring(file.url.indexOf("/files"), file.url.length);
-          this.removeFileList.push(rmUrl);
+          if(flag === 1){
+            this.removeFileList.push(rmUrl);
+          }else{
+            this.removeFileList2.push(rmUrl);
+          }
         }else{
           if(file.response){
-            this.removeFileList.push(file.response.message);
+            if(flag === 1){
+              this.removeFileList.push(file.response.message);
+            }else{
+              this.removeFileList2.push(file.response.message);
+            }
+
           }
         }
-
-        console.log("删除图片路径：", this.removeFileList);
       },
       beforeUpload: function (file) {
         var fileType = file.type;
