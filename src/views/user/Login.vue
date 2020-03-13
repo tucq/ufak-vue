@@ -32,7 +32,7 @@
             <a-col :span="14">
               <a-form-item>
                 <a-input
-                  v-decorator="['inputCode',validatorRules.inputCode]"
+                  v-decorator="['inputCode',{}]"
                   size="large"
                   type="text"
                   @change="inputCodeChange"
