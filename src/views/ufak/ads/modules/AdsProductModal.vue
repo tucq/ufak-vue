@@ -19,7 +19,7 @@
               <a-row :gutter="24">
                 <a-col :span="14">
                   <a-form-item label="商品名称">
-                    <a-input v-model="queryParam.name" placeholder="请输入商品名称" @pressEnter="searchQuery"/>
+                    <a-input v-model="queryParam.productName" placeholder="请输入商品名称" @pressEnter="searchQuery"/>
                   </a-form-item>
                 </a-col>
                 <a-col :span="8">
@@ -40,6 +40,11 @@
             :dataSource="dataSource"
             :pagination="ipagination"
             >
+            <span slot="image" slot-scope="image">
+                <a-row>
+                  <img :src="getAvatarView(image.split(',')[0])" style="height:50px;max-width:50px"/>
+                </a-row>
+            </span>
           </a-table>
         </a-layout-content>
       </a-layout>
@@ -70,7 +75,7 @@
             title: '商品图片',
             width: '25%',
             align: "center",
-            dataIndex: 'imgUrl',
+            dataIndex: 'image',
             scopedSlots: {customRender: 'image'},
           },
           {
@@ -106,6 +111,7 @@
         },
         url: {
           list: "/product/info/list",
+          imgerver: window._CONFIG['domianURL']+"/sys/common/view",
         },
       }
     },
@@ -152,8 +158,11 @@
           }
         })
       },
+      getAvatarView(image){
+        return this.url.imgerver +"/"+ image;
+      },
       selectedCategory(selectedKeys,e){
-        this.queryParam.productType = e.node.dataRef.code;
+        this.queryParam.categoryCode = e.node.dataRef.code;
         this.searchQuery();
       },
       searchQuery() {
