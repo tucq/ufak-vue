@@ -13,6 +13,12 @@
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
+          label="广告名称">
+          <a-input placeholder="请输入请输入广告名称" v-decorator="['adsName', validatorRules.adsName]" />
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
           label="广告类型">
           <j-dict-select-tag v-decorator="['type', validatorRules.type]" :triggerChange="true" placeholder="请输入广告类型" dictCode="ads_type"/>
         </a-form-item>
@@ -136,13 +142,14 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules:{
+          adsName:{rules: [{required: true, message: '请输入广告名称!'}]},
           type:{rules: [{required: true, message: '请输入广告类型!'}]},
           layout:{rules: [{required: true, message: '请输入排版!'}]},
           sort:{rules: [{required: true, message: '请输入排序!'}]},
         },
         url: {
-          add: "/com.ufak/homepageAds/add",
-          edit: "/com.ufak/homepageAds/edit",
+          add: "/homepageAds/add",
+          edit: "/homepageAds/edit",
           fileUpload: window._CONFIG['domianURL'] + "/sys/common/upload",
           removeFile: window._CONFIG['domianURL'] + "/sys/common/remove",
         },
@@ -168,7 +175,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'type','layout','bgColor','sort'));
+          this.form.setFieldsValue(pick(this.model,'adsName','type','layout','bgColor','sort'));
 
         });
         this.state = record.state;
