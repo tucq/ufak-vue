@@ -39,6 +39,7 @@
             :columns="columns"
             :dataSource="dataSource"
             :pagination="ipagination"
+            :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
             >
             <span slot="image" slot-scope="image">
                 <a-row>
@@ -67,8 +68,10 @@
       return {
         title:"操作",
         visible: false,
+        adsId: "",
         queryParam:{},
         dataSource:[],
+        selectedRowKeys:[],
         confirmLoading: false,
         columns: [
           {
@@ -112,6 +115,7 @@
         url: {
           list: "/product/info/list",
           imgerver: window._CONFIG['domianURL']+"/sys/common/view",
+          addProduct: "/homepageAds/addProduct",
         },
       }
     },
@@ -124,6 +128,7 @@
           this.ipagination.current = 1;
         }
         let params = this.getQueryParams();//查询条件
+        params.state = '0';
         getAction(this.url.list,params).then((res)=>{
           if(res.success){
             this.dataSource = res.result.records;
@@ -140,23 +145,23 @@
       },
       handleOk () {
         const that = this;
-        // 触发表单验证
-        this.form.validateFields((err, values) => {
-          if (!err) {
-            that.confirmLoading = true;
-//            postAction(httpurl,formData,method).then((res)=>{
-//              if(res.success){
-//                that.$message.success(res.message);
-//                that.$emit('ok');
-//              }else{
-//                that.$message.warning(res.message);
-//              }
-//            }).finally(() => {
-//              that.confirmLoading = false;
-//              that.close();
-//            })
+        that.confirmLoading = true;
+        let param = {
+          productIds: this.selectedRowKeys,
+          adsId: this.adsId
+        };
+        postAction(this.url.addProduct,param).then((res)=>{
+          if(res.success){
+            that.$message.success(res.message);
+            that.$emit('ok');
+          }else{
+            that.$message.warning(res.message);
           }
-        })
+        }).finally(() => {
+          that.confirmLoading = false;
+          that.close();
+        });
+
       },
       getAvatarView(image){
         return this.url.imgerver +"/"+ image;
