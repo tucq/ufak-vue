@@ -26,12 +26,12 @@
 
       <div class="table-operator" style="border-top: 5px">
         <a-button @click="handleAdd" type="primary" icon="plus">添加</a-button>
-        <a-button type="primary" icon="download" @click="handleExportXls('字典信息')">导出</a-button>
-        <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
-          <a-button type="primary" icon="import">导入</a-button>
-        </a-upload>
+        <!--<a-button type="primary" icon="download" @click="handleExportXls('字典信息')">导出</a-button>-->
+        <!--<a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">-->
+          <!--<a-button type="primary" icon="import">导入</a-button>-->
+        <!--</a-upload>-->
 
-        <a-button type="primary" icon="hdd" @click="openDeleteList">回收站</a-button>
+        <!--<a-button type="primary" icon="hdd" @click="openDeleteList">回收站</a-button>-->
       </div>
 
       <a-table
