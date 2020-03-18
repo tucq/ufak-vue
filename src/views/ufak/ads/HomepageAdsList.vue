@@ -129,16 +129,16 @@
             dataIndex: 'adsName'
           },
           {
+            title: '类别',
+            width: '15%',
+            align: "center",
+            dataIndex: 'type_dictText'
+          },
+          {
             title: '排版',
             width: '15%',
             align: "center",
             dataIndex: 'layout_dictText'
-          },
-          {
-            title: '状态',
-            width: '15%',
-            align: "center",
-            dataIndex: 'state_dictText'
           },
           {
             title: '操作',

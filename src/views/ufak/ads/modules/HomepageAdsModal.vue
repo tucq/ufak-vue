@@ -252,7 +252,7 @@
               if (img.response) {
                 imageUrls += img.response.message
               } else {
-                imageUrls += img.url.substring(img.url.indexOf("/files"), img.url.length)
+                imageUrls += img.url.substring(img.url.indexOf("/files")+1, img.url.length)
               }
             }
             formData.imgUrl = imageUrls;
@@ -263,7 +263,7 @@
               if (img.response) {
                 imageUrls2 += img.response.message
               } else {
-                imageUrls2 += img.url.substring(img.url.indexOf("/files"), img.url.length)
+                imageUrls2 += img.url.substring(img.url.indexOf("/files")+1, img.url.length)
               }
             }
             formData.headImg = imageUrls2;
