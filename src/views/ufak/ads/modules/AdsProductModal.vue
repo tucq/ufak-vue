@@ -3,6 +3,7 @@
     :title="title"
     :width="900"
     :visible="visible"
+    :maskClosable="false"
     :confirmLoading="confirmLoading"
     :bodyStyle="{'padding-top': '0px'}"
     @ok="handleOk"

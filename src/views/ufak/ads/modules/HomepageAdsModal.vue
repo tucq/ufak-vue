@@ -3,6 +3,7 @@
     :title="title"
     :width="800"
     :visible="visible"
+    :maskClosable="false"
     :confirmLoading="confirmLoading"
     @ok="handleOk"
     @cancel="handleCancel"

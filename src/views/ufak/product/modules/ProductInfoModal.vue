@@ -4,6 +4,7 @@
     :width="900"
     style=" top: 0px;"
     :visible="visible"
+    :maskClosable="false"
     :confirmLoading="confirmLoading"
     @ok="handleOk"
     @cancel="handleCancel"
