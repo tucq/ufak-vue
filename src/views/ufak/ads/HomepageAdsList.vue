@@ -1,6 +1,6 @@
 <template>
   <a-row :gutter="10">
-    <a-col :md="12" :sm="24">
+    <a-col :md="11" :sm="24">
       <a-card :bordered="false">
         <div class="table-operator">
           <a-button @click="handleAdd" type="primary" icon="plus">新增广告</a-button>
@@ -38,7 +38,7 @@
       </a-card>
     </a-col>
 
-    <a-col :md="12" :sm="24">
+    <a-col :md="13" :sm="24">
       <a-card :bordered="false">
         <div class="table-operator">
           <a-button @click="addProduct" type="primary" icon="plus" :disabled="this.adsId == ''" >新增商品</a-button>
@@ -61,7 +61,16 @@
           >
             <span slot="image" slot-scope="image">
                 <a-row>
-                  <img v-if="image != ''" :src="getAvatarView(image)" style="height:50px;max-width:50px"/>
+                  <img v-if="image != ''" :src="getAvatarView(image.split(',')[0])" style="height:50px;max-width:50px"/>
+                </a-row>
+            </span>
+            <span slot="layout" slot-scope="text, record, index">
+                <a-row>
+                  <a-select @change="e => layoutChange(e, record)" v-model="record.layout" style="width: 80px;">
+                    <a-select-option value="0" >单排</a-select-option>
+                    <a-select-option value="1" >双排</a-select-option>
+                    <a-select-option value="2" >三排</a-select-option>
+                  </a-select>
                 </a-row>
             </span>
             <span slot="adsAction" slot-scope="text, record">
@@ -124,21 +133,15 @@
           },
           {
             title: '广告名称',
-            width: '25%',
+            width: '35%',
             align: "center",
             dataIndex: 'adsName'
           },
           {
             title: '类别',
-            width: '15%',
+            width: '20%',
             align: "center",
             dataIndex: 'type_dictText'
-          },
-          {
-            title: '排版',
-            width: '15%',
-            align: "center",
-            dataIndex: 'layout_dictText'
           },
           {
             title: '操作',
@@ -169,19 +172,26 @@
           },
           {
             title: '商品名称',
-            width: '40%',
+            width: '30%',
             align: "center",
             dataIndex: 'productName'
           },
           {
+              title: '排版',
+              width: '18%',
+              align: "center",
+              dataIndex: 'layout',
+              scopedSlots: {customRender: 'layout'},
+          },
+          {
             title: '销量',
-            width: '15%',
+            width: '10%',
             align: "center",
             dataIndex: 'salesVolume'
           },
           {
             title: '操作',
-            width: '20%',
+            width: '17%',
             dataIndex: 'action',
             align: "center",
             scopedSlots: {customRender: 'adsAction'},
@@ -254,6 +264,10 @@
               this.$message.warning(res.message);
             }
           });
+      },
+      layoutChange(e,record){
+         console.log(e);
+         console.log(record);
       }
 
     }

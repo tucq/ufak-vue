@@ -74,13 +74,6 @@
             </a-form-item>
           </a-col>
         </a-row>
-
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="排版">
-          <j-dict-select-tag v-decorator="['layout', validatorRules.layout]" :triggerChange="true" placeholder="请输入排版" dictCode="ads_layout"/>
-        </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -145,7 +138,6 @@
         validatorRules:{
           adsName:{rules: [{required: true, message: '请输入广告名称!'}]},
           type:{rules: [{required: true, message: '请输入广告类型!'}]},
-          layout:{rules: [{required: true, message: '请输入排版!'}]},
           sort:{rules: [{required: true, message: '请输入排序!'}]},
         },
         url: {
@@ -176,7 +168,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'adsName','type','layout','bgColor','sort'));
+          this.form.setFieldsValue(pick(this.model,'adsName','type','bgColor','sort'));
 
         });
         this.state = record.state;
