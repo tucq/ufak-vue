@@ -56,7 +56,7 @@
             rowKey="id"
             :columns="productColumns"
             :dataSource="productDataSource"
-            :pagination="ipagination"
+            :pagination="adsProductPagination"
             :loading="loading"
           >
             <span slot="image" slot-scope="image">
@@ -226,7 +226,7 @@
     methods: {
       loadAdsProduct(arg){
         if(arg===1){
-          this.ipagination.current = 1;
+          this.adsProductPagination.current = 1;
         }
         getAction(this.url.adsList,{adsId: this.adsId}).then((res)=>{
           if(res.success){
