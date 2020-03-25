@@ -183,11 +183,11 @@
             let formData = Object.assign(this.model, values);
 
 
-            if ((formData.pid && formData.pid != 0) && this.fileList.length == 0) {
-              that.$message.warning("请上传商品图片！");
-              that.confirmLoading = false;
-              return;
-            }
+            // if ((formData.pid && formData.pid != 0) && this.fileList.length == 0) {
+            //   that.$message.warning("请上传商品图片！");
+            //   that.confirmLoading = false;
+            //   return;
+            // }
             console.log("this.fileList=", this.fileList);
             let imageUrls = "";
             for (let i = 0; i < this.fileList.length; i++) {
