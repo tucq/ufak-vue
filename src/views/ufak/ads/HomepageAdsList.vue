@@ -17,7 +17,7 @@
             :dataSource="dataSource"
             :pagination="ipagination"
             :loading="loading"
-            @rowClick="handelSelectRow">
+            :customRow="onClickRow">
             <span slot="imgUrl" slot-scope="imgUrl">
                 <a-row>
                   <img v-if="imgUrl != ''" :src="getAvatarView(imgUrl)" style="height:50px;max-width:50px"/>
@@ -96,6 +96,7 @@
   import AdsProductModal from './modules/AdsProductModal'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import { getAction,deleteAction } from '@/api/manage'
+  import { filterObj } from '@/utils/util'
 //  import ARow from "ant-design-vue/es/grid/Row";
 
   export default {
@@ -221,9 +222,42 @@
       }
     },
     created() {
+      this.loadData(1);
       this.loadAdsProduct(1);
     },
     methods: {
+      loadData (arg){
+        if(arg===1){
+          this.ipagination.current = 1;
+        }
+        let params = this.getQueryParams();//查询条件
+        getAction(this.url.list,params).then((res)=>{
+          if(res.success){
+            this.dataSource = res.result.records;
+            this.ipagination.total = res.result.total;
+
+            if(this.dataSource.length > 0){
+              let record = this.dataSource[0];
+              this.adsId = record.id;
+              this.adsName = record.adsName;
+              this.loadAdsProduct(1);
+            }
+          }
+        })
+      },
+      getQueryParams(){
+        let param = Object.assign({}, this.queryParam,this.isorter);
+        param.pageNo = this.ipagination.current;
+        param.pageSize = this.ipagination.pageSize;
+        return filterObj(param);
+      },
+      searchQuery(){
+        this.loadData(1);
+      },
+      searchReset(){
+        this.queryParam={};
+        this.loadData(1);
+      },
       loadAdsProduct(arg){
         if(arg===1){
           this.adsProductPagination.current = 1;
@@ -244,10 +278,16 @@
           this.$refs.adsForm.adsId = this.adsId;
           this.$refs.adsForm.selectedRowKeys = [];
       },
-      handelSelectRow(record){
-          this.adsId = record.id;
-          this.adsName = record.adsName;
-          this.loadAdsProduct(1);
+      onClickRow (record) {
+        return {
+          on: {
+            click: () => {
+              this.adsId = record.id;
+              this.adsName = record.adsName;
+              this.loadAdsProduct(1);
+            }
+          }
+        }
       },
       handelAdsModal(){
         this.loadAdsProduct();
