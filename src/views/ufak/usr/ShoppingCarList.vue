@@ -1,25 +1,20 @@
 <template>
   <a-row :gutter="10">
-    <a-col :md="11" :sm="24">
+    <a-col :md="7" :sm="24">
       <a-card :bordered="false">
         <!-- 查询区域 -->
         <div class="table-page-search-wrapper">
           <a-form layout="inline" @keyup.enter.native="searchQuery">
             <a-row :gutter="24">
-              <a-col :md="10" :sm="8">
-                <a-form-item label="收货姓名">
-                  <a-input placeholder="收货姓名" v-model="queryParam.username"></a-input>
+              <a-col :md="12" :sm="16">
+                <a-form-item label="姓名">
+                  <a-input placeholder="请输姓名" v-model="queryParam.username"></a-input>
                 </a-form-item>
               </a-col>
-              <a-col :md="10" :sm="8">
-                <a-form-item label="收货电话">
-                  <a-input placeholder="收货电话" v-model="queryParam.telephone"></a-input>
-                </a-form-item>
-              </a-col>
-              <a-col :md="2" :sm="8">
+              <a-col :md="6" :sm="8">
                 <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
                   <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
-<!--                  <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>-->
+                  <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
                 </span>
               </a-col>
             </a-row>
@@ -49,7 +44,7 @@
 
       </a-card>
     </a-col>
-    <a-col :md="13" :sm="24">
+    <a-col :md="17" :sm="24">
       <a-card :bordered="false">
         <div class="table-operator">
           <span style="padding-left: 20px;">
@@ -88,14 +83,14 @@
   import { filterObj } from '@/utils/util'
 
   export default {
-    name: "UserAddressList",
+    name: "ShoppingCarList",
     mixins: [JeecgListMixin],
     components: {
       UserAddressModal
     },
     data () {
       return {
-        description: '客户信息',
+        description: '购物车',
         userId: "",
         realname:'',
         // 表头
@@ -111,23 +106,17 @@
             }
           },
           {
-              title: '头像',
+            title: '头像',
+            align: "center",
+            width: "30%",
+            dataIndex: 'avatar',
+            scopedSlots: {customRender: 'avatar'},
+          },
+          {
+              title: '微信名称',
               align: "center",
-              width: "20%",
-              dataIndex: 'avatar',
-              scopedSlots: {customRender: 'avatar'},
-          },
-          {
-            title: '微信身份证',
-            align: "center",
-            width: "35%",
-            dataIndex: 'username'
-          },
-          {
-            title: '微信名称',
-            align: "center",
-            width: "35%",
-            dataIndex: 'realname'
+              width: "60%",
+              dataIndex: 'realname'
           },
         ],
         addressDataSource:[],
