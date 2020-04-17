@@ -19,7 +19,7 @@
         <div class="copyright">
           Copyright
           <a-icon type="copyright"/>
-          2020 <span>北京优福安康医护用品有限责任公司</span>
+          2020 <span>北京优福安康医疗用品有限责任公司</span>
         </div>
         <div class="links">
           <a href="http://www.beian.miit.gov.cn" target="_blank"><img src="~@/assets/ghs.png"/>京ICP备20008878号</a>
