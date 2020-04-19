@@ -69,9 +69,6 @@
             :pagination="addressPagination"
             :loading="loading"
           >
-            <span slot="addressAction" slot-scope="text, record">
-              <a @click="handleView(record)">查看</a>
-            </span>
           </a-table>
         </div>
         <userAddress-modal ref="modalForm" @ok="modalFormOk"></userAddress-modal>
@@ -133,46 +130,29 @@
         addressDataSource:[],
         addressColumns: [
           {
-            title: '#',
-            dataIndex: '',
-            key: 'rowIndex',
-            width: '5%',
-            align: "center",
-            customRender: function (t, r, index) {
-              return parseInt(index) + 1;
-            }
-          },
-          {
             title: '收货姓名',
-            width: '20%',
+            width: '15%',
             align: "center",
             dataIndex: 'username',
           },
           {
             title: '收货电话号码',
-            width: '30%',
+            width: '15%',
             align: "center",
             dataIndex: 'telephone'
           },
           {
             title: '地区',
-            width: '18%',
+            width: '30%',
             align: "center",
             dataIndex: 'address',
           },
           {
             title: '详细地址',
-            width: '10%',
+            width: '40%',
             align: "center",
             dataIndex: 'detailAddress'
           },
-          {
-            title: '操作',
-            width: '17%',
-            dataIndex: 'action',
-            align: "center",
-            scopedSlots: {customRender: 'addressAction'},
-          }
         ],
         addressPagination:{
           current: 1,

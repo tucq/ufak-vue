@@ -89,6 +89,18 @@
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
+          label="是否列表">
+          <a-select
+            placeholder="请输入是否列表"
+            v-decorator="['isList', {}]"
+          >
+            <a-select-option value="1">否</a-select-option>
+            <a-select-option value="0">是</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
           label="状态">
           <a-switch checkedChildren="启用" unCheckedChildren="停用" :checked="state == '0' ? true : false" @click="e => handelCheck(e)"/>
         </a-form-item>
@@ -159,7 +171,7 @@
     },
     methods: {
       add () {
-        this.edit({state:'0'});
+        this.edit({state:'0',isList:'0'});
         this.opt = 'add';
       },
       edit (record) {
@@ -168,7 +180,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'adsName','type','bgColor','sort'));
+          this.form.setFieldsValue(pick(this.model,'adsName','type','bgColor','sort','isList'));
 
         });
         this.state = record.state;

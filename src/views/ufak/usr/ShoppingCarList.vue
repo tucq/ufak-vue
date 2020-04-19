@@ -60,13 +60,15 @@
             bordered
             rowKey="id"
             :columns="addressColumns"
-            :dataSource="addressDataSource"
-            :pagination="addressPagination"
+            :dataSource="carDataSource"
+            :pagination="carPagination"
             :loading="loading"
           >
-            <span slot="addressAction" slot-scope="text, record">
-              <a @click="handleView(record)">查看</a>
-            </span>
+          <span slot="viewImage" slot-scope="viewImage">
+            <a-row>
+              <img :src="getAvatarView(viewImage)" style="height:50px;max-width:50px"/>
+            </a-row>
+          </span>
           </a-table>
         </div>
         <userAddress-modal ref="modalForm" @ok="modalFormOk"></userAddress-modal>
@@ -119,7 +121,7 @@
               dataIndex: 'realname'
           },
         ],
-        addressDataSource:[],
+        carDataSource:[],
         addressColumns: [
           {
             title: '#',
@@ -132,38 +134,38 @@
             }
           },
           {
-            title: '收货姓名',
-            width: '20%',
+            title: '商品图片',
+            width: '15%',
             align: "center",
-            dataIndex: 'username',
+            dataIndex: 'viewImage',
+            scopedSlots: {customRender: 'viewImage'},
           },
           {
-            title: '收货电话号码',
-            width: '30%',
+            title: '商品名称',
+            width: '25%',
             align: "center",
-            dataIndex: 'telephone'
+            dataIndex: 'productName',
           },
           {
-            title: '地区',
-            width: '18%',
+            title: '规格',
+            width: '25%',
             align: "center",
-            dataIndex: 'address',
+            dataIndex: 'specsName',
           },
           {
-            title: '详细地址',
-            width: '10%',
+            title: '商品价格',
+            width: '15%',
             align: "center",
-            dataIndex: 'detailAddress'
+            dataIndex: 'price'
           },
           {
-            title: '操作',
-            width: '17%',
-            dataIndex: 'action',
+            title: '数量',
+            width: '15%',
             align: "center",
-            scopedSlots: {customRender: 'addressAction'},
-          }
+            dataIndex: 'buyNum'
+          },
         ],
-        addressPagination:{
+        carPagination:{
           current: 1,
           pageSize: 10,
           pageSizeOptions: ['10', '20', '30'],
@@ -176,7 +178,8 @@
         },
         url: {
           list: "/usr/address/userList",
-          addressList:"/usr/address/list",
+          shoppingCarList:"/shopping/car/list",
+          imgerver: window._CONFIG['domianURL']+"/sys/common/view",
         },
       }
     },
@@ -199,7 +202,7 @@
               let user = this.dataSource[0];
               this.userId = user.id;
               this.realname = user.realname;
-              this.loadAddress(1);
+              this.loadShoppingCarList(1);
             }
           }
         })
@@ -218,14 +221,14 @@
         this.loadData(1);
       },
 
-      loadAddress(arg){
+      loadShoppingCarList(arg){
         if(arg===1){
-          this.addressPagination.current = 1;
+          this.carPagination.current = 1;
         }
-        getAction(this.url.addressList,{userId: this.userId}).then((res)=>{
+        getAction(this.url.shoppingCarList,{userId: this.userId}).then((res)=>{
           if(res.success){
-            this.addressDataSource = res.result.records;
-            this.addressPagination.total = res.result.total;
+            this.carDataSource = res.result.records;
+            this.carPagination.total = res.result.total;
           }
         })
       },
@@ -235,12 +238,14 @@
             click: () => {
               this.userId = record.id;
               this.realname = record.realname;
-              this.loadAddress(1);
+              this.loadShoppingCarList(1);
             }
           }
         }
       },
-
+      getAvatarView(image){
+        return this.url.imgerver +"/"+ image;
+      },
     }
   }
 </script>
