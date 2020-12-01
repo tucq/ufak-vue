@@ -62,6 +62,69 @@
             <a-form-item
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
+              label="销量">
+              <a-row :gutter="8">
+                <a-col :span="12">
+                  <a-input v-decorator="[ 'salesVolume', {}]" disabled/>
+                </a-col>
+                <a-col :span="12">
+                  <a-form-item style="margin-bottom:0px">
+                    <a-input placeholder="虚似销量" v-decorator="[ 'virtualVolume', validatorRules.virtualVolume]" />
+                  </a-form-item>
+                </a-col>
+              </a-row>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="运费">
+              <a-input placeholder="免运费请输0" v-decorator="['freightAmount', validatorRules.freightAmount]" maxlength="200"/>
+            </a-form-item>
+          </a-col>
+        </a-row>
+
+        <a-row :gutter="20">
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="退/换/维">
+              <a-row :gutter="8">
+                <a-col :span="8">
+                  <a-form-item style="margin-bottom:0px">
+                    <a-input placeholder="退货有效天数" v-decorator="[ 'refundValidity', validatorRules.refundValidity]" />
+                  </a-form-item>
+                </a-col>
+                <a-col :span="8">
+                  <a-form-item style="margin-bottom:0px">
+                    <a-input placeholder="换货有效天数" v-decorator="[ 'barterValidity', validatorRules.barterValidity]" />
+                  </a-form-item>
+                </a-col>
+                <a-col :span="8">
+                  <a-form-item style="margin-bottom:0px">
+                    <a-input placeholder="维修有效天数" v-decorator="[ 'repairValidity', validatorRules.repairValidity]" />
+                  </a-form-item>
+                </a-col>
+              </a-row>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="推荐理由">
+              <a-input placeholder="多个理由用#号分隔" v-decorator="['keyPoint', {}]" maxlength="200"/>
+            </a-form-item>
+          </a-col>
+        </a-row>
+
+        <a-row :gutter="20">
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
               label="服务">
               <a-select
                 mode="multiple"
@@ -75,14 +138,6 @@
                   </span>
                 </a-select-option>
               </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="销量">
-              <a-input v-decorator="[ 'salesVolume', {}]" disabled/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -128,12 +183,7 @@
                              @specsTitleOne="handelSpecsTitleOne" @specsTitleTwo="handelSpecsTitleTwo"
                              @removeProductSpecsList="handelRemoveSpecsList" :productSpecsList="productSpecsList"></product-specs>
             </a-tab-pane>
-            <!--<a-tab-pane key="4">-->
-              <!--<span slot="tab">-->
-                <!--<a-icon type="setting"/>售价库存-->
-              <!--</span>-->
-              <!--<product-price ref="productPrice" :dataOne="dataOne" :dataTwo="dataTwo" :productSpecsList="productSpecsList"></product-price>-->
-            <!--</a-tab-pane>-->
+
 
           </a-tabs>
         </a-row>
@@ -200,6 +250,11 @@
                   description: { rules: [{ required: true, message: '请输入商品描述' }] },
                   productType: { rules: [{ required: true, message: '请选择商品分类' }] },
                   state: { rules: [{ required: true, message: '请选择上下架' }] },
+                  virtualVolume: { rules: [{ validator: this.validatorVirtualVolume }] },
+                  freightAmount: { rules: [{ validator: this.validatorFreightAmount }] },
+                  refundValidity: { rules: [{ validator: this.validatorVirtualVolume }] },
+                  barterValidity: { rules: [{ validator: this.validatorVirtualVolume }] },
+                  repairValidity: { rules: [{ validator: this.validatorVirtualVolume }] },
                 },
                 url: {
                     add: "/product/info/add",
@@ -229,7 +284,7 @@
                 this.model = Object.assign({}, record);
                 this.visible = true;
                 this.$nextTick(() => {
-                    this.form.setFieldsValue(pick(this.model, 'name', 'description', 'productType', 'salesVolume', 'service', 'state'))
+                    this.form.setFieldsValue(pick(this.model, 'name', 'description', 'productType', 'salesVolume', 'service', 'state','virtualVolume','keyPoint','freightAmount','refundValidity','barterValidity','repairValidity'))
                     //时间格式化
                 });
                 if(record.service){
@@ -257,8 +312,6 @@
                         }
                     }
                 }
-
-                console.log("图片渲染fileList:",this.fileList);
 
                 /** 明细图片渲染 **/
                 this.detailImages = this.model.detailImages;
@@ -468,6 +521,31 @@
             handleChangeService(val){
               this.serviceValue = val;
             },
+            validatorVirtualVolume(rule,value,callback){
+              if(value){
+                let s = /^[+]{0,1}(\d+)$/;
+                if(!s.test(value)){
+                  callback('请输入正整数');
+                }else{
+                  callback();
+                }
+              }else{
+                callback();
+              }
+            },
+            validatorFreightAmount(rule,value,callback){
+              if(value){
+                let s = /^\d+(\.\d+)?$/;
+                if(!s.test(value)){
+                  callback('请输入合法数字');
+                }else{
+                  callback();
+                }
+              }else{
+                callback();
+              }
+            },
+
 
         }
     }
