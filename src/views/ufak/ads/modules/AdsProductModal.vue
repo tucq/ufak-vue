@@ -41,6 +41,7 @@
             :dataSource="dataSource"
             :pagination="ipagination"
             :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+            @change="handleTableChange"
             >
             <span slot="image" slot-scope="image">
                 <a-row>
