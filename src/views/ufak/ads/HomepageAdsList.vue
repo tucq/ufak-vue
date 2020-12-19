@@ -17,7 +17,8 @@
             :dataSource="dataSource"
             :pagination="ipagination"
             :loading="loading"
-            :customRow="onClickRow">
+            :customRow="onClickRow"
+            @change="handleTableChange">
             <span slot="imgUrl" slot-scope="imgUrl">
                 <a-row>
                   <img v-if="imgUrl != ''" :src="getAvatarView(imgUrl)" style="height:50px;max-width:50px"/>
@@ -58,6 +59,7 @@
             :dataSource="productDataSource"
             :pagination="adsProductPagination"
             :loading="loading"
+            @change="adsHandleTableChange"
           >
             <span slot="image" slot-scope="image">
                 <a-row>
@@ -262,7 +264,12 @@
         if(arg===1){
           this.adsProductPagination.current = 1;
         }
-        getAction(this.url.adsList,{adsId: this.adsId}).then((res)=>{
+        let params = {
+          adsId: this.adsId,
+          pageNo: this.adsProductPagination.current,
+          pageSize: this.adsProductPagination.pageSize
+        };
+        getAction(this.url.adsList,params).then((res)=>{
           if(res.success){
             this.productDataSource = res.result.records;
             this.adsProductPagination.total = res.result.total;
@@ -304,6 +311,10 @@
               this.$message.warning(res.message);
             }
           });
+      },
+      adsHandleTableChange(pagination, filters, sorter) {
+        this.adsProductPagination = pagination;
+        this.loadAdsProduct();
       },
       layoutChange(e,record){
          console.log(e);
