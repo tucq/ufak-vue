@@ -7,8 +7,15 @@
         <a-row :gutter="24">
 
           <a-col :md="6" :sm="8">
-            <a-form-item label="用户id">
-              <a-input placeholder="请输入用户id" v-model="queryParam.userId"></a-input>
+            <a-form-item label="订单状态">
+              <a-select
+                placeholder="请选择"
+                v-model="queryParam.orderStatus"
+              >
+                <a-select-option :value="option.code" v-for="option in orderStatusList">
+                  {{ option.name }}
+                </a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8">
@@ -16,22 +23,12 @@
               <a-input placeholder="请输入订单编号" v-model="queryParam.orderNo"></a-input>
             </a-form-item>
           </a-col>
-        <template v-if="toggleSearchStatus">
-        <a-col :md="6" :sm="8">
-            <a-form-item label="物流编号">
-              <a-input placeholder="请输入物流编号" v-model="queryParam.logisticsNo"></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :md="6" :sm="8">
-            <a-form-item label="订单金额">
-              <a-input placeholder="请输入订单金额" v-model="queryParam.orderAmount"></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :md="6" :sm="8">
-            <a-form-item label="活动优惠券">
-              <a-input placeholder="请输入活动优惠券" v-model="queryParam.eventAmount"></a-input>
-            </a-form-item>
-          </a-col>
+          <template v-if="toggleSearchStatus">
+            <a-col :md="6" :sm="8">
+              <a-form-item label="收货电话号码">
+                <a-input placeholder="请输入收货电话号码" v-model="queryParam.telephone"></a-input>
+              </a-form-item>
+            </a-col>
           </template>
           <a-col :md="6" :sm="8" >
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
@@ -50,25 +47,25 @@
 
     <!-- 操作按钮区域 -->
     <div class="table-operator">
-      <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
+      <!--<a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>-->
       <a-button type="primary" icon="download" @click="handleExportXls('订单主表')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
-        <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
-      <a-dropdown v-if="selectedRowKeys.length > 0">
-        <a-menu slot="overlay">
-          <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>
-        </a-menu>
-        <a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>
-      </a-dropdown>
+      <!--<a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">-->
+        <!--<a-button type="primary" icon="import">导入</a-button>-->
+      <!--</a-upload>-->
+      <!--<a-dropdown v-if="selectedRowKeys.length > 0">-->
+        <!--<a-menu slot="overlay">-->
+          <!--<a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>-->
+        <!--</a-menu>-->
+        <!--<a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>-->
+      <!--</a-dropdown>-->
     </div>
 
     <!-- table区域-begin -->
     <div>
-      <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
-        <a style="margin-left: 24px" @click="onClearSelected">清空</a>
-      </div>
+      <!--<div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">-->
+        <!--<i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项-->
+        <!--<a style="margin-left: 24px" @click="onClearSelected">清空</a>-->
+      <!--</div>-->
 
       <a-table
         ref="table"
@@ -120,62 +117,46 @@
     data () {
       return {
         description: '订单主表管理页面',
+        orderStatusList:[
+            {code:'',name:'全部'},
+            {code:'0',name:'待付款'},
+            {code:'1',name:'待发货'},
+            {code:'2',name:'待收货'},
+            {code:'3',name:'已取消'},
+            {code:'4',name:'已完成'},
+            {code:'5',name:'已退款'}
+        ],
         // 表头
         columns: [
-          {
-            title: '#',
-            dataIndex: '',
-            key:'rowIndex',
-            width:60,
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
-            }
-           },
-		   {
-            title: '用户id',
-            align:"center",
-            dataIndex: 'userId'
-           },
+//          {
+//            title: '#',
+//            dataIndex: '',
+//            key:'rowIndex',
+//            width:60,
+//            align:"center",
+//            customRender:function (t,r,index) {
+//              return parseInt(index)+1;
+//            }
+//           },
 		   {
             title: '订单编号',
             align:"center",
             dataIndex: 'orderNo'
            },
 		   {
-            title: '物流编号',
+            title: '实付金额',
             align:"center",
-            dataIndex: 'logisticsNo'
+            dataIndex: 'paymentAmount'
            },
 		   {
-            title: '订单金额',
-            align:"center",
-            dataIndex: 'orderAmount'
-           },
-		   {
-            title: '活动优惠券',
-            align:"center",
-            dataIndex: 'eventAmount'
-           },
-		   {
-            title: '优惠券',
-            align:"center",
-            dataIndex: 'couponAmount'
-           },
-		   {
-            title: '订单状态: 0-待付款,1-待发货,2-待收货,3-已取消,4-已完成',
+            title: '订单状态',
             align:"center",
             dataIndex: 'orderStatus'
            },
 		   {
-            title: '收货姓名',
+            title: '收货人',
             align:"center",
             dataIndex: 'username'
-           },
-		   {
-            title: '收货电话号码',
-            align:"center",
-            dataIndex: 'telephone'
            },
 		   {
             title: '地区',
@@ -187,31 +168,11 @@
             align:"center",
             dataIndex: 'detailAddress'
            },
-		   {
-            title: '微信支付订单号',
+          {
+            title: '创建时间',
             align:"center",
-            dataIndex: 'transactionId'
-           },
-		   {
-            title: '微信支付回调签名',
-            align:"center",
-            dataIndex: 'sign'
-           },
-		   {
-            title: '微信订单金额(分)',
-            align:"center",
-            dataIndex: 'totalFee'
-           },
-		   {
-            title: '微信现金支付金额(分)',
-            align:"center",
-            dataIndex: 'cashFee'
-           },
-		   {
-            title: '微信支付回调业务结果',
-            align:"center",
-            dataIndex: 'resultCode'
-           },
+            dataIndex: 'createTime'
+          },
           {
             title: '操作',
             dataIndex: 'action',
@@ -220,11 +181,9 @@
           }
         ],
 		url: {
-          list: "/com.ufak/order/list",
-          delete: "/com.ufak/order/delete",
-          deleteBatch: "/com.ufak/order/deleteBatch",
-          exportXlsUrl: "com.ufak/order/exportXls",
-          importExcelUrl: "com.ufak/order/importExcel",
+          list: "/order/list",
+          exportXlsUrl: "/order/exportXls",
+          importExcelUrl: "/order/importExcel",
        },
     }
   },
