@@ -76,23 +76,34 @@
         :dataSource="dataSource"
         :pagination="ipagination"
         :loading="loading"
-        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
 
-        <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+        <span slot="orderStatus" slot-scope="text, record">
+            <a-tag v-if="record.orderStatus === '0'" color="cyan">待付款</a-tag>
+            <a-tag v-else-if="record.orderStatus === '1'" color="#f50">待发货</a-tag>
+            <a-tag v-else-if="record.orderStatus === '2'" color="blue">待收货</a-tag>
+            <a-tag v-else-if="record.orderStatus === '3'" color="pink">已取消</a-tag>
+            <a-tag v-else-if="record.orderStatus === '4'" color="green">已完成</a-tag>
+            <a-tag v-else-if="record.orderStatus === '5'" color="pink">已退款</a-tag>
+            <a-tag v-else-if="record.orderStatus === '6'" color="#cd201f">售后待审核</a-tag>
+            <a-tag v-else="record.orderStatus == null || record.orderStatus == ''" color="red">异常</a-tag>
+        </span>
 
+        <span slot="action"  slot-scope="text, record">
+          <a v-if="record.orderStatus === '1'" @click="sendGoods(record)">发货</a>
+          <a-divider v-if="record.orderStatus === '1'" type="vertical" />
+          <a @click="handleEdit(record)">查看</a>
           <a-divider type="vertical" />
-          <a-dropdown>
-            <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
-            <a-menu slot="overlay">
-              <a-menu-item>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
-                  <a>删除</a>
-                </a-popconfirm>
-              </a-menu-item>
-            </a-menu>
-          </a-dropdown>
+          <a @click="changePrice(record)">改价</a>
+          <!--<a-dropdown>-->
+            <!--<a class="ant-dropdown-link">更多 <a-icon type="down"/></a>-->
+            <!--<a-menu slot="overlay">-->
+              <!--<a-menu-item @click="handleEdit(record)">查看</a-menu-item>-->
+              <!--<a-menu-item>-->
+                <!--<a-menu-item @click="changePrice(record)">改价</a-menu-item>-->
+              <!--</a-menu-item>-->
+            <!--</a-menu>-->
+          <!--</a-dropdown>-->
         </span>
 
       </a-table>
@@ -101,18 +112,21 @@
 
     <!-- 表单区域 -->
     <order-modal ref="modalForm" @ok="modalFormOk"></order-modal>
+    <send-goods ref="sendGoods" @ok="modalFormOk"></send-goods>
   </a-card>
 </template>
 
 <script>
   import OrderModal from './modules/OrderModal'
+  import SendGoods from './modules/SendGoods'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 
   export default {
     name: "OrderList",
     mixins:[JeecgListMixin],
     components: {
-      OrderModal
+      OrderModal,
+      SendGoods
     },
     data () {
       return {
@@ -124,49 +138,36 @@
             {code:'2',name:'待收货'},
             {code:'3',name:'已取消'},
             {code:'4',name:'已完成'},
-            {code:'5',name:'已退款'}
+            {code:'5',name:'已退款'},
+            {code:'6',name:'售后待审核'}
         ],
         // 表头
         columns: [
-//          {
-//            title: '#',
-//            dataIndex: '',
-//            key:'rowIndex',
-//            width:60,
-//            align:"center",
-//            customRender:function (t,r,index) {
-//              return parseInt(index)+1;
-//            }
-//           },
 		   {
             title: '订单编号',
             align:"center",
             dataIndex: 'orderNo'
            },
 		   {
-            title: '实付金额',
+            title: '实收金额',
             align:"center",
             dataIndex: 'paymentAmount'
            },
 		   {
             title: '订单状态',
             align:"center",
-            dataIndex: 'orderStatus'
+            dataIndex: 'orderStatus',
+            scopedSlots: { customRender: 'orderStatus' },
            },
 		   {
             title: '收货人',
             align:"center",
-            dataIndex: 'username'
+            dataIndex: 'usernameTel'
            },
 		   {
-            title: '地区',
+            title: '收货地址',
             align:"center",
-            dataIndex: 'address'
-           },
-		   {
-            title: '详细地址',
-            align:"center",
-            dataIndex: 'detailAddress'
+            dataIndex: 'userAddress'
            },
           {
             title: '创建时间',
@@ -176,7 +177,7 @@
           {
             title: '操作',
             dataIndex: 'action',
-            align:"center",
+            align:"left",
             scopedSlots: { customRender: 'action' },
           }
         ],
@@ -193,7 +194,14 @@
     }
   },
     methods: {
-     
+      sendGoods(record){
+        this.$refs.sendGoods.edit(record);
+        this.$refs.sendGoods.title = "发货";
+        this.$refs.sendGoods.disableSubmit = true;
+      },
+      changePrice(record){
+        alert("开发中..."+record.id);
+      },
     }
   }
 </script>
