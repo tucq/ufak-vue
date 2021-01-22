@@ -101,6 +101,12 @@
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
+          label="页面路径">
+          <a-input placeholder="请输入页面跳转路径" v-decorator="['pagePath', {}]" />
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
           label="状态">
           <a-switch checkedChildren="启用" unCheckedChildren="停用" :checked="state == '0' ? true : false" @click="e => handelCheck(e)"/>
         </a-form-item>
@@ -180,7 +186,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'adsName','type','bgColor','sort','isList'));
+          this.form.setFieldsValue(pick(this.model,'adsName','type','bgColor','sort','isList','pagePath'));
 
         });
         this.state = record.state;

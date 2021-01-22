@@ -6,6 +6,19 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :md="6" :sm="8">
+            <a-form-item label="状态">
+              <a-select
+                placeholder="请选择"
+                v-model="queryParam.status"
+              >
+                <a-select-option value="">全部</a-select-option>
+                <a-select-option value="0">待处理</a-select-option>
+                <a-select-option value="1">已完成</a-select-option>
+                <a-select-option value="2">客户取消</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="6" :sm="8">
             <a-form-item label="退款售后单号">
               <a-input placeholder="请输入退款售后单号" v-model="queryParam.afterSaleNo"></a-input>
             </a-form-item>
@@ -52,7 +65,8 @@
             <a-tag v-else="record.status == null || record.status == ''" color="red">异常</a-tag>
         </span>
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">处理</a>
+          <a v-if="record.status === '0'" @click="handleEdit(record)">处理</a>
+          <a v-if="record.status != '0'" @click="handleView(record)">查看</a>
         </span>
       </a-table>
     </div>
@@ -60,18 +74,20 @@
 
     <!-- 表单区域 -->
     <afterSale-modal ref="modalForm" @ok="modalFormOk"></afterSale-modal>
+    <invoice-modal ref="invoiceForm" @ok="modalFormOk"></invoice-modal>
   </a-card>
 </template>
 
 <script>
   import AfterSaleModal from './modules/AfterSaleModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import InvoiceModal from "./modules/InvoiceModal";
 
   export default {
     name: "AfterSaleList",
     mixins:[JeecgListMixin],
     components: {
-      AfterSaleModal
+      InvoiceModal, AfterSaleModal
     },
     data () {
       return {
@@ -138,8 +154,38 @@
     methods: {
       handleEdit: function (record) {
         if(record.serviceType == "0"){
-          this.$refs.modalForm.loadData(record);
           this.$refs.modalForm.title = "退款处理";
+          this.$refs.modalForm.loadData(record);
+          this.$refs.modalForm.disableSubmit = false;
+        }else if(record.serviceType == "1"){
+          this.$refs.modalForm.title = "退货处理";
+        }else if(record.serviceType == "2"){
+          this.$refs.modalForm.title = "换货处理";
+        }else if(record.serviceType == "3"){
+          this.$refs.modalForm.title = "维修处理";
+        }else if(record.serviceType == "4"){
+          this.$refs.invoiceForm.title = "开票处理";
+          this.$refs.invoiceForm.loadData(record);
+          this.$refs.invoiceForm.disableSubmit = false;
+        }
+
+      },
+      handleView: function (record) {
+        if(record.serviceType == "0"){
+          this.$refs.modalForm.loadData(record);
+          this.$refs.modalForm.title = "退款查看";
+          this.$refs.modalForm.disableSubmit = true;
+        }else if(record.serviceType == "1"){
+          this.$refs.modalForm.title = "退货处理";
+        }else if(record.serviceType == "2"){
+          this.$refs.modalForm.title = "换货处理";
+        }else if(record.serviceType == "3"){
+          this.$refs.modalForm.title = "维修处理";
+        }else if(record.serviceType == "4"){
+          this.$refs.invoiceForm.loadData(record);
+          this.$refs.invoiceForm.title = "开票查看";
+          this.$refs.invoiceForm.disableSubmit = true;
+
         }
 
       },

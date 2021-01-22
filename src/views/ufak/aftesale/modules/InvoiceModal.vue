@@ -5,7 +5,7 @@
     :visible="visible"
     :confirmLoading="confirmLoading"
     :okButtonProps="{ props: {disabled: disableSubmit} }"
-    okText="退款"
+    okText="开票"
     @ok="handleOk"
     @cancel="handleCancel"
     cancelText="关闭">
@@ -22,22 +22,10 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-          </a-col>
-        </a-row>
-        <a-row :gutter="20">
-          <a-col :span="12">
             <a-form-item
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
-              label="退款单号">
-              {{model.afterSaleNo}}
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="退款时间">
+              label="申请时间">
               {{model.createTime}}
             </a-form-item>
           </a-col>
@@ -47,34 +35,16 @@
             <a-form-item
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
-              label="退款人">
-              {{model.refundContact}}
+              label="发票类型">
+              {{model.invoiceType == '0'?'电子发票':'纸质发票'}}
             </a-form-item>
           </a-col>
           <a-col :span="12">
             <a-form-item
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
-              label="联系电话">
-              {{model.refundTelephone}}
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="20">
-          <a-col :span="12">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="退款原因">
-              {{model.refundReason}}
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="退款金额">
-              {{model.paymentAmount}}
+              label="抬头类型">
+              {{model.objectType == '0'?'个人':'单位'}}
             </a-form-item>
           </a-col>
         </a-row>
@@ -83,16 +53,70 @@
             <a-form-item
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
-              label="状态">
-              {{model.statusText}}
+              label="个人/单位名称">
+              {{model.name}}
             </a-form-item>
           </a-col>
           <a-col :span="12">
             <a-form-item
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
-              label="备注">
-              {{model.remark}}
+              label="纳税识别号">
+              {{model.taxNo}}
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="20">
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="注册地址">
+              {{model.registerAddr}}
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="注册电话">
+              {{model.registerTel}}
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="20">
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="开户行">
+              {{model.bank}}
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="开户行帐号">
+              {{model.bankAccount}}
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="20">
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="收票人手机号">
+              {{model.telephone}}
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="收票人邮箱">
+              {{model.username}}
             </a-form-item>
           </a-col>
         </a-row>
@@ -102,12 +126,12 @@
 </template>
 
 <script>
-  import {getAction,postAction} from '@/api/manage'
+  import {getAction,postAction,putAction} from '@/api/manage'
   import pick from 'lodash.pick'
   import moment from "moment"
 
   export default {
-    name: "AfterSaleModal",
+    name: "InvoiceModal",
     data () {
       return {
         title:"操作",
@@ -128,8 +152,8 @@
         orderId:{rules: [{ required: true, message: '请输入订单id!' }]},
         },
         url: {
-          queryById: "/afterSaleRefund/queryById",
-          wxRefund: "/refund/wxRefund",
+          queryById: "/afterSaleInvoice/queryById",
+          submit: "/afterSaleInvoice/edit",
         },
       }
     },
@@ -152,14 +176,14 @@
       handleOk () {
         const that = this;
         this.$confirm({
-          title:"确认退款是否提交",
-          content:"提交后退款金额会原路退回，请再次确认该笔订单是否已发货?",
+          title:"确认是否已开票",
+          content:"根据开票类型，请再次确认是否已开好票并发送给收票人?",
           onOk: function(){
             that.confirmLoading = true;
             let params = {
               "afterSaleId":that.model.afterSaleId
             }
-            postAction(that.url.wxRefund,params).then((res)=>{
+            putAction(that.url.submit,params).then((res)=>{
               if(res.success){
                 that.$message.success(res.message);
                 that.$emit('ok');
