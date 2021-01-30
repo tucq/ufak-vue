@@ -436,15 +436,16 @@
                 console.log("删除图片路径：", this.removeFileList);
             },
             beforeUpload: function (file) {
-                const isJPG = file.type === 'image/jpeg';
-                if (!isJPG) {
-                    this.$message.error('请上传jpg格式图片!');
-                }
+//                const isJPG = file.type === 'image/jpeg';
+//                if (!isJPG) {
+//                    this.$message.error('请上传jpg格式图片!');
+//                }
                 const isLt2M = file.size / 1024 / 1024 < 2;
                 if (!isLt2M) {
                     this.$message.error('上传照片不要超过2MB!');
                 }
-                return isJPG && isLt2M;
+//                return isJPG && isLt2M;
+                return isLt2M;
             },
             handleRemoveFile(files){
                 postAction(this.url.removeFile, {filePaths:files}).then((res) => {
