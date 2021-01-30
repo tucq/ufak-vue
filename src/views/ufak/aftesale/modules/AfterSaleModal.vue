@@ -2,6 +2,7 @@
   <a-modal
     :title="title"
     :width="800"
+    style="top: 0px;"
     :visible="visible"
     :confirmLoading="confirmLoading"
     :okButtonProps="{ props: {disabled: disableSubmit} }"
@@ -11,7 +12,8 @@
     cancelText="关闭">
     
     <a-spin :spinning="confirmLoading">
-      <a-form :form="form">
+      <a-row :gutter="20" style="font-size: 16px;font-weight: bold;padding-left: 30px;">退款信息</a-row>
+      <a-form>
         <a-row :gutter="20">
           <a-col :span="12">
             <a-form-item
@@ -96,6 +98,78 @@
             </a-form-item>
           </a-col>
         </a-row>
+        <a-row :gutter="20" style="font-size: 16px;font-weight: bold;padding-left: 30px;">订单信息</a-row>
+        <a-row :gutter="20">
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="订单编号">
+              {{order.orderNo}}
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+          </a-col>
+        </a-row>
+        <a-row :gutter="20">
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="订单总金额">
+              {{order.totalAmount}}
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="运费">
+              {{order.freightAmount}}
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="20">
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="活动优惠券">
+              {{order.eventAmount}}
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="实付金额">
+              {{order.paymentAmount}}
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="20" style="padding-top: 20px;" v-for="(item, index) in orderDetails" :key="index" >
+          <a-col :span="6" push="1">
+            <a-row :gutter="20"type="flex" justify="start" align="middle" >
+              <img
+                :src="previewUrl(item.viewImage)"
+                style="height:100px;width:100px"
+              />
+            </a-row>
+          </a-col>
+          <a-col :span="18">
+            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:40px;">
+              {{item.productName}}
+            </a-row>
+            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:40px;">
+              {{item.specsName}}&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;{{item.buyNum}}
+            </a-row>
+            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:40px;">
+              {{item.price}}
+            </a-row>
+          </a-col>
+        </a-row>
+
+
       </a-form>
     </a-spin>
   </a-modal>
@@ -114,6 +188,8 @@
         visible: false,
         disableSubmit:false,
         model: {},
+        order: {},
+        orderDetails: [],
         labelCol: {
           xs: { span: 24 },
           sm: { span: 7 },
@@ -123,7 +199,6 @@
           sm: { span: 16 },
         },
         confirmLoading: false,
-        form: this.$form.createForm(this),
         validatorRules:{
         orderId:{rules: [{ required: true, message: '请输入订单id!' }]},
         },
@@ -139,8 +214,9 @@
       loadData (record) {
         getAction(this.url.queryById,{"afterSaleId":record.id}).then((res)=>{
           if(res.success){
-            this.form.resetFields();
-            this.model = Object.assign({}, res.result);
+            this.model = res.result.afterSaleRefund;
+            this.order = res.result.order;
+            this.orderDetails = res.result.orderDetails;
             this.visible = true;
           }
         })
@@ -176,6 +252,9 @@
       handleCancel () {
         this.close()
       },
+      previewUrl(url){
+        return window._CONFIG['domianURL'] + "/sys/common/view/" + url;
+      }
 
 
     }
