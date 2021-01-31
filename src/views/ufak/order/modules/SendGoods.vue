@@ -5,6 +5,7 @@
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleOk"
+    okText="发货"
     @cancel="handleCancel"
     cancelText="关闭">
     

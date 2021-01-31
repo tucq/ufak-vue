@@ -147,7 +147,7 @@
             </a-form-item>
           </a-col>
         </a-row>
-        <a-row :gutter="20" style="padding-top: 20px;" v-for="(item, index) in orderDetails" :key="index" >
+        <a-row :gutter="20" style="padding-top: 10px;" v-for="(item, index) in orderDetails" :key="index" >
           <a-col :span="6" push="1">
             <a-row :gutter="20"type="flex" justify="start" align="middle" >
               <img
@@ -157,13 +157,13 @@
             </a-row>
           </a-col>
           <a-col :span="18">
-            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:40px;">
+            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
               {{item.productName}}
             </a-row>
-            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:40px;">
+            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
               {{item.specsName}}&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;{{item.buyNum}}
             </a-row>
-            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:40px;">
+            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
               {{item.price}}
             </a-row>
           </a-col>

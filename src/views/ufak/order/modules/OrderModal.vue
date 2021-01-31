@@ -102,17 +102,6 @@
               {{model.address}}
             </a-form-item>
           </a-col>
-          <a-col :span="9">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="详细地址">
-              {{model.detailAddress}}
-            </a-form-item>
-          </a-col>
-        </a-row>
-
-        <a-row :gutter="20">
           <a-col :span="8">
             <a-form-item
               :labelCol="labelCol"
@@ -129,8 +118,38 @@
               {{model.createTime}}
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+        </a-row>
 
+        <a-row :gutter="20" >
+          <a-col :span="24" style="padding-left: 23px;">
+            <a-form-item
+              :labelCol="{xs: { span: 24 },sm: { span: 2 },offset: 0}"
+              :wrapperCol="{xs: { span: 24 },sm: { span: 14}}"
+              label="详细地址">
+              {{model.detailAddress}}
+            </a-form-item>
+          </a-col>
+        </a-row>
+
+        <a-row :gutter="20" style="padding-top: 10px;" v-for="(item, index) in model.orderDetails" :key="index" >
+          <a-col :span="4" push="1">
+            <a-row :gutter="20"type="flex" justify="start" align="middle" >
+              <img
+                :src="previewUrl(item.viewImage)"
+                style="height:100px;width:100px"
+              />
+            </a-row>
+          </a-col>
+          <a-col :span="20">
+            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
+              {{item.productName}}
+            </a-row>
+            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
+              {{item.specsName}}&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;{{item.buyNum}}
+            </a-row>
+            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
+              {{item.price}}
+            </a-row>
           </a-col>
         </a-row>
 
@@ -142,7 +161,7 @@
 </template>
 
 <script>
-  import { httpAction } from '@/api/manage'
+  import { getAction } from '@/api/manage'
   import pick from 'lodash.pick'
   import moment from "moment"
 
@@ -153,6 +172,7 @@
         title:"操作",
         visible: false,
         model: {},
+        orderDetails:[],
         labelCol: {
           xs: { span: 24 },
           sm: { span: 7 },
@@ -166,8 +186,6 @@
         validatorRules:{
         },
         url: {
-          add: "/order/add",
-          edit: "/order/edit",
         },
       }
     },
@@ -178,52 +196,30 @@
         this.edit({});
       },
       edit (record) {
-        this.form.resetFields();
-        this.model = Object.assign({}, record);
-        this.visible = true;
-        this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'userId','orderNo','logisticsNo','orderAmount','eventAmount','couponAmount','paymentAmount','orderStatus','username','telephone','address','detailAddress','transactionId','sign','totalFee','cashFee','resultCode'))
-		  //时间格式化
-        });
+//        this.form.resetFields();
+//        this.model = Object.assign({}, record);
+//        this.visible = true;
+//        this.$nextTick(() => {
+//          this.form.setFieldsValue(pick(this.model,'userId','orderNo','logisticsNo','orderAmount','eventAmount','couponAmount','paymentAmount','orderStatus','username','telephone','address','detailAddress','transactionId','sign','totalFee','cashFee','resultCode'))
+//		  //时间格式化
+//        });
 
+        getAction('/order/'+record.id,null).then((res)=>{
+          if(res.success){
+            this.model = res.result;
+            this.visible = true;
+          }
+        })
+      },
+      previewUrl(url){
+        return window._CONFIG['domianURL'] + "/sys/common/view/" + url;
       },
       close () {
         this.$emit('close');
         this.visible = false;
       },
       handleOk () {
-        const that = this;
-        // 触发表单验证
-        this.form.validateFields((err, values) => {
-          if (!err) {
-            that.confirmLoading = true;
-            let httpurl = '';
-            let method = '';
-            if(!this.model.id){
-              httpurl+=this.url.add;
-              method = 'post';
-            }else{
-              httpurl+=this.url.edit;
-               method = 'put';
-            }
-            let formData = Object.assign(this.model, values);
-            //时间格式化
-            
-            console.log(formData)
-            httpAction(httpurl,formData,method).then((res)=>{
-              if(res.success){
-                that.$message.success(res.message);
-                that.$emit('ok');
-              }else{
-                that.$message.warning(res.message);
-              }
-            }).finally(() => {
-              that.confirmLoading = false;
-              that.close();
-            })
-
-          }
-        })
+        this.close();
       },
       handleCancel () {
         this.close()
