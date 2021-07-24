@@ -9,7 +9,7 @@
     @ok="handleOk"
     @cancel="handleCancel"
     cancelText="关闭">
-    
+
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
         <a-row :gutter="20">
@@ -126,30 +126,30 @@
 </template>
 
 <script>
-  import {getAction,postAction,putAction} from '@/api/manage'
+  import {getAction, postAction, putAction} from '@/api/manage'
   import pick from 'lodash.pick'
   import moment from "moment"
 
   export default {
     name: "InvoiceModal",
-    data () {
+    data() {
       return {
-        title:"操作",
+        title: "操作",
         visible: false,
-        disableSubmit:false,
+        disableSubmit: false,
         model: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 7 },
+          xs: {span: 24},
+          sm: {span: 7},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
         confirmLoading: false,
         form: this.$form.createForm(this),
-        validatorRules:{
-        orderId:{rules: [{ required: true, message: '请输入订单id!' }]},
+        validatorRules: {
+          orderId: {rules: [{required: true, message: '请输入订单id!'}]},
         },
         url: {
           queryById: "/afterSaleInvoice/queryById",
@@ -157,37 +157,37 @@
         },
       }
     },
-    created () {
+    created() {
     },
     methods: {
-      loadData (record) {
-        getAction(this.url.queryById,{"afterSaleId":record.id}).then((res)=>{
-          if(res.success){
+      loadData(record) {
+        getAction(this.url.queryById, {"afterSaleId": record.id}).then((res) => {
+          if (res.success) {
             this.form.resetFields();
             this.model = Object.assign({}, res.result);
             this.visible = true;
           }
         })
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleOk () {
+      handleOk() {
         const that = this;
         this.$confirm({
-          title:"确认是否已开票",
-          content:"根据开票类型，请再次确认是否已开好票并发送给收票人?",
-          onOk: function(){
+          title: "确认是否已开票",
+          content: "根据开票类型，请再次确认是否已开好票并发送给收票人?",
+          onOk: function () {
             that.confirmLoading = true;
             let params = {
-              "afterSaleId":that.model.afterSaleId
+              "afterSaleId": that.model.afterSaleId
             }
-            putAction(that.url.submit,params).then((res)=>{
-              if(res.success){
+            putAction(that.url.submit, params).then((res) => {
+              if (res.success) {
                 that.$message.success(res.message);
                 that.$emit('ok');
-              }else{
+              } else {
                 that.$message.warning(res.message);
               }
             }).finally(() => {
@@ -197,7 +197,7 @@
           }
         });
       },
-      handleCancel () {
+      handleCancel() {
         this.close()
       },
 

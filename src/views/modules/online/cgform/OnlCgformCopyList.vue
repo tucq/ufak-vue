@@ -109,7 +109,8 @@
       @cancel="handleOnlineUrlClose">
       <template slot="footer">
         <a-button @click="handleOnlineUrlClose">关闭</a-button>
-        <a-button type="primary" class="copy-this-text" :data-clipboard-text="onlineUrl" @click="onCopyUrl">复制</a-button>
+        <a-button type="primary" class="copy-this-text" :data-clipboard-text="onlineUrl" @click="onCopyUrl">复制
+        </a-button>
       </template>
       <p>{{ onlineUrl }}</p>
     </a-modal>
@@ -124,16 +125,15 @@
 </template>
 
 <script>
-  import { deleteAction, postAction,getAction } from '@/api/manage'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {deleteAction, postAction, getAction} from '@/api/manage'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import Clipboard from 'clipboard'
-  import { filterObj } from '@/utils/util';
+  import {filterObj} from '@/utils/util';
 
   export default {
     name: 'OnlCgformHeadList',
     mixins: [JeecgListMixin],
-    components: {
-    },
+    components: {},
     data() {
       return {
         description: 'Online表单视图',
@@ -145,7 +145,7 @@
             key: 'rowIndex',
             width: 60,
             align: 'center',
-            customRender: function(t, r, index) {
+            customRender: function (t, r, index) {
               return parseInt(index) + 1
             }
           },
@@ -174,7 +174,7 @@
             title: '操作',
             dataIndex: 'action',
             align: 'center',
-            scopedSlots: { customRender: 'action' }
+            scopedSlots: {customRender: 'action'}
           }
         ],
         url: {
@@ -194,7 +194,7 @@
         onlineUrl: '',
         selectedRowKeys: [],
         selectedRows: [],
-        physicId:""
+        physicId: ""
       }
     },
     watch: {
@@ -205,7 +205,7 @@
     methods: {
       getQueryParams() {
         //获取查询条件
-        var param = Object.assign({}, this.queryParam, this.isorter ,this.filters);
+        var param = Object.assign({}, this.queryParam, this.isorter, this.filters);
         param.field = this.getQueryField();
         param.pageNo = this.ipagination.current;
         param.pageSize = this.ipagination.pageSize;
@@ -215,11 +215,11 @@
       },
 
       loadData(arg) {
-        if(!this.$route.params.code){
+        if (!this.$route.params.code) {
           return false
         }
         this.physicId = this.$route.params.code
-        if(!this.url.list){
+        if (!this.url.list) {
           this.$message.error("请设置url.list属性!")
           return
         }
@@ -234,7 +234,7 @@
             this.dataSource = res.result.records;
             this.ipagination.total = res.result.total;
           }
-          if(res.code===510){
+          if (res.code === 510) {
             this.$message.warning(res.message)
           }
           this.loading = false;
@@ -242,10 +242,10 @@
       },
 
       goPageOnline(rd) {
-        if(rd.isTree=='Y'){
-          this.$router.push({ path: '/online/cgformTreeList/' + rd.id })
-        }else{
-          this.$router.push({ path: '/online/cgformList/' + rd.id })
+        if (rd.isTree == 'Y') {
+          this.$router.push({path: '/online/cgformTreeList/' + rd.id})
+        } else {
+          this.$router.push({path: '/online/cgformList/' + rd.id})
         }
       },
       handleOnlineUrlClose() {
@@ -253,9 +253,9 @@
         this.onlineUrlVisible = false
       },
       handleOnlineUrlShow(record) {
-        if(record.isTree=='Y'){
+        if (record.isTree == 'Y') {
           this.onlineUrl = `/online/cgformTreeList/${record.id}`
-        }else{
+        } else {
           this.onlineUrl = `/online/cgformList/${record.id}`
         }
         this.onlineUrlVisible = true
@@ -266,7 +266,7 @@
         this.$confirm({
           title: '确认要移除此记录?',
           onOk() {
-            deleteAction(that.url.removeRecord, { id: id }).then((res) => {
+            deleteAction(that.url.removeRecord, {id: id}).then((res) => {
               if (res.success) {
                 that.$message.success('移除成功')
                 that.loadData()
@@ -319,7 +319,7 @@
         this.selectedRowKeys = keys
         this.selectedRows = rows
       },
-      onCopyUrl(){
+      onCopyUrl() {
         var clipboard = new Clipboard('.copy-this-text')
         clipboard.on('success', () => {
           clipboard.destroy()
@@ -331,16 +331,16 @@
           clipboard.destroy()
         })
       },
-      showMyCopyInfo(id){
-        console.log("查看复制表单的信息",id)
+      showMyCopyInfo(id) {
+        console.log("查看复制表单的信息", id)
       },
-      copyConfig(id){
-        postAction(`${this.url.copyOnline}?code=${id}`).then(res=>{
-          if(res.success){
+      copyConfig(id) {
+        postAction(`${this.url.copyOnline}?code=${id}`).then(res => {
+          if (res.success) {
             this.$message.success("复制成功")
             this.loadData()
-          }else{
-            this.$message.error("复制失败>>"+res.message)
+          } else {
+            this.$message.error("复制失败>>" + res.message)
           }
         })
       }
@@ -380,9 +380,9 @@
     overflow-y: hidden
   }
 
-  .valid-error-cust{
-    .ant-select-selection{
-      border:2px solid #f5222d;
+  .valid-error-cust {
+    .ant-select-selection {
+      border: 2px solid #f5222d;
     }
   }
 </style>

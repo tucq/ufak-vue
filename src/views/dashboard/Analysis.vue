@@ -28,14 +28,12 @@
     },
     data() {
       return {
-        indexStyle:1
+        indexStyle: 1
       }
     },
     created() {
 
     },
-    methods: {
-
-    }
+    methods: {}
   }
 </script>

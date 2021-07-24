@@ -34,7 +34,8 @@
     <div>
       <!--已选择的清空 -->
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i>已选择&nbsp;<a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项&nbsp;&nbsp;
+        <i class="anticon anticon-info-circle ant-alert-icon"></i>已选择&nbsp;<a style="font-weight: 600">{{
+        selectedRowKeys.length }}</a>项&nbsp;&nbsp;
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
       <a-table
@@ -51,7 +52,7 @@
       >
         <!-- 字符串超长截取省略号显示-->
         <span slot="dataContent" slot-scope="text, record">
-          <j-ellipsis :value="text" :length="80" />
+          <j-ellipsis :value="text" :length="80"/>
         </span>
       </a-table>
     </div>

@@ -48,7 +48,7 @@
       },
       dataSource: {
         type: Array,
-        default () {
+        default() {
           return []
         }
       },
@@ -56,12 +56,12 @@
         type: Array,
         required: true
       },
-/*      pagination: {
-        type: Object,
-        default () {
-          return {}
-        }
-      },*/
+      /*      pagination: {
+              type: Object,
+              default () {
+                return {}
+              }
+            },*/
       pageSize: {
         type: Number,
         default: 10
@@ -72,13 +72,13 @@
       },
       pageSizeOptions: {
         type: Array,
-        default () {
+        default() {
           return ['10', '20', '30', '40', '50']
         }
       },
       responseParamsName: {
         type: Object,
-        default () {
+        default() {
           return {}
         }
       },
@@ -102,7 +102,7 @@
         default: null
       }
     },
-    data () {
+    data() {
       return {
         needTotalList: [],
         selectedRowKeys: [],
@@ -120,7 +120,7 @@
         paramsName: {},
       }
     },
-    created () {
+    created() {
       //数据请求参数配置
       this.paramsName = Object.assign(
         {},
@@ -137,10 +137,10 @@
       this.needTotalList = this.initTotalList(this.columns)
 
       // load data
-      this.loadData( { pageNum: this.pageNumber } )
+      this.loadData({pageNum: this.pageNumber})
     },
     methods: {
-      updateSelect (selectedRowKeys, selectedRows) {
+      updateSelect(selectedRowKeys, selectedRows) {
         this.selectedRowKeys = selectedRowKeys
         let list = this.needTotalList
         this.needTotalList = list.map(item => {
@@ -153,17 +153,17 @@
         })
         this.$emit('change', selectedRowKeys, selectedRows)
       },
-      initTotalList (columns) {
+      initTotalList(columns) {
         const totalList = []
         columns.forEach(column => {
           if (column.needTotal) {
-            totalList.push({ ...column, total: 0 })
+            totalList.push({...column, total: 0})
           }
         })
         return totalList
       },
 
-      loadData (params) {
+      loadData(params) {
         let that = this
         that.loading = true
         params = Object.assign({}, params)
@@ -180,7 +180,7 @@
 
         let dataPromise = that.data(remoteParams)
 
-        dataPromise.then( response => {
+        dataPromise.then(response => {
           if (!response) {
             that.loading = false
             return
@@ -202,22 +202,22 @@
         })
       },
       // eslint-disable-next-line
-      onPagerChange (page, pageSize) {
+      onPagerChange(page, pageSize) {
         this.pageNumber = page
-        this.loadData({ pageNum: page })
+        this.loadData({pageNum: page})
       },
-      onPagerSizeChange (current, size) {
+      onPagerSizeChange(current, size) {
         this.currentPageSize = size
         /*
         if (current === this.pageNumber) this.loadData()
         console.log('page-size-change', current, size)
         */
       },
-      onClearSelected () {
+      onClearSelected() {
         this.selectedRowKeys = []
         this.updateSelect([], [])
       },
-      pager () {
+      pager() {
         return {
           total: this.total,
           showTotal: total => `共有 ${total} 条`,
@@ -235,7 +235,7 @@
         this.needTotalList = this.needTotalList.map(item => {
           return {
             ...item,
-            total: selectedRows.reduce( (sum, val) => {
+            total: selectedRows.reduce((sum, val) => {
               return sum + val[item.dataIndex]
             }, 0)
           }
@@ -246,7 +246,7 @@
 </script>
 
 <style scoped>
-    .alert {
-        margin-bottom: 16px;
-    }
+  .alert {
+    margin-bottom: 16px;
+  }
 </style>

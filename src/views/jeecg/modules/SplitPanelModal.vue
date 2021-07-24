@@ -25,34 +25,35 @@
   import splitPane from 'vue-splitpane'
   import SplitPanelA from './SplitPanelA'
   import SplitPanelB from './SplitPanelB'
+
   export default {
     name: "SplitPanelModal",
-    components:{
+    components: {
       splitPane,
       SplitPanelA,
       SplitPanelB
     },
-    data () {
+    data() {
       return {
         visible: false,
-        bodyStyle:{
+        bodyStyle: {
           padding: "0",
-          height:(window.innerHeight-150)+"px"
+          height: (window.innerHeight - 150) + "px"
         },
-        modalWidth:800,
+        modalWidth: 800,
       }
     },
-    created () {
-      this.modalWidth = window.innerWidth-0;
+    created() {
+      this.modalWidth = window.innerWidth - 0;
     },
     methods: {
-      show () {
+      show() {
         this.visible = true;
       },
-      handleOk(){
+      handleOk() {
 
       },
-      handleCancel () {
+      handleCancel() {
         this.visible = false;
       },
     }

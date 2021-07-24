@@ -36,7 +36,7 @@
               </a-menu-item>
             </a-menu>
             <a-button style="margin-left: 8px"> 批量操作
-          <a-icon type="down"/>
+              <a-icon type="down"/>
             </a-button>
           </a-dropdown>
         </div>
@@ -46,7 +46,7 @@
           <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
             <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
             selectedRowKeys.length }}</a>项
-        <a style="margin-left: 24px" @click="onClearSelected">清空</a>
+            <a style="margin-left: 24px" @click="onClearSelected">清空</a>
           </div>
 
 
@@ -82,8 +82,8 @@
         <!-- table区域-end -->
 
         <!-- 表单区域 -->
-        <productInfo-modal ref="modalForm" @ok="modalFormOk" />
-        <productPrice ref="productPrice" />
+        <productInfo-modal ref="modalForm" @ok="modalFormOk"/>
+        <productPrice ref="productPrice"/>
       </a-card>
     </a-layout-content>
   </a-layout>
@@ -91,105 +91,105 @@
 </template>
 
 <script>
-    import ProductInfoModal from './modules/ProductInfoModal'
-    import ProductPrice from './modules/ProductPrice'
-    import ProductCategoryTree from "@/views/ufak/common/ProductCategoryTree"
-    import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+  import ProductInfoModal from './modules/ProductInfoModal'
+  import ProductPrice from './modules/ProductPrice'
+  import ProductCategoryTree from "@/views/ufak/common/ProductCategoryTree"
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 
-    export default {
-        name: "ProductInfoList",
-        mixins: [JeecgListMixin],
-        components: {
-            ProductInfoModal,
-            ProductPrice,
-            ProductCategoryTree,
-        },
-        data() {
-            return {
-                description: '商品信息管理页面',
-                // 表头
-                columns: [
-                    {
-                        title: '#',
-                        dataIndex: '',
-                        key: 'rowIndex',
-                        width: 60,
-                        align: "center",
-                        customRender: function (t, r, index) {
-                            return parseInt(index) + 1;
-                        }
-                    },
-                    {
-                        title: '商品图片',
-                        align: "center",
-                        dataIndex: 'image',
-                        scopedSlots: {customRender: 'image'},
-                    },
-                    {
-                        title: '商品名称',
-                        align: "center",
-                        dataIndex: 'name'
-                    },
-                    {
-                        title: '商品分类',
-                        align: "center",
-                        dataIndex: 'productTypeName'
-                    },
-                    {
-                        title: '销量',
-                        align: "center",
-                        dataIndex: 'salesVolume'
-                    },
-                    {
-                        title: '服务',
-                        align: "center",
-                        dataIndex: 'service'
-                    },
-                    {
-                        title: '上下架',
-                        align: "center",
-                        dataIndex: 'state_dictText'
-                    },
-                    {
-                        title: '操作',
-                        dataIndex: 'action',
-                        align: "center",
-                        scopedSlots: {customRender: 'action'},
-                    }
-                ],
-                url: {
-                    list: "/product/info/list",
-                    delete: "/product/info/delete",
-                    deleteBatch: "/product/info/deleteBatch",
-                    imgerver: window._CONFIG['domianURL']+"/sys/common/view",
-                },
+  export default {
+    name: "ProductInfoList",
+    mixins: [JeecgListMixin],
+    components: {
+      ProductInfoModal,
+      ProductPrice,
+      ProductCategoryTree,
+    },
+    data() {
+      return {
+        description: '商品信息管理页面',
+        // 表头
+        columns: [
+          {
+            title: '#',
+            dataIndex: '',
+            key: 'rowIndex',
+            width: 60,
+            align: "center",
+            customRender: function (t, r, index) {
+              return parseInt(index) + 1;
             }
+          },
+          {
+            title: '商品图片',
+            align: "center",
+            dataIndex: 'image',
+            scopedSlots: {customRender: 'image'},
+          },
+          {
+            title: '商品名称',
+            align: "center",
+            dataIndex: 'name'
+          },
+          {
+            title: '商品分类',
+            align: "center",
+            dataIndex: 'productTypeName'
+          },
+          {
+            title: '销量',
+            align: "center",
+            dataIndex: 'salesVolume'
+          },
+          {
+            title: '服务',
+            align: "center",
+            dataIndex: 'service'
+          },
+          {
+            title: '上下架',
+            align: "center",
+            dataIndex: 'state_dictText'
+          },
+          {
+            title: '操作',
+            dataIndex: 'action',
+            align: "center",
+            scopedSlots: {customRender: 'action'},
+          }
+        ],
+        url: {
+          list: "/product/info/list",
+          delete: "/product/info/delete",
+          deleteBatch: "/product/info/deleteBatch",
+          imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
         },
-        computed: {},
-        methods: {
-            getAvatarView(image){
-                return this.url.imgerver +"/"+ image;
-            },
-            setPrice(record){
-                this.$refs.productPrice.visible = true;
-                this.$refs.productPrice.edit(record);
-            },
-            modalFormOk(productId) {
-                this.loadData();
-                this.$refs.productPrice.visible = true;
-                this.$refs.productPrice.edit({id : productId},'add');
-            },
-            selectedCategory(selectedKeys,e){
-              this.queryParam.categoryCode = e.node.dataRef.code;
-              this.searchQuery();
-            },
-            searchReset() {
-              this.queryParam = {}
-              this.$refs.categoryTree.selectedKeys = [];
-              this.loadData(1);
-            },
-        }
+      }
+    },
+    computed: {},
+    methods: {
+      getAvatarView(image) {
+        return this.url.imgerver + "/" + image;
+      },
+      setPrice(record) {
+        this.$refs.productPrice.visible = true;
+        this.$refs.productPrice.edit(record);
+      },
+      modalFormOk(productId) {
+        this.loadData();
+        this.$refs.productPrice.visible = true;
+        this.$refs.productPrice.edit({id: productId}, 'add');
+      },
+      selectedCategory(selectedKeys, e) {
+        this.queryParam.categoryCode = e.node.dataRef.code;
+        this.searchQuery();
+      },
+      searchReset() {
+        this.queryParam = {}
+        this.$refs.categoryTree.selectedKeys = [];
+        this.loadData(1);
+      },
     }
+  }
 </script>
 <style scoped>
   @import '~@assets/less/common.less'

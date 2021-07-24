@@ -78,8 +78,8 @@
 
 <script>
   import PermissionModal from './modules/PermissionModal'
-  import { getPermissionList } from '@/api/api'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {getPermissionList} from '@/api/api'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import PermissionDataRuleList from './PermissionDataRuleList'
   import JEllipsis from '@/components/jeecg/JEllipsis'
 
@@ -92,7 +92,7 @@
       title: '菜单类型',
       dataIndex: 'menuType',
       key: 'menuType',
-      customRender: function(text) {
+      customRender: function (text) {
         if (text == 0) {
           return '菜单'
         } else if (text == 1) {
@@ -116,13 +116,13 @@
       title: '组件',
       dataIndex: 'component',
       key: 'component',
-      scopedSlots: { customRender: 'component' }
+      scopedSlots: {customRender: 'component'}
     },
     {
       title: '路径',
       dataIndex: 'url',
       key: 'url',
-      scopedSlots: { customRender: 'url' }
+      scopedSlots: {customRender: 'url'}
     },
     {
       title: '排序',
@@ -132,7 +132,7 @@
     {
       title: '操作',
       dataIndex: 'action',
-      scopedSlots: { customRender: 'action' },
+      scopedSlots: {customRender: 'action'},
       align: 'center',
       width: 150
     }
@@ -177,7 +177,7 @@
         this.$refs.modalForm.title = "添加子菜单";
         this.$refs.modalForm.localMenuType = 1;
         this.$refs.modalForm.disableSubmit = false;
-        this.$refs.modalForm.edit({status:'1',permsType:'1',route:true,'parentId':record.id});
+        this.$refs.modalForm.edit({status: '1', permsType: '1', route: true, 'parentId': record.id});
       }
     }
   }

@@ -35,13 +35,13 @@
 
 <script>
   import moment from 'moment'
-  import { FormTypes } from '@/utils/JEditableTableUtil'
-  import { randomUUID, randomNumber } from '@/utils/util'
+  import {FormTypes} from '@/utils/JEditableTableUtil'
+  import {randomUUID, randomNumber} from '@/utils/util'
   import JEditableTable from '@/components/jeecg/JEditableTable'
 
   export default {
     name: 'DefaultTable',
-    components: { JEditableTable },
+    components: {JEditableTable},
     data() {
       return {
         loading: false,
@@ -108,15 +108,15 @@
             width: '300px',
             type: FormTypes.select,
             options: [ // 下拉选项
-              { title: 'String', value: 'string' },
-              { title: 'Integer', value: 'int' },
-              { title: 'Double', value: 'double' },
-              { title: 'Boolean', value: 'boolean' }
+              {title: 'String', value: 'string'},
+              {title: 'Integer', value: 'int'},
+              {title: 'Double', value: 'double'},
+              {title: 'Boolean', value: 'boolean'}
             ],
             allowInput: true,
             defaultValue: '',
             placeholder: '请选择${title}',
-            validateRules: [{ required: true, message: '请选择${title}' }]
+            validateRules: [{required: true, message: '请选择${title}'}]
           },
           {
             title: '性别（字典）',
@@ -126,7 +126,7 @@
             options: [],
             dictCode: 'sex',
             placeholder: '请选择${title}',
-            validateRules: [{ required: true, message: '请选择${title}' }]
+            validateRules: [{required: true, message: '请选择${title}'}]
           },
           {
             title: '多选测试',
@@ -134,17 +134,17 @@
             // width: '18%',
             width: '300px',
             type: FormTypes.select,
-            props: { 'mode': 'multiple' }, // 支持多选
+            props: {'mode': 'multiple'}, // 支持多选
             options: [
-              { title: 'String', value: 'string' },
-              { title: 'Integer', value: 'int' },
-              { title: 'Double', value: 'double' },
-              { title: 'Boolean', value: 'boolean' }
+              {title: 'String', value: 'string'},
+              {title: 'Integer', value: 'int'},
+              {title: 'Double', value: 'double'},
+              {title: 'Boolean', value: 'boolean'}
             ],
             defaultValue: ['int', 'boolean'], // 多个默认项
             // defaultValue: 'string,double,int', // 也可使用这种方式
             placeholder: '这里可以多选',
-            validateRules: [{ required: true, message: '请选择${title}' }]
+            validateRules: [{required: true, message: '请选择${title}'}]
           },
           {
             title: '字段长度',
@@ -154,7 +154,7 @@
             type: FormTypes.inputNumber,
             defaultValue: 32,
             placeholder: '${title}',
-            validateRules: [{ required: true, message: '请输入${title}' }]
+            validateRules: [{required: true, message: '请输入${title}'}]
           },
           {
             title: '日期',
@@ -164,7 +164,7 @@
             type: FormTypes.datetime,
             defaultValue: '2019-4-30 14:52:22',
             placeholder: '请选择${title}',
-            validateRules: [{ required: true, message: '请选择${title}' }]
+            validateRules: [{required: true, message: '请选择${title}'}]
           },
           {
             title: '可以为空',
@@ -263,7 +263,7 @@
       },
 
       handleDelete(props) {
-        let { rowId, target } = props
+        let {rowId, target} = props
         target.removeRows(rowId)
       }
     }

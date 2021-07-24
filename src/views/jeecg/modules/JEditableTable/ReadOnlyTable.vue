@@ -10,12 +10,12 @@
 </template>
 
 <script>
-  import { FormTypes } from '@/utils/JEditableTableUtil'
+  import {FormTypes} from '@/utils/JEditableTableUtil'
   import JEditableTable from '@/components/jeecg/JEditableTable'
 
   export default {
     name: 'ReadOnlyTable',
-    components: { JEditableTable },
+    components: {JEditableTable},
     data() {
       return {
 
@@ -31,10 +31,10 @@
             key: 'select',
             type: FormTypes.select,
             options: [
-              { title: 'String', value: 'string' },
-              { title: 'Integer', value: 'int' },
-              { title: 'Double', value: 'double' },
-              { title: 'Boolean', value: 'boolean' }
+              {title: 'String', value: 'string'},
+              {title: 'Integer', value: 'int'},
+              {title: 'Double', value: 'double'},
+              {title: 'Boolean', value: 'boolean'}
             ],
             placeholder: '请选择'
           },
@@ -51,11 +51,11 @@
           }
         ],
         dataSource: [
-          { input: 'hello', select: 'int', checkbox: true, datetime: '2019-6-17 14:50:48' },
-          { input: 'world', select: 'string', checkbox: false, datetime: '2019-6-16 14:50:48' },
-          { input: 'one', select: 'double', checkbox: true, datetime: '2019-6-17 15:50:48' },
-          { input: 'two', select: 'boolean', checkbox: false, datetime: '2019-6-14 14:50:48' },
-          { input: 'three', select: '', checkbox: false, datetime: '2019-6-13 14:50:48' }
+          {input: 'hello', select: 'int', checkbox: true, datetime: '2019-6-17 14:50:48'},
+          {input: 'world', select: 'string', checkbox: false, datetime: '2019-6-16 14:50:48'},
+          {input: 'one', select: 'double', checkbox: true, datetime: '2019-6-17 15:50:48'},
+          {input: 'two', select: 'boolean', checkbox: false, datetime: '2019-6-14 14:50:48'},
+          {input: 'three', select: '', checkbox: false, datetime: '2019-6-13 14:50:48'}
         ]
       }
     },

@@ -24,7 +24,7 @@
               <a-input placeholder="请输入标题" v-model="queryParam.title"></a-input>
             </a-form-item>
           </a-col>
-          <a-col :md="6" :sm="8" >
+          <a-col :md="6" :sm="8">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
@@ -54,13 +54,13 @@
               <a-tag v-if="record.state === '0'" color="green">显示</a-tag>
               <a-tag v-else-if="record.state === '1'" color="red">禁言</a-tag>
           </span>
-          <span slot="action" slot-scope="text, record">
+        <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
-          <a-divider type="vertical" />
+          <a-divider type="vertical"/>
            <a @click="handleTop(record)">置顶</a>
-           <a-divider type="vertical" />
+           <a-divider type="vertical"/>
             <a-dropdown>
-            <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
+            <a class="ant-dropdown-link">更多 <a-icon type="down"/></a>
             <a-menu slot="overlay">
               <a-menu-item>
                 <a-popconfirm :title="record.state === '0'?'确定禁言吗?':'确定取消禁言吗?'" @confirm="() => forbidden(record)">
@@ -90,114 +90,112 @@
 <script>
   import PostBarModal from './modules/PostBarModal'
   import TopBarModal from './modules/TopBarModal'
-  import { getAction,postAction } from '@/api/manage'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {getAction, postAction} from '@/api/manage'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 
   export default {
     name: "PostBarList",
-    mixins:[JeecgListMixin],
+    mixins: [JeecgListMixin],
     components: {
       PostBarModal,
       TopBarModal
     },
-    data () {
+    data() {
       return {
         description: '贴吧管理页面',
-        categoryList:[],
+        categoryList: [],
         // 表头
         columns: [
-		   {
+          {
             title: '分类',
-            width:'10%',
-            align:"center",
+            width: '10%',
+            align: "center",
             dataIndex: 'categoryText'
-           },
-		   {
+          },
+          {
             title: '标题',
-            width:'35%',
-            align:"center",
+            width: '35%',
+            align: "center",
             dataIndex: 'title'
-           },
-		   {
+          },
+          {
             title: '用户昵称',
-            width:'13%',
-            align:"center",
+            width: '13%',
+            align: "center",
             dataIndex: 'realname'
-           },
+          },
           {
             title: '观注数量',
-            width:'5%',
-            align:"center",
+            width: '5%',
+            align: "center",
             dataIndex: 'fansNum'
           },
           {
             title: '回复数量',
-            width:'5%',
-            align:"center",
+            width: '5%',
+            align: "center",
             dataIndex: 'replyNum'
           },
-		   {
+          {
             title: '分享数量',
-            width:'5%',
-            align:"center",
+            width: '5%',
+            align: "center",
             dataIndex: 'shareNum'
-           },
-		   {
+          },
+          {
             title: '点赞数量',
-            width:'5%',
-            align:"center",
+            width: '5%',
+            align: "center",
             dataIndex: 'likesNum'
-           },
-		   {
+          },
+          {
             title: '状态',
-            width:'5%',
-            align:"center",
+            width: '5%',
+            align: "center",
             dataIndex: 'stateText',
-            scopedSlots: { customRender: 'state' },
-           },
-		   {
+            scopedSlots: {customRender: 'state'},
+          },
+          {
             title: '置顶顺序',
-            width:'5%',
-            align:"center",
+            width: '5%',
+            align: "center",
             dataIndex: 'top'
-           },
+          },
           {
             title: '操作',
-            width:'12%',
+            width: '12%',
             dataIndex: 'action',
-            align:"center",
-            scopedSlots: { customRender: 'action' },
+            align: "center",
+            scopedSlots: {customRender: 'action'},
           }
         ],
-		url: {
+        url: {
           list: "/postBar/list",
           delete: "/postBar/delete",
           forbidden: "/postBar/forbidden",
           categoryList: "/sys/dict/item/bar_category",
-       },
-    }
-  },
-  computed: {
-
-  },
-    created(){
+        },
+      }
+    },
+    computed: {},
+    created() {
       this.getCategoryList();
     },
     methods: {
-      getCategoryList(){
-        getAction(this.url.categoryList).then((res)=>{
-          if(res.success){
+      getCategoryList() {
+        getAction(this.url.categoryList).then((res) => {
+          if (res.success) {
             this.categoryList = res.result;
           }
         });
       },
-      handleTop(record){
+      handleTop(record) {
         this.$refs.topBarForm.edit(record);
         this.$refs.topBarForm.title = "置顶";
       },
-      forbidden(record){
-        postAction(this.url.forbidden,record).then((res)=>{
-          if(res.success){
+      forbidden(record) {
+        postAction(this.url.forbidden, record).then((res) => {
+          if (res.success) {
             this.$message.success(res.message);
             this.loadData();
           }

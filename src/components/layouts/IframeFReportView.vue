@@ -1,6 +1,7 @@
 <template>
 
-    <iframe  :id="id" :src="url" frameborder="0" width="100%" height="800px" scrolling="auto" style="background-color: #fff;"></iframe>
+  <iframe :id="id" :src="url" frameborder="0" width="100%" height="800px" scrolling="auto"
+          style="background-color: #fff;"></iframe>
 
 </template>
 
@@ -10,16 +11,16 @@
 
   export default {
     name: "IframePageContent",
-    data () {
+    data() {
       return {
         url: "",
-        id:""
+        id: ""
       }
     },
-    created () {
+    created() {
       this.goUrl()
     },
-    updated () {
+    updated() {
       this.goUrl()
     },
     watch: {
@@ -28,12 +29,12 @@
       }
     },
     methods: {
-      goUrl () {
+      goUrl() {
         let url = this.$route.meta.url
         let id = this.$route.path
         this.id = id
         //url = "http://www.baidu.com"
-        console.log("------url------"+url)
+        console.log("------url------" + url)
         if (url !== null && url !== undefined) {
           this.url = url;
           //window.open(this.url);

@@ -67,7 +67,8 @@
     <div class="table-operator" style="border-top: 5px">
       <a-button @click="handleAdd" type="primary" icon="plus">添加用户</a-button>
       <a-button type="primary" icon="download" @click="handleExportXls('用户信息')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl"
+                @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
       <a-dropdown v-if="selectedRowKeys.length > 0">
@@ -95,7 +96,8 @@
     <!-- table区域-begin -->
     <div>
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i>已选择&nbsp;<a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项&nbsp;&nbsp;
+        <i class="anticon anticon-info-circle ant-alert-icon"></i>已选择&nbsp;<a style="font-weight: 600">{{
+        selectedRowKeys.length }}</a>项&nbsp;&nbsp;
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
@@ -257,13 +259,13 @@
             width: 80,
             dataIndex: 'status_dictText'
           },
-         /* {
-            title: '创建时间',
-            align: "center",
-            width: 150,
-            dataIndex: 'createTime',
-            sorter: true
-          },*/
+          /* {
+             title: '创建时间',
+             align: "center",
+             width: 150,
+             dataIndex: 'createTime',
+             sorter: true
+           },*/
           {
             title: '操作',
             dataIndex: 'action',
@@ -285,7 +287,7 @@
       }
     },
     computed: {
-      importExcelUrl: function(){
+      importExcelUrl: function () {
         return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
       }
     },
@@ -359,7 +361,7 @@
       handleChangePassword(username) {
         this.$refs.passwordmodal.show(username);
       },
-      handleAgentSettings(username){
+      handleAgentSettings(username) {
         this.$refs.sysUserAgentModal.agentSettings(username);
         this.$refs.sysUserAgentModal.title = "用户代理人设置";
       },

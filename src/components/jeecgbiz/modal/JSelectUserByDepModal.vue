@@ -162,7 +162,7 @@
             names = names.substring(1)
           }
           this.$emit("initComp", names)
-        }else{
+        } else {
           // JSelectUserByDep组件bug issues/I16634
           this.$emit("initComp", "")
         }

@@ -51,7 +51,7 @@
   import SMenu from '../menu/'
   import Logo from '../tools/Logo'
 
-  import { mixin } from '@/utils/mixin.js'
+  import {mixin} from '@/utils/mixin.js'
 
   export default {
     name: 'GlobalHeader',
@@ -149,10 +149,10 @@
             this.topMenuStyle.headerIndexLeft = {}
           } else {
             let rightWidth = '360px'
-            this.topMenuStyle.topNavHeader = { 'min-width': '165px' }
-            this.topMenuStyle.topSmenuStyle = { 'width': 'calc(100% - 165px)' }
-            this.topMenuStyle.headerIndexRight = { 'min-width': rightWidth }
-            this.topMenuStyle.headerIndexLeft = { 'width': `calc(100% - ${rightWidth})` }
+            this.topMenuStyle.topNavHeader = {'min-width': '165px'}
+            this.topMenuStyle.topSmenuStyle = {'width': 'calc(100% - 165px)'}
+            this.topMenuStyle.headerIndexRight = {'min-width': rightWidth}
+            this.topMenuStyle.headerIndexLeft = {'width': `calc(100% - ${rightWidth})`}
           }
         }
       }
@@ -178,8 +178,10 @@
           line-height: @height;
         }
       }
+
       .trigger {
         line-height: 64px;
+
         &:hover {
           background: rgba(0, 0, 0, 0.05);
         }
@@ -194,6 +196,7 @@
       transition: background 300ms;
 
       /* dark 样式 */
+
       &.dark {
         color: #000000;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);

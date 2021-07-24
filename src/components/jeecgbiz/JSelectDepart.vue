@@ -19,32 +19,33 @@
 
 <script>
   import JSelectDepartModal from './modal/JSelectDepartModal'
+
   export default {
     name: 'JSelectDepart',
-    components:{
+    components: {
       JSelectDepartModal
     },
-    props:{
-      modalWidth:{
-        type:Number,
-        default:500,
-        required:false
+    props: {
+      modalWidth: {
+        type: Number,
+        default: 500,
+        required: false
       },
-      multi:{
-        type:Boolean,
-        default:false,
-        required:false
+      multi: {
+        type: Boolean,
+        default: false,
+        required: false
       },
-      rootOpened:{
-        type:Boolean,
-        default:true,
-        required:false
+      rootOpened: {
+        type: Boolean,
+        default: true,
+        required: false
       },
-      value:{
-        type:String,
-        required:false
+      value: {
+        type: String,
+        required: false
       },
-      disabled:{
+      disabled: {
         type: Boolean,
         required: false,
         default: false
@@ -55,29 +56,29 @@
         default: 'id'
       }
     },
-    data(){
+    data() {
       return {
-        visible:false,
-        confirmLoading:false,
-        departNames:"",
-        departIds:''
+        visible: false,
+        confirmLoading: false,
+        departNames: "",
+        departIds: ''
       }
     },
-    mounted(){
+    mounted() {
       this.departIds = this.value
     },
-    watch:{
-      value(val){
+    watch: {
+      value(val) {
         if (this.customReturnField === 'id') {
           this.departIds = val
         }
       }
     },
-    methods:{
-      initComp(departNames){
+    methods: {
+      initComp(departNames) {
         this.departNames = departNames
       },
-      openModal(){
+      openModal() {
         this.$refs.innerDepartSelectModal.show()
       },
       handleOK(rows, idstr) {
@@ -92,10 +93,10 @@
         }
         this.$emit("change", value)
       },
-      getDepartNames(){
+      getDepartNames() {
         return this.departNames
       },
-      handleEmpty(){
+      handleEmpty() {
         this.handleOK('')
       }
     },
@@ -113,9 +114,11 @@
     transition: color 0.3s;
     font-size: 12px;
   }
+
   .components-input-demo-presuffix .anticon-close-circle:hover {
     color: #f5222d;
   }
+
   .components-input-demo-presuffix .anticon-close-circle:active {
     color: #666;
   }

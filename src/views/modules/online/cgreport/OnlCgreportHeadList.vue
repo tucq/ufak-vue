@@ -105,7 +105,8 @@
       @cancel="handleCancel">
       <template slot="footer">
         <a-button @click="handleCancel">关闭</a-button>
-        <a-button type="primary" class="copy-this-text" :data-clipboard-text="reportUrlText" @click="onCopyUrl">复制</a-button>
+        <a-button type="primary" class="copy-this-text" :data-clipboard-text="reportUrlText" @click="onCopyUrl">复制
+        </a-button>
       </template>
       <p>{{ reportUrlText }}</p>
     </a-modal>
@@ -115,7 +116,7 @@
 <script>
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import Clipboard from 'clipboard'
-  import { getAction } from '@/api/manage'
+  import {getAction} from '@/api/manage'
 
   export default {
     name: 'OnlCgreportHeadList',
@@ -126,8 +127,8 @@
     data() {
       return {
         description: '在线报表配置管理页面',
-        visible:false,
-        reportUrlText:'',
+        visible: false,
+        reportUrlText: '',
         // 表头
         columns: [
           {
@@ -164,50 +165,50 @@
             title: '操作',
             dataIndex: 'action',
             align: 'center',
-            scopedSlots: { customRender: 'action' }
+            scopedSlots: {customRender: 'action'}
           }
         ],
         url: {
           list: '/online/cgreport/head/list',
           delete: '/online/cgreport/head/delete',
           deleteBatch: '/online/cgreport/head/deleteBatch',
-          getParamsInfo:'/online/cgreport/api/getParamsInfo/'
+          getParamsInfo: '/online/cgreport/api/getParamsInfo/'
         }
       }
     },
     methods: {
-      initReportUrlText(id){
-        getAction(this.url.getParamsInfo+id).then((res) => {
+      initReportUrlText(id) {
+        getAction(this.url.getParamsInfo + id).then((res) => {
           let textUrl = ""
           if (res.success) {
-            if(res.result && res.result.length>0){
-              for(let i of res.result){
-                textUrl+=i.paramName+"=${"+i.paramName+"}&"
+            if (res.result && res.result.length > 0) {
+              for (let i of res.result) {
+                textUrl += i.paramName + "=${" + i.paramName + "}&"
               }
             }
           } else {
             this.$message.warning(res.message)
           }
-          if(textUrl.length>0){
-            textUrl = textUrl.substring(0,textUrl.length-1)
+          if (textUrl.length > 0) {
+            textUrl = textUrl.substring(0, textUrl.length - 1)
             this.reportUrlText = `/online/cgreport/${id}?${textUrl}`
-          }else{
+          } else {
             this.reportUrlText = `/online/cgreport/${id}`
           }
         })
       },
-      goPageOnline(id){
-        this.$router.push({path: '/online/cgreport/'+id})
+      goPageOnline(id) {
+        this.$router.push({path: '/online/cgreport/' + id})
       },
-      popReportURL(id){
+      popReportURL(id) {
         this.visible = true;
         this.initReportUrlText(id)
       },
-      handleCancel(){
+      handleCancel() {
         this.visible = false
         this.reportUrlText = '';
       },
-      onCopyUrl(){
+      onCopyUrl() {
         var clipboard = new Clipboard('.copy-this-text')
         clipboard.on('success', () => {
           clipboard.destroy()

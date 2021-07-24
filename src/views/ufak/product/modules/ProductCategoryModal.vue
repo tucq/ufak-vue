@@ -22,7 +22,7 @@
             pidValue="0">
           </j-tree-select>
         </a-form-item>
-          
+
         <a-form-item label="分类名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-input v-decorator="[ 'name', validatorRules.name]" placeholder="请输入类型名称"></a-input>
         </a-form-item>
@@ -47,7 +47,7 @@
             <img alt="example" style="width: 100%" :src="previewImage"/>
           </a-modal>
         </a-form-item>
-          
+
 
       </a-form>
     </a-spin>
@@ -56,32 +56,32 @@
 
 <script>
 
-  import { httpAction,getAction,postAction } from '@/api/manage'
+  import {httpAction, getAction, postAction} from '@/api/manage'
   import pick from 'lodash.pick'
   import JTreeSelect from '@/components/jeecg/JTreeSelect'
-  import {duplicateCheck } from '@/api/api'
+  import {duplicateCheck} from '@/api/api'
   import Vue from 'vue'
   import {ACCESS_TOKEN} from "@/store/mutation-types"
-  
+
   export default {
     name: "ProductCategoryModal",
-    components: { 
+    components: {
       JTreeSelect
     },
-    data () {
+    data() {
       return {
         form: this.$form.createForm(this),
-        title:"操作",
-        width:800,
+        title: "操作",
+        width: 800,
         visible: false,
         model: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
         categoryId: '',
         headers: {},
@@ -90,32 +90,32 @@
         fileList: [],
         removeFileList: [],
         confirmLoading: false,
-        validatorRules:{
-          code:{
+        validatorRules: {
+          code: {
             rules: [{
               required: true, message: '请输入类型编码!'
-            },{
+            }, {
               validator: this.validateMyCode
             }]
           },
-          pid:{},
-          name:{
-            rules: [{required: true, message: '请输入类型名称!'},{validator: this.validateName}]
+          pid: {},
+          name: {
+            rules: [{required: true, message: '请输入类型名称!'}, {validator: this.validateName}]
           },
         },
         url: {
           add: "/product/category/add",
           edit: "/product/category/edit",
-          checkCode:"/product/category/checkCode",
+          checkCode: "/product/category/checkCode",
           fileUpload: window._CONFIG['domianURL'] + "/sys/common/upload",
           removeFile: window._CONFIG['domianURL'] + "/sys/common/remove",
         },
-        expandedRowKeys:[],
-        pidField:"pid"
-     
+        expandedRowKeys: [],
+        pidField: "pid"
+
       }
     },
-    created () {
+    created() {
       const token = Vue.ls.get(ACCESS_TOKEN);
       this.headers = {"X-Access-Token": token}
     },
@@ -125,47 +125,47 @@
       }
     },
     methods: {
-      add () {
+      add() {
         this.edit({});
       },
-      edit (record) {
+      edit(record) {
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'pid','name','code'))
+          this.form.setFieldsValue(pick(this.model, 'pid', 'name', 'code'))
         })
 
         this.categoryId = record.id;
 
         /** 图片渲染 **/
-        if(this.model.image){
+        if (this.model.image) {
           let tmpUrls = this.model.image.split(',');
           let tmpIdx = 0;
           let baseUrl = window._CONFIG['domianURL'] + "/sys/common/view/";
-          for(let i=0;i<tmpUrls.length;i++){
+          for (let i = 0; i < tmpUrls.length; i++) {
             let imgUrl = tmpUrls[i];
             tmpIdx--;
             this.fileList[i] = {
               uid: tmpIdx, //根据官方API文档，该值最好给个负数值，以免与内部对象冲突
-              name: imgUrl.substring(imgUrl.lastIndexOf("/"),imgUrl.indexOf(".")),
+              name: imgUrl.substring(imgUrl.lastIndexOf("/"), imgUrl.indexOf(".")),
               status: 'done',
               url: baseUrl + imgUrl,
               thumbUrl: baseUrl + imgUrl,
               isCommit: true, //图片是否已提交
             }
           }
-        }else{
+        } else {
           this.fileList = [];
         }
-        console.log("图片渲染fileList:",this.fileList);
+        console.log("图片渲染fileList:", this.fileList);
 
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleOk () {
+      handleOk() {
         const that = this;
         // 触发表单验证
         this.form.validateFields((err, values) => {
@@ -173,12 +173,12 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.id){
-              httpurl+=this.url.add;
+            if (!this.model.id) {
+              httpurl += this.url.add;
               method = 'post';
-            }else{
-              httpurl+=this.url.edit;
-               method = 'put';
+            } else {
+              httpurl += this.url.edit;
+              method = 'put';
             }
             let formData = Object.assign(this.model, values);
 
@@ -202,15 +202,15 @@
 
             formData.image = imageUrls;
 
-            console.log("表单提交数据",formData)
-            httpAction(httpurl,formData,method).then((res)=>{
-              if(res.success){
+            console.log("表单提交数据", formData)
+            httpAction(httpurl, formData, method).then((res) => {
+              if (res.success) {
                 // 提交成功后服务器删除移除的图片
                 this.handleRemoveFile(this.removeFileList);
 
                 that.$message.success(res.message);
                 that.submitSuccess(formData)
-              }else{
+              } else {
                 that.$message.warning(res.message);
               }
             }).finally(() => {
@@ -218,54 +218,54 @@
               that.close();
             })
           }
-         
+
         })
       },
-      handleCancel () {
+      handleCancel() {
         let files = [];
         for (let i = 0; i < this.fileList.length; i++) {
-            let img = this.fileList[i];
-            if (!img.isCommit) {
-                files.push(img.response.message);
-            }
+          let img = this.fileList[i];
+          if (!img.isCommit) {
+            files.push(img.response.message);
+          }
         }
-        console.log("未提交的图片：",files);
+        console.log("未提交的图片：", files);
         // 关闭成功后服务器删除未提交的图片
         this.handleRemoveFile(files);
 
         this.close()
       },
-      popupCallback(row){
-        this.form.setFieldsValue(pick(row,'pid','name','code'))
+      popupCallback(row) {
+        this.form.setFieldsValue(pick(row, 'pid', 'name', 'code'))
       },
-      submitSuccess(formData){
-        if(!formData.id){
+      submitSuccess(formData) {
+        if (!formData.id) {
           let treeData = this.$refs.treeSelect.getCurrTreeData()
-          this.expandedRowKeys=[]
-          this.getExpandKeysByPid(formData[this.pidField],treeData,treeData)
-          this.$emit('ok',formData,this.expandedRowKeys.reverse());
-        }else{
-          this.$emit('ok',formData);
+          this.expandedRowKeys = []
+          this.getExpandKeysByPid(formData[this.pidField], treeData, treeData)
+          this.$emit('ok', formData, this.expandedRowKeys.reverse());
+        } else {
+          this.$emit('ok', formData);
         }
       },
-      getExpandKeysByPid(pid,arr,all){
-        if(pid && arr && arr.length>0){
-          for(let i=0;i<arr.length;i++){
-            if(arr[i].key==pid){
+      getExpandKeysByPid(pid, arr, all) {
+        if (pid && arr && arr.length > 0) {
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].key == pid) {
               this.expandedRowKeys.push(arr[i].key)
-              this.getExpandKeysByPid(arr[i]['parentId'],all,all)
-            }else{
-              this.getExpandKeysByPid(pid,arr[i].children,all)
+              this.getExpandKeysByPid(arr[i]['parentId'], all, all)
+            } else {
+              this.getExpandKeysByPid(pid, arr[i].children, all)
             }
           }
         }
       },
-      validateMyCode(rule, value, callback){
+      validateMyCode(rule, value, callback) {
         let params = {
           pid: this.form.getFieldValue('pid'),
           code: value
         }
-        getAction(this.url.checkCode,params).then((res) => {
+        getAction(this.url.checkCode, params).then((res) => {
           if (res.success) {
             callback()
           } else {
@@ -273,7 +273,7 @@
           }
         })
       },
-      validateName(rule, value, callback){
+      validateName(rule, value, callback) {
         var params = {
           tableName: 't_product_category',
           fieldName: 'name',
@@ -297,23 +297,23 @@
       },
       imageChange(info) {
         this.fileList = info.fileList;
-        console.log("上传后：",this.fileList);
+        console.log("上传后：", this.fileList);
       },
       imageRemove(file) {
-        if(file.url){
+        if (file.url) {
           let rmUrl = file.url.substring(file.url.indexOf("/files"), file.url.length);
           this.removeFileList.push(rmUrl);
-        }else{
-            if(file.response){
-              this.removeFileList.push(file.response.message);
-            }
+        } else {
+          if (file.response) {
+            this.removeFileList.push(file.response.message);
+          }
         }
 
         console.log("删除图片路径：", this.removeFileList);
       },
       beforeUpload: function (file) {
         var fileType = file.type;
-        if(fileType.indexOf('image')<0){
+        if (fileType.indexOf('image') < 0) {
           this.$message.warning('请上传图片');
           return false;
         }
@@ -323,13 +323,13 @@
           return false;
         }
       },
-      handleRemoveFile(files){
-        postAction(this.url.removeFile, {filePaths:files}).then((res) => {
+      handleRemoveFile(files) {
+        postAction(this.url.removeFile, {filePaths: files}).then((res) => {
 
         });
       }
-      
-      
+
+
     }
   }
 </script>

@@ -38,7 +38,7 @@
             :pagination="ipagination"
             :rowSelection="{type:'radio',selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
             @change="handleTableChange"
-            >
+          >
             <span slot="image" slot-scope="image">
                 <a-row>
                   <img :src="getAvatarView(image.split(',')[0])" style="height:50px;max-width:50px"/>
@@ -52,21 +52,20 @@
 </template>
 
 <script>
-  import { postAction,getAction} from '@/api/manage'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {postAction, getAction} from '@/api/manage'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 
   export default {
-    mixins:[JeecgListMixin],
-    components: {
-    },
-    data () {
+    mixins: [JeecgListMixin],
+    components: {},
+    data() {
       return {
-        title:"操作",
+        title: "操作",
         visible: false,
         adsId: "",
-        queryParam:{},
-        dataSource:[],
-        selectedRowKeys:[],
+        queryParam: {},
+        dataSource: [],
+        selectedRowKeys: [],
         confirmLoading: false,
         columns: [
           {
@@ -96,49 +95,49 @@
         },
         url: {
           list: "/product/info/list",
-          imgerver: window._CONFIG['domianURL']+"/sys/common/view",
+          imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
         },
       }
     },
-    created(){
+    created() {
       this.loadData(1);
     },
     methods: {
-      loadData (arg){
-        if(arg===1){
+      loadData(arg) {
+        if (arg === 1) {
           this.ipagination.current = 1;
         }
         let params = this.getQueryParams();//查询条件
         params.state = '0';
-        getAction(this.url.list,params).then((res)=>{
-          if(res.success){
+        getAction(this.url.list, params).then((res) => {
+          if (res.success) {
             this.dataSource = res.result.records;
             this.ipagination.total = res.result.total;
           }
         })
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleCancel () {
+      handleCancel() {
         this.close();
       },
-      handleOk () {
+      handleOk() {
         const that = this;
         that.confirmLoading = true;
-        if(this.selectedRowKeys.length == 0){
+        if (this.selectedRowKeys.length == 0) {
           that.$message.error("请选择商品");
           that.confirmLoading = false;
           return;
         }
         that.$message.success("商品关联成功");
-        that.$emit('ok',this.selectedRowKeys);
+        that.$emit('ok', this.selectedRowKeys);
         that.confirmLoading = false;
         that.close();
       },
-      getAvatarView(image){
-        return this.url.imgerver +"/"+ image;
+      getAvatarView(image) {
+        return this.url.imgerver + "/" + image;
       },
 
       searchQuery() {

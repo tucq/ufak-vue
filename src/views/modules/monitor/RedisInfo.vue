@@ -23,7 +23,7 @@
 </template>
 <script>
   import moment from 'moment'
-  import { getAction } from '@/api/manage'
+  import {getAction} from '@/api/manage'
   import AreaChartTy from '@/components/chart/AreaChartTy'
 
   export default {
@@ -119,12 +119,12 @@
         ]).then((res) => {
           let time = moment().format('hh:mm:ss')
 
-          let [{ dbSize: currentSize }, memoryInfo] = res
+          let [{dbSize: currentSize}, memoryInfo] = res
           let currentMemory = memoryInfo.used_memory / 1000
 
           // push 数据
-          this.key.dataSource.push({ x: time, y: currentSize })
-          this.memory.dataSource.push({ x: time, y: currentMemory })
+          this.key.dataSource.push({x: time, y: currentSize})
+          this.memory.dataSource.push({x: time, y: currentMemory})
           // 最大长度为6
           if (this.key.dataSource.length > 6) {
             this.key.dataSource.splice(0, 1)

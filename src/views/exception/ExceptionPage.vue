@@ -30,8 +30,8 @@
       }
     },
     methods: {
-      handleToHome () {
-        this.$router.push({ name: 'dashboard' })
+      handleToHome() {
+        this.$router.push({name: 'dashboard'})
       }
     }
   }
@@ -44,18 +44,22 @@
     align-items: center;
     text-align: center;
     margin-top: 150px;
+
     .img {
       display: inline-block;
       padding-right: 52px;
       zoom: 1;
+
       img {
         height: 360px;
         max-width: 430px;
       }
     }
+
     .content {
       display: inline-block;
       flex: auto;
+
       h1 {
         color: #434e59;
         font-size: 72px;
@@ -63,6 +67,7 @@
         line-height: 72px;
         margin-bottom: 24px;
       }
+
       .desc {
         color: rgba(0, 0, 0, .45);
         font-size: 20px;
@@ -75,6 +80,7 @@
   .mobile {
     .exception {
       margin-top: 30px;
+
       .img {
         padding-right: unset;
 

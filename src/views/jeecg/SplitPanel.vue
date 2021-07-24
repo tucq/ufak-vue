@@ -11,7 +11,7 @@
 
   export default {
     name: 'SplitPanel',
-    components:{
+    components: {
       SplitPanelModal,
     },
     data() {
@@ -19,8 +19,8 @@
         description: '分屏',
       }
     },
-    methods:{
-      splitPane(){
+    methods: {
+      splitPane() {
         this.$refs.splitPanelModal.show();
       }
     }

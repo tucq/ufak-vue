@@ -51,12 +51,15 @@
       line-height: 72px;
       margin-bottom: 24px;
     }
+
     .success {
       color: #52c41a;
     }
+
     .error {
       color: red;
     }
+
     .title {
       font-size: 24px;
       color: rgba(0, 0, 0, .85);
@@ -64,18 +67,21 @@
       line-height: 32px;
       margin-bottom: 16px;
     }
+
     .description {
       font-size: 14px;
       line-height: 22px;
       color: rgba(0, 0, 0, 0.45);
       margin-bottom: 24px;
     }
+
     .content {
       background: #fafafa;
       padding: 24px 40px;
       border-radius: 2px;
       text-align: left;
     }
+
     .action {
       margin-top: 32px;
     }

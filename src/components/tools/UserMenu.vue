@@ -45,9 +45,9 @@
             <span>账户设置</span>
           </router-link>
         </a-menu-item>
-        <a-menu-item key="3"  @click="systemSetting">
-           <a-icon type="tool"/>
-           <span>系统设置</span>
+        <a-menu-item key="3" @click="systemSetting">
+          <a-icon type="tool"/>
+          <span>系统设置</span>
         </a-menu-item>
         <a-menu-item key="4" @click="updatePassword">
           <a-icon type="setting"/>
@@ -57,17 +57,17 @@
           <a-icon type="cluster"/>
           <span>切换部门</span>
         </a-menu-item>
-       <!-- <a-menu-item key="2" disabled>
-          <a-icon type="setting"/>
-          <span>测试</span>
-        </a-menu-item>
-        <a-menu-divider/>
-        <a-menu-item key="3">
-          <a href="javascript:;" @click="handleLogout">
-            <a-icon type="logout"/>
-            <span>退出登录</span>
-          </a>
-        </a-menu-item>-->
+        <!-- <a-menu-item key="2" disabled>
+           <a-icon type="setting"/>
+           <span>测试</span>
+         </a-menu-item>
+         <a-menu-divider/>
+         <a-menu-item key="3">
+           <a href="javascript:;" @click="handleLogout">
+             <a-icon type="logout"/>
+             <span>退出登录</span>
+           </a>
+         </a-menu-item>-->
       </a-menu>
     </a-dropdown>
     <span class="action">
@@ -87,17 +87,17 @@
   import UserPassword from './UserPassword'
   import SettingDrawer from "@/components/setting/SettingDrawer";
   import DepartSelect from './DepartSelect'
-  import { mapActions, mapGetters,mapState } from 'vuex'
-  import { mixinDevice } from '@/utils/mixin.js'
+  import {mapActions, mapGetters, mapState} from 'vuex'
+  import {mixinDevice} from '@/utils/mixin.js'
 
   export default {
     name: "UserMenu",
     mixins: [mixinDevice],
-    data(){
-      return{
+    data() {
+      return {
         //菜单搜索
-        search:[],
-        shows:false
+        search: [],
+        shows: false
       }
     },
     components: {
@@ -116,9 +116,9 @@
     /* update_begin author:zhaoxin date:20191129 for: 做头部菜单栏导航*/
     created() {
       let lists = []
-      console.log("permissionMenuList: ",this.permissionMenuList)
-      this.searchMenus(lists,this.permissionMenuList)
-      this.search=[...lists]
+      console.log("permissionMenuList: ", this.permissionMenuList)
+      this.searchMenus(lists, this.permissionMenuList)
+      this.search = [...lists]
       console.log(this.search)
     },
     computed: {
@@ -131,18 +131,18 @@
     /* update_end author:zhaoxin date:20191129 for: 做头部菜单栏导航*/
     methods: {
       /* update_begin author:zhaoxin date:20191129 for: 做头部菜单栏导航*/
-      showClick(){
+      showClick() {
         this.shows = !this.shows
       },
-      hiddenClick(){
+      hiddenClick() {
         this.shows = false
       },
       /* update_end author:zhaoxin date:20191129 for: 做头部菜单栏导航*/
       ...mapActions(["Logout"]),
-      ...mapGetters(["nickname", "avatar","userInfo"]),
-      getAvatar(){
-        console.log('url = '+ window._CONFIG['imgDomainURL']+"/"+this.avatar())
-        return window._CONFIG['imgDomainURL']+"/"+this.avatar()
+      ...mapGetters(["nickname", "avatar", "userInfo"]),
+      getAvatar() {
+        console.log('url = ' + window._CONFIG['imgDomainURL'] + "/" + this.avatar())
+        return window._CONFIG['imgDomainURL'] + "/" + this.avatar()
       },
       handleLogout() {
         const that = this
@@ -152,7 +152,7 @@
           content: '真的要注销登录吗 ?',
           onOk() {
             return that.Logout({}).then(() => {
-                window.location.href="/";
+              window.location.href = "/";
               //window.location.reload()
             }).catch(err => {
               that.$message.error({
@@ -165,33 +165,33 @@
           },
         });
       },
-      updatePassword(){
+      updatePassword() {
         let username = this.userInfo().username
         this.$refs.userPassword.show(username)
       },
-      updateCurrentDepart(){
+      updateCurrentDepart() {
         this.$refs.departSelect.show()
       },
-      systemSetting(){
+      systemSetting() {
         this.$refs.settingDrawer.showDrawer()
       },
       /* update_begin author:zhaoxin date:20191129 for: 做头部菜单栏导航*/
-      searchMenus(arr,menus){
-        for(let i of menus){
-          if(!i.hidden && "layouts/RouteView"!==i.component){
-           arr.push(i)
+      searchMenus(arr, menus) {
+        for (let i of menus) {
+          if (!i.hidden && "layouts/RouteView" !== i.component) {
+            arr.push(i)
           }
-          if(i.children&& i.children.length>0){
-            this.searchMenus(arr,i.children)
+          if (i.children && i.children.length > 0) {
+            this.searchMenus(arr, i.children)
           }
         }
       },
       filterOption(input, option) {
         return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
       },
-      searchMethods(value){
-        let jump = this.search.filter(item=>item.id==value)
-        this.$router.push({ path:jump[0].path})
+      searchMethods(value) {
+        let jump = this.search.filter(item => item.id == value)
+        this.$router.push({path: jump[0].path})
       }
       /*update_end author:zhaoxin date:20191129 for: 做头部菜单栏导航*/
     }
@@ -218,6 +218,7 @@
       }
     }
   }
+
   /* update-end author:sunjianlei date:20191220 for: 解决全局样式冲突问题 */
   /* update_end author:zhaoxin date:20191129 for: 让搜索框颜色能随主题颜色变换*/
 </style>

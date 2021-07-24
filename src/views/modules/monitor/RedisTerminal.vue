@@ -4,9 +4,9 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'RedisTerminal'
-}
+  export default {
+    name: 'RedisTerminal'
+  }
 </script>
 <style>
 

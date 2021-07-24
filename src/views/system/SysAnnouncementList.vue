@@ -32,7 +32,8 @@
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
       <a-button type="primary" icon="download" @click="handleExportXls('系统通告')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl"
+                @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
       <a-dropdown v-if="selectedRowKeys.length > 0">
@@ -51,7 +52,8 @@
     <!-- table区域-begin -->
     <div>
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
+        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
+        selectedRowKeys.length }}</a>项
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
@@ -68,7 +70,7 @@
         @change="handleTableChange">
 
         <span slot="action" slot-scope="text, record">
-          <a  v-if="record.sendStatus == 0" @click="handleEdit(record)">编辑</a>
+          <a v-if="record.sendStatus == 0" @click="handleEdit(record)">编辑</a>
 
           <a-divider type="vertical" v-if="record.sendStatus == 0"/>
           <a-dropdown>
@@ -248,7 +250,7 @@
       }
     },
     computed: {
-      importExcelUrl: function(){
+      importExcelUrl: function () {
         return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
       }
     },

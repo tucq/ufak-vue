@@ -68,7 +68,7 @@
     </template>
     <span @click="fetchNotice" class="header-notice">
       <a-badge :count="msgTotal">
-        <a-icon style="font-size: 16px; padding: 4px" type="bell" />
+        <a-icon style="font-size: 16px; padding: 4px" type="bell"/>
       </a-badge>
     </span>
     <show-announcement ref="ShowAnnouncement" @ok="modalFormOk"></show-announcement>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-  import { getAction,putAction } from '@/api/manage'
+  import {getAction, putAction} from '@/api/manage'
   import ShowAnnouncement from './ShowAnnouncement'
   import store from '@/store/'
 
@@ -86,30 +86,30 @@
     components: {
       ShowAnnouncement,
     },
-    data () {
+    data() {
       return {
         loadding: false,
-        url:{
-          listCementByUser:"/sys/annountCement/listByUser",
-          editCementSend:"/sys/sysAnnouncementSend/editByAnntIdAndUserId",
-          queryById:"/sys/annountCement/queryById",
+        url: {
+          listCementByUser: "/sys/annountCement/listByUser",
+          editCementSend: "/sys/sysAnnouncementSend/editByAnntIdAndUserId",
+          queryById: "/sys/annountCement/queryById",
         },
         hovered: false,
-        announcement1:[],
-        announcement2:[],
-        msg1Count:"0",
-        msg2Count:"0",
-        msg1Title:"通知(0)",
-        msg2Title:"",
-        stopTimer:false,
+        announcement1: [],
+        announcement2: [],
+        msg1Count: "0",
+        msg2Count: "0",
+        msg1Title: "通知(0)",
+        msg2Title: "",
+        stopTimer: false,
         websock: null,
-        lockReconnect:false,
-        heartCheck:null,
+        lockReconnect: false,
+        heartCheck: null,
       }
     },
-    computed:{
-      msgTotal () {
-        return parseInt(this.msg1Count)+parseInt(this.msg2Count);
+    computed: {
+      msgTotal() {
+        return parseInt(this.msg1Count) + parseInt(this.msg2Count);
       }
     },
     mounted() {
@@ -124,16 +124,16 @@
     methods: {
       timerFun() {
         this.stopTimer = false;
-        let myTimer = setInterval(()=>{
+        let myTimer = setInterval(() => {
           // 停止定时器
           if (this.stopTimer == true) {
             clearInterval(myTimer);
             return;
           }
           this.loadData()
-        },6000)
+        }, 6000)
       },
-      loadData (){
+      loadData() {
         try {
           // 获取系统消息
           getAction(this.url.listCementByUser).then((res) => {
@@ -146,16 +146,16 @@
               this.msg2Title = "系统消息(" + res.result.sysMsgTotal + ")";
             }
           }).catch(error => {
-            console.log("系统消息通知异常",error);//这行打印permissionName is undefined
+            console.log("系统消息通知异常", error);//这行打印permissionName is undefined
             this.stopTimer = true;
             console.log("清理timer");
           });
         } catch (err) {
           this.stopTimer = true;
-          console.log("通知异常",err);
+          console.log("通知异常", err);
         }
       },
-      fetchNotice () {
+      fetchNotice() {
         if (this.loadding) {
           this.loadding = false
           return
@@ -165,32 +165,32 @@
           this.loadding = false
         }, 200)
       },
-      showAnnouncement(record){
-        putAction(this.url.editCementSend,{anntId:record.id}).then((res)=>{
-          if(res.success){
+      showAnnouncement(record) {
+        putAction(this.url.editCementSend, {anntId: record.id}).then((res) => {
+          if (res.success) {
             this.loadData();
           }
         });
         this.hovered = false;
         this.$refs.ShowAnnouncement.detail(record);
       },
-      toMyAnnouncement(){
+      toMyAnnouncement() {
 
         this.$router.push({
           path: '/isps/userAnnouncement',
           name: 'isps-userAnnouncement'
         });
       },
-      modalFormOk(){
+      modalFormOk() {
       },
-      handleHoverChange (visible) {
+      handleHoverChange(visible) {
         this.hovered = visible;
       },
 
       initWebSocket: function () {
         // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
         var userId = store.getters.userInfo.id;
-        var url = window._CONFIG['domianURL'].replace("https://","wss://").replace("http://","ws://")+"/websocket/"+userId;
+        var url = window._CONFIG['domianURL'].replace("https://", "wss://").replace("http://", "ws://") + "/websocket/" + userId;
         console.log(url);
         this.websock = new WebSocket(url);
         this.websock.onopen = this.websocketOnopen;
@@ -210,11 +210,11 @@
       websocketOnmessage: function (e) {
         // console.log("-----接收消息-------",e.data);
         var data = eval("(" + e.data + ")"); //解析对象
-        if(data.cmd == "topic"){
-            //系统通知
+        if (data.cmd == "topic") {
+          //系统通知
           this.loadData();
-        }else if(data.cmd == "user"){
-            //用户消息
+        } else if (data.cmd == "user") {
+          //用户消息
           this.loadData();
         }
         //心跳检测重置
@@ -232,22 +232,22 @@
         }
       },
 
-      openNotification (data) {
+      openNotification(data) {
         var text = data.msgTxt;
         const key = `open${Date.now()}`;
         this.$notification.open({
           message: '消息提醒',
-          placement:'bottomRight',
+          placement: 'bottomRight',
           description: text,
           key,
-          btn: (h)=>{
+          btn: (h) => {
             return h('a-button', {
               props: {
                 type: 'primary',
                 size: 'small',
               },
               on: {
-                click: () => this.showDetail(key,data)
+                click: () => this.showDetail(key, data)
               }
             }, '查看详情')
           },
@@ -256,7 +256,7 @@
 
       reconnect() {
         var that = this;
-        if(that.lockReconnect) return;
+        if (that.lockReconnect) return;
         that.lockReconnect = true;
         //没连接上会一直重连，设置延迟避免请求过多
         setTimeout(function () {
@@ -265,21 +265,21 @@
           that.lockReconnect = false;
         }, 5000);
       },
-      heartCheckFun(){
+      heartCheckFun() {
         var that = this;
         //心跳检测,每20s心跳一次
         that.heartCheck = {
           timeout: 20000,
           timeoutObj: null,
           serverTimeoutObj: null,
-          reset: function(){
+          reset: function () {
             clearTimeout(this.timeoutObj);
             //clearTimeout(this.serverTimeoutObj);
             return this;
           },
-          start: function(){
+          start: function () {
             var self = this;
-            this.timeoutObj = setTimeout(function(){
+            this.timeoutObj = setTimeout(function () {
               //这里发送一个心跳，后端收到后，返回一个心跳消息，
               //onmessage拿到返回的心跳就说明连接正常
               that.websocketSend("HeartBeat");
@@ -293,10 +293,10 @@
       },
 
 
-      showDetail(key,data){
+      showDetail(key, data) {
         this.$notification.close(key);
         var id = data.msgId;
-        getAction(this.url.queryById,{id:id}).then((res) => {
+        getAction(this.url.queryById, {id: id}).then((res) => {
           if (res.success) {
             var record = res.result;
             this.showAnnouncement(record);
@@ -314,7 +314,7 @@
   }
 </style>
 <style lang="scss" scoped>
-  .header-notice{
+  .header-notice {
     display: inline-block;
     transition: all 0.3s;
 

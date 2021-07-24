@@ -10,37 +10,37 @@
 </template>
 
 <script>
-export default {
+  export default {
     data() {
       return {
         name: '',
         breadList: [],
       }
     },
-  created () {
-    this.getBreadcrumb()
-  },
-  methods: {
-    getBreadcrumb() {
-
-      console.log('this.$route.matched', this.$route.matched)
-
-      this.breadList = []
-      this.breadList.push({ name: 'dashboard', path: '/dashboard/', meta: { title: '首页' } })
-
-      this.name = this.$route.name
-      this.$route.matched.forEach((item) => {
-        // item.meta.name === 'dashboard' ? item.path = '/dashboard' : this.$route.path === item.path
-          this.breadList.push(item)
-      })
-    }
-  },
-  watch: {
-    $route() {
+    created() {
       this.getBreadcrumb()
+    },
+    methods: {
+      getBreadcrumb() {
+
+        console.log('this.$route.matched', this.$route.matched)
+
+        this.breadList = []
+        this.breadList.push({name: 'dashboard', path: '/dashboard/', meta: {title: '首页'}})
+
+        this.name = this.$route.name
+        this.$route.matched.forEach((item) => {
+          // item.meta.name === 'dashboard' ? item.path = '/dashboard' : this.$route.path === item.path
+          this.breadList.push(item)
+        })
+      }
+    },
+    watch: {
+      $route() {
+        this.getBreadcrumb()
+      }
     }
   }
-}
 </script>
 
 <style scoped>

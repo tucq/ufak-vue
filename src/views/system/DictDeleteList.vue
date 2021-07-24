@@ -29,18 +29,19 @@
 </template>
 
 <script>
-  import { getAction,deleteAction,putAction } from '@/api/manage'
+  import {getAction, deleteAction, putAction} from '@/api/manage'
+
   export default {
     name: "DictDeleteList",
-    data () {
+    data() {
       return {
         modalWidth: '90%',
-        modalStyle: { 'top': '20px'},
+        modalStyle: {'top': '20px'},
         title: '操作',
         visible: false,
         loading: false,
-        dataSource:[],
-        columns:[
+        dataSource: [],
+        columns: [
           {
             title: '#',
             dataIndex: '',
@@ -77,40 +78,40 @@
     },
 
     methods: {
-      handleCancel(){
+      handleCancel() {
         this.visible = false
       },
-      show(){
+      show() {
         this.visible = true
         this.loadData();
       },
-      loadData(){
+      loadData() {
         this.loading = true
-        getAction("/sys/dict/deleteList").then(res=>{
+        getAction("/sys/dict/deleteList").then(res => {
           this.loading = false
-          if(res.success){
+          if (res.success) {
             this.dataSource = res.result
-          }else{
+          } else {
             this.$message.warning(res.message)
           }
         })
       },
-      handleBack(id){
-        putAction("/sys/dict/back/"+id).then(res=>{
-          if(res.success){
+      handleBack(id) {
+        putAction("/sys/dict/back/" + id).then(res => {
+          if (res.success) {
             this.$message.success(res.message)
             this.loadData();
-          }else{
+          } else {
             this.$message.warning(res.message)
           }
         })
       },
-      handleDelete(id){
-        deleteAction("/sys/dict/deletePhysic/"+id).then(res=>{
-          if(res.success){
+      handleDelete(id) {
+        deleteAction("/sys/dict/deletePhysic/" + id).then(res => {
+          if (res.success) {
             this.$message.success(res.message)
             this.loadData();
-          }else{
+          } else {
             this.$message.warning(res.message)
           }
         })

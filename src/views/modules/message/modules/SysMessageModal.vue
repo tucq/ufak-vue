@@ -40,7 +40,8 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="发送方式">
-          <j-dict-select-tag :triggerChange="true" dictCode="msgType" v-decorator="[ 'esType', {}]" placeholder="请选择发送方式">
+          <j-dict-select-tag :triggerChange="true" dictCode="msgType" v-decorator="[ 'esType', {}]"
+                             placeholder="请选择发送方式">
           </j-dict-select-tag>
         </a-form-item>
         <a-form-item
@@ -53,7 +54,8 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="发送状态">
-          <j-dict-select-tag :triggerChange="true" dictCode="msgSendStatus" v-decorator="[ 'esSendStatus', {}]" placeholder="请选择发送状态">
+          <j-dict-select-tag :triggerChange="true" dictCode="msgSendStatus" v-decorator="[ 'esSendStatus', {}]"
+                             placeholder="请选择发送状态">
           </j-dict-select-tag>
         </a-form-item>
         <a-form-item

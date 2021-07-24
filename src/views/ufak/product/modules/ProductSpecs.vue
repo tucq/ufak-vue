@@ -155,7 +155,7 @@
         this.loadData(this.productSpecsList);
       },
       'removeProductSpecsList': function () {
-          this.$emit('removeProductSpecsList', this.removeProductSpecsList);
+        this.$emit('removeProductSpecsList', this.removeProductSpecsList);
       }
     },
     created() {
@@ -169,7 +169,7 @@
       }
     },
     methods: {
-      loadData(productSpecsList){
+      loadData(productSpecsList) {
         //每次数据重置加载
         this.specsTitleOne = {};
         this.specsTitleTwo = {};
@@ -216,17 +216,17 @@
       },
       editIconClick(index, level) {
         if (level === 1) {
-            let tmpOne = this.dataOne;
-            this.dataOne = []; // 置空,否则list不刷新
-            tmpOne[index].isEdit = !tmpOne[index].isEdit;
-            tmpOne[index].editIcon = tmpOne[index].isEdit ? 'check' : 'edit';
-            this.dataOne = tmpOne;
+          let tmpOne = this.dataOne;
+          this.dataOne = []; // 置空,否则list不刷新
+          tmpOne[index].isEdit = !tmpOne[index].isEdit;
+          tmpOne[index].editIcon = tmpOne[index].isEdit ? 'check' : 'edit';
+          this.dataOne = tmpOne;
         } else {
-            let tmpTwo = this.dataTwo;
-            this.dataTwo = [];
-            tmpTwo[index].isEdit = !tmpTwo[index].isEdit;
-            tmpTwo[index].editIcon = tmpTwo[index].isEdit ? 'check' : 'edit';
-            this.dataTwo = tmpTwo;
+          let tmpTwo = this.dataTwo;
+          this.dataTwo = [];
+          tmpTwo[index].isEdit = !tmpTwo[index].isEdit;
+          tmpTwo[index].editIcon = tmpTwo[index].isEdit ? 'check' : 'edit';
+          this.dataTwo = tmpTwo;
         }
       },
       handleTitleChange(value, index, level) {
@@ -236,14 +236,14 @@
           this.dataTwo[index].specsTitle = value;
         }
       },
-      handelCheck(check, index, level){
+      handelCheck(check, index, level) {
         if (level === 1) {
           this.dataOne[index].stats = check ? '0' : '1';
         } else {
           this.dataTwo[index].stats = check ? '0' : '1';
         }
       },
-      handelRemove(item,index, level){
+      handelRemove(item, index, level) {
         this.removeProductSpecsList.push(item);//删除的规格
         if (level === 1) {
           this.dataOne.splice(index, 1);
@@ -262,7 +262,7 @@
         }
       },
       beforeUpload(file) {
-          console.log(file);
+        console.log(file);
         const isJPG = file.type === 'image/jpeg';
         if (!isJPG) {
           this.$message.error('请上传jpg格式图片！');
@@ -273,12 +273,12 @@
         }
         return isJPG && isLt2M;
       },
-      previewUrl(url){
-          if(url.indexOf("/img/logo.07b1638a.svg") != -1){
-              return url;
-          }else{
-              return window._CONFIG['domianURL'] + "/sys/common/view/" + url;
-          }
+      previewUrl(url) {
+        if (url.indexOf("/img/logo.07b1638a.svg") != -1) {
+          return url;
+        } else {
+          return window._CONFIG['domianURL'] + "/sys/common/view/" + url;
+        }
       }
 
     },

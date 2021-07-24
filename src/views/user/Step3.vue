@@ -42,14 +42,15 @@
 </template>
 
 <script>
-  import { putAction,getAction } from '@/api/manage'
+  import {putAction, getAction} from '@/api/manage'
+
   export default {
     name: "Step3",
 //    components: {
 //      Result
 //    },
     props: ['userList'],
-    data () {
+    data() {
       return {
         loading: false,
         form: this.$form.createForm(this),
@@ -68,51 +69,51 @@
       }
     },
     methods: {
-      nextStep () {
+      nextStep() {
         let that = this
         that.loading = true
         this.form.validateFields((err, values) => {
-          if ( !err ){
-          var params={}
-          params.username=this.userList.username;
-          params.password=values.password;
-          params.smscode=this.userList.smscode;
-          params.phone= this.userList.phone;
-          getAction("/sys/user/passwordChange", params).then((res) => {
-            if(res.success){
-            var userList = {
-              username: this.userList.username
-            }
-            console.log(userList);
-            setTimeout(function () {
-              that.$emit('nextStep', userList)
-            }, 1500)
-          }else{
-            this.passwordFailed(res.message);
+          if (!err) {
+            var params = {}
+            params.username = this.userList.username;
+            params.password = values.password;
+            params.smscode = this.userList.smscode;
+            params.phone = this.userList.phone;
+            getAction("/sys/user/passwordChange", params).then((res) => {
+              if (res.success) {
+                var userList = {
+                  username: this.userList.username
+                }
+                console.log(userList);
+                setTimeout(function () {
+                  that.$emit('nextStep', userList)
+                }, 1500)
+              } else {
+                this.passwordFailed(res.message);
+                that.loading = false
+              }
+            })
+          } else {
             that.loading = false
           }
         })
-        } else{
-          that.loading = false
-        }
-      })
 
       },
-      prevStep () {
+      prevStep() {
         this.$emit('prevStep', this.userList)
       },
 
-      handlePasswordCheck (rule, value, callback) {
+      handlePasswordCheck(rule, value, callback) {
         let password = this.form.getFieldValue('password')
         if (value && password && value.trim() !== password.trim()) {
           callback(new Error('两次密码不一致'))
         }
         callback()
       },
-      passwordFailed(err){
-        this.$notification[ 'error' ]({
+      passwordFailed(err) {
+        this.$notification['error']({
           message: "更改密码失败",
-          description:err,
+          description: err,
           duration: 4,
         });
       },

@@ -24,11 +24,11 @@
       dataSource: {
         type: Array,
         default: () => [
-          { item: '示例一', count: 40 },
-          { item: '示例二', count: 21 },
-          { item: '示例三', count: 17 },
-          { item: '示例四', count: 13 },
-          { item: '示例五', count: 9 }
+          {item: '示例一', count: 40},
+          {item: '示例二', count: 21},
+          {item: '示例三', count: 17},
+          {item: '示例四', count: 13},
+          {item: '示例五', count: 9}
         ]
       }
     },

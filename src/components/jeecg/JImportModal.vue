@@ -14,7 +14,7 @@
       :remove="handleRemove"
       :beforeUpload="beforeUpload">
       <a-button>
-        <a-icon type="upload" />
+        <a-icon type="upload"/>
         选择导入文件
       </a-button>
     </a-upload>
@@ -34,40 +34,41 @@
 </template>
 
 <script>
-  import { postAction } from '@/api/manage'
+  import {postAction} from '@/api/manage'
+
   export default {
     name: 'JImportModal',
-    props:{
-      url:{
+    props: {
+      url: {
         type: String,
         default: '',
         required: false
       }
     },
-    data(){
+    data() {
       return {
-        visible:false,
-        uploading:false,
-        fileList:[],
-        uploadAction:''
+        visible: false,
+        uploading: false,
+        fileList: [],
+        uploadAction: ''
       }
     },
     watch: {
-      url (val) {
-        if(val){
-         this.uploadAction = window._CONFIG['domianURL']+val
+      url(val) {
+        if (val) {
+          this.uploadAction = window._CONFIG['domianURL'] + val
         }
       }
     },
-    created () {
-      this.uploadAction = window._CONFIG['domianURL']+this.url
+    created() {
+      this.uploadAction = window._CONFIG['domianURL'] + this.url
     },
 
-    methods:{
-      handleClose(){
-        this.visible=false
+    methods: {
+      handleClose() {
+        this.visible = false
       },
-      show(){
+      show() {
         this.fileList = []
         this.uploading = false
         this.visible = true
@@ -83,7 +84,7 @@
         return false;
       },
       handleImport() {
-        const { fileList } = this;
+        const {fileList} = this;
         const formData = new FormData();
         fileList.forEach((file) => {
           formData.append('files[]', file);
@@ -91,11 +92,11 @@
         this.uploading = true
         postAction(this.uploadAction, formData).then((res) => {
           this.uploading = false
-          if(res.success){
+          if (res.success) {
             this.$message.success(res.message)
-            this.visible=false
+            this.visible = false
             this.$emit('ok')
-          }else{
+          } else {
             this.$message.warning(res.message)
           }
         })

@@ -24,9 +24,11 @@
       <a-button-group style="margin-right: 4px;">
         <a-button>操作</a-button>
         <a-button>操作</a-button>
-        <a-button><a-icon type="ellipsis"/></a-button>
+        <a-button>
+          <a-icon type="ellipsis"/>
+        </a-button>
       </a-button-group>
-      <a-button type="primary" >主操作</a-button>
+      <a-button type="primary">主操作</a-button>
     </template>
 
     <a-card :bordered="false" title="流程进度">
@@ -53,10 +55,10 @@
       <detail-list title="信息组">
         <detail-list-item term="某某数据">725</detail-list-item>
         <detail-list-item term="该数据更新时间">2018-08-08</detail-list-item>
-        <detail-list-item >&nbsp;</detail-list-item>
+        <detail-list-item>&nbsp;</detail-list-item>
         <detail-list-item term="某某数据">725</detail-list-item>
         <detail-list-item term="该数据更新时间">2018-08-08</detail-list-item>
-        <detail-list-item >&nbsp;</detail-list-item>
+        <detail-list-item>&nbsp;</detail-list-item>
       </detail-list>
       <a-card type="inner" title="多层信息组">
         <detail-list title="组名称" size="small">
@@ -66,11 +68,12 @@
           <detail-list-item term="过期时间">2018-08-08</detail-list-item>
           <detail-list-item term="描述">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</detail-list-item>
         </detail-list>
-        <a-divider style="margin: 16px 0" />
+        <a-divider style="margin: 16px 0"/>
         <detail-list title="组名称" size="small" :col="1">
-          <detail-list-item term="学名">	Citrullus lanatus (Thunb.) Matsum. et Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..</detail-list-item>
+          <detail-list-item term="学名"> Citrullus lanatus (Thunb.) Matsum. et Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..
+          </detail-list-item>
         </detail-list>
-        <a-divider style="margin: 16px 0" />
+        <a-divider style="margin: 16px 0"/>
         <detail-list title="组名称" size="small" :col="2">
           <detail-list-item term="负责人">付小小</detail-list-item>
           <detail-list-item term="角色码">1234567</detail-list-item>
@@ -80,7 +83,10 @@
     </a-card>
 
     <a-card style="margin-top: 24px" :bordered="false" title="用户近半年来电记录">
-      <div class="no-data"><a-icon type="frown-o"/>暂无数据</div>
+      <div class="no-data">
+        <a-icon type="frown-o"/>
+        暂无数据
+      </div>
     </a-card>
 
     <!-- 操作 -->
@@ -133,7 +139,7 @@
 </template>
 
 <script>
-  import { mixinDevice } from '@/utils/mixin.js'
+  import {mixinDevice} from '@/utils/mixin.js'
   import PageLayout from '@/components/page/PageLayout'
   import DetailList from '@/components/tools/DetailList'
 
@@ -147,7 +153,7 @@
       DetailListItem
     },
     mixins: [mixinDevice],
-    data () {
+    data() {
       return {
         tabList: [
           {
@@ -180,7 +186,7 @@
             title: '执行结果',
             dataIndex: 'status',
             key: 'status',
-            scopedSlots: { customRender: 'status' },
+            scopedSlots: {customRender: 'status'},
           },
           {
             title: '操作时间',
@@ -305,6 +311,7 @@
   .detail-layout {
     margin-left: 44px;
   }
+
   .text {
     color: rgba(0, 0, 0, .45);
   }
@@ -332,9 +339,11 @@
     .detail-layout {
       margin-left: unset;
     }
+
     .text {
 
     }
+
     .status-list {
       text-align: left;
     }

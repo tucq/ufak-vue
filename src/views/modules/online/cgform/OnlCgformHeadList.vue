@@ -33,10 +33,13 @@
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
       <a-button @click="doCgformButton" type="primary" icon="highlight" style="margin-left:8px">自定义按钮</a-button>
       <a-button @click="doEnhanceJs" type="primary" icon="strikethrough" style="margin-left:8px">JS增强</a-button>
-      <a-button @click="doEnhanceSql" type="primary" icon="filter" v-has="'online:sql'" style="margin-left:8px">SQL增强</a-button>
+      <a-button @click="doEnhanceSql" type="primary" icon="filter" v-has="'online:sql'" style="margin-left:8px">SQL增强
+      </a-button>
       <a-button @click="doEnhanceJava" type="primary" icon="tool" style="margin-left:8px">Java增强</a-button>
       <a-button @click="importOnlineForm" type="primary" icon="database" style="margin-left:8px">从数据库导入表单</a-button>
-      <a-button @click="goGenerateCode" v-has="'online:goGenerateCode'" type="primary" icon="database" style="margin-left:8px">代码生成</a-button>
+      <a-button @click="goGenerateCode" v-has="'online:goGenerateCode'" type="primary" icon="database"
+                style="margin-left:8px">代码生成
+      </a-button>
 
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
@@ -156,7 +159,8 @@
       @cancel="handleOnlineUrlClose">
       <template slot="footer">
         <a-button @click="handleOnlineUrlClose">关闭</a-button>
-        <a-button type="primary" class="copy-this-text" :data-clipboard-text="onlineUrl" @click="onCopyUrl">复制</a-button>
+        <a-button type="primary" class="copy-this-text" :data-clipboard-text="onlineUrl" @click="onCopyUrl">复制
+        </a-button>
       </template>
       <p>{{ onlineUrl }}</p>
     </a-modal>
@@ -172,12 +176,12 @@
 </template>
 
 <script>
-  import { initDictOptions, filterDictText } from '@/components/dict/JDictSelectUtil'
-  import { deleteAction, postAction } from '@/api/manage'
+  import {initDictOptions, filterDictText} from '@/components/dict/JDictSelectUtil'
+  import {deleteAction, postAction} from '@/api/manage'
   import JDictSelectTag from '../../../../components/dict/JDictSelectTag.vue'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import Clipboard from 'clipboard'
-  import { filterObj } from '@/utils/util';
+  import {filterObj} from '@/utils/util';
 
   export default {
     name: 'OnlCgformHeadList',
@@ -196,7 +200,7 @@
             key: 'rowIndex',
             width: 60,
             align: 'center',
-            customRender: function(t, r, index) {
+            customRender: function (t, r, index) {
               return parseInt(index) + 1
             }
           },
@@ -228,13 +232,13 @@
             title: '同步数据库状态',
             align: 'center',
             dataIndex: 'isDbSynch',
-            scopedSlots: { customRender: 'dbsync' }
+            scopedSlots: {customRender: 'dbsync'}
           },
           {
             title: '操作',
             dataIndex: 'action',
             align: 'center',
-            scopedSlots: { customRender: 'action' }
+            scopedSlots: {customRender: 'action'}
           }
         ],
         url: {
@@ -268,7 +272,7 @@
     },
     methods: {
       doDbSynch(id) {
-        postAction(this.url.doDbSynch + id, { synMethod: '1' }).then((res) => {
+        postAction(this.url.doDbSynch + id, {synMethod: '1'}).then((res) => {
           if (res.success) {
             this.$message.success(res.message)
             this.loadData()
@@ -279,7 +283,7 @@
       },
       getQueryParams() {
         //获取查询条件
-        var param = Object.assign({}, this.queryParam, this.isorter ,this.filters);
+        var param = Object.assign({}, this.queryParam, this.isorter, this.filters);
         param.field = this.getQueryField();
         param.pageNo = this.ipagination.current;
         param.pageSize = this.ipagination.pageSize;
@@ -301,14 +305,14 @@
             this.$message.warning(res.message)
           }
         })
-        setTimeout(()=>{
-          if(this.syncLoading){
+        setTimeout(() => {
+          if (this.syncLoading) {
             this.syncModalVisible = false
             this.syncLoading = false
             this.$message.success("网络延迟,已自动刷新!")
             this.loadData()
           }
-        },10000)
+        }, 10000)
       },
       openSyncModal(id) {
         this.syncModalVisible = true
@@ -316,10 +320,10 @@
         this.syncFormId = id
       },
       goPageOnline(rd) {
-        if(rd.isTree=='Y'){
-          this.$router.push({ path: '/online/cgformTreeList/' + rd.id })
-        }else{
-          this.$router.push({ path: '/online/cgformList/' + rd.id })
+        if (rd.isTree == 'Y') {
+          this.$router.push({path: '/online/cgformTreeList/' + rd.id})
+        } else {
+          this.$router.push({path: '/online/cgformList/' + rd.id})
         }
       },
       handleOnlineUrlClose() {
@@ -327,9 +331,9 @@
         this.onlineUrlVisible = false
       },
       handleOnlineUrlShow(record) {
-        if(record.isTree=='Y'){
+        if (record.isTree == 'Y') {
           this.onlineUrl = `/online/cgformTreeList/${record.id}`
-        }else{
+        } else {
           this.onlineUrl = `/online/cgformList/${record.id}`
         }
         this.onlineUrlVisible = true
@@ -340,7 +344,7 @@
         this.$confirm({
           title: '确认要移除此记录?',
           onOk() {
-            deleteAction(that.url.removeRecord, { id: id }).then((res) => {
+            deleteAction(that.url.removeRecord, {id: id}).then((res) => {
               if (res.success) {
                 that.$message.success('移除成功')
                 that.loadData()
@@ -409,7 +413,7 @@
         this.selectedRowKeys = keys
         this.selectedRows = rows
       },
-      onCopyUrl(){
+      onCopyUrl() {
         var clipboard = new Clipboard('.copy-this-text')
         clipboard.on('success', () => {
           clipboard.destroy()
@@ -421,16 +425,16 @@
           clipboard.destroy()
         })
       },
-      showMyCopyInfo(id){
-        this.$router.push({ path: '/online/copyform/' + id })
+      showMyCopyInfo(id) {
+        this.$router.push({path: '/online/copyform/' + id})
       },
-      copyConfig(id){
-        postAction(`${this.url.copyOnline}?code=${id}`).then(res=>{
-          if(res.success){
+      copyConfig(id) {
+        postAction(`${this.url.copyOnline}?code=${id}`).then(res => {
+          if (res.success) {
             this.$message.success("复制成功")
             this.loadData()
-          }else{
-            this.$message.error("复制失败>>"+res.message)
+          } else {
+            this.$message.error("复制失败>>" + res.message)
           }
         })
       }
@@ -470,9 +474,9 @@
     overflow-y: hidden
   }
 
-  .valid-error-cust{
-    .ant-select-selection{
-      border:2px solid #f5222d;
+  .valid-error-cust {
+    .ant-select-selection {
+      border: 2px solid #f5222d;
     }
   }
 </style>

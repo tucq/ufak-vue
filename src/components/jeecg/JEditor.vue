@@ -23,6 +23,7 @@
   import 'tinymce/plugins/colorpicker'
   import 'tinymce/plugins/textcolor'
   import 'tinymce/plugins/fullscreen'
+
   export default {
     components: {
       Editor
@@ -30,12 +31,12 @@
     props: {
       value: {
         type: String,
-        required:false
+        required: false
       },
-      triggerChange:{
+      triggerChange: {
         type: Boolean,
         default: false,
-        required:false
+        required: false
       },
       disabled: {
         type: Boolean,
@@ -48,7 +49,7 @@
       toolbar: {
         type: [String, Array],
         default: 'undo redo |  formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists link unlink image media table | removeformat | fullscreen',
-        branding:false
+        branding: false
       }
     },
     data() {
@@ -90,9 +91,9 @@
         this.myValue = (newValue == null ? '' : newValue)
       },
       myValue(newValue) {
-        if(this.triggerChange){
+        if (this.triggerChange) {
           this.$emit('change', newValue)
-        }else{
+        } else {
           this.$emit('input', newValue)
         }
       }

@@ -18,7 +18,7 @@
       <slot slot="extra" name="extra"></slot>
       <div slot="pageMenu">
         <div class="page-menu-search" v-if="search">
-          <a-input-search style="width: 80%; max-width: 522px;" placeholder="请输入..." size="large" enterButton="搜索" />
+          <a-input-search style="width: 80%; max-width: 522px;" placeholder="请输入..." size="large" enterButton="搜索"/>
         </div>
         <div class="page-menu-tabs" v-if="tabs && tabs.items">
           <!-- @change="callback" :activeKey="activeKey" -->
@@ -76,11 +76,11 @@
       },
       tabs: {
         type: Object,
-        default: () => {}
+        default: () => {
+        }
       }
     },
-    methods: {
-    }
+    methods: {}
   }
 </script>
 
@@ -94,6 +94,7 @@
       &:not(:empty) {
         margin-bottom: 16px;
       }
+
       a {
         margin-right: 32px;
         height: 24px;
@@ -105,6 +106,7 @@
           margin-right: 8px;
           vertical-align: middle;
         }
+
         span {
           height: 24px;
           line-height: 24px;
@@ -114,13 +116,16 @@
       }
     }
   }
+
   .page-menu-search {
     text-align: center;
     margin-bottom: 16px;
   }
+
   .page-menu-tabs {
     margin-top: 48px;
   }
+
   .page-header[data-v-6740ec88] {
     margin: 0px 24px 0;
   }

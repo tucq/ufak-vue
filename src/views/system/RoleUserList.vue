@@ -34,7 +34,8 @@
         <div class="table-operator" style="margin: 5px 0 10px 2px">
           <a-button @click="handleAdd" type="primary" icon="plus">角色录入</a-button>
           <!--<a-button @click="handleEdit(model1)" type="primary" icon="plus">角色编辑</a-button>-->
-          <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+          <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader"
+                    :action="importExcelUrl" @change="handleImportExcel">
             <a-button type="primary" icon="import">导入</a-button>
           </a-upload>
           <a-button type="primary" icon="download" @click="handleExportXls">导出</a-button>
@@ -91,7 +92,7 @@
     <a-col :md="rightColMd" :sm="24" v-if="this.rightcolval == 1">
       <a-card :bordered="false">
         <div style="text-align: right;">
-          <a-icon type="close-circle" @click="hideUserList" />
+          <a-icon type="close-circle" @click="hideUserList"/>
         </div>
         <!-- 查询区域 -->
         <div class="table-page-search-wrapper">
@@ -177,12 +178,12 @@
   </a-row>
 </template>
 <script>
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import { deleteAction, postAction, getAction } from '@/api/manage'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+  import {deleteAction, postAction, getAction} from '@/api/manage'
   import SelectUserModal from './modules/SelectUserModal'
   import RoleModal from './modules/RoleModal'
   import UserModal from './modules/UserModal'
-  import { filterObj } from '@/utils/util'
+  import {filterObj} from '@/utils/util'
   import UserRoleModal from './modules/UserRoleModal'
   import moment from 'moment'
 
@@ -243,8 +244,8 @@
         selectedRowKeys2: [],
         selectionRows1: [],
         selectionRows2: [],
-        test:{},
-        rightcolval:0,
+        test: {},
+        rightcolval: 0,
         columns:
           [
             {
@@ -260,7 +261,7 @@
             {
               title: '创建时间',
               dataIndex: 'createTime',
-              align:"center",
+              align: "center",
               sorter: true,
               customRender: (text) => {
                 return moment(text).format('YYYY-MM-DD')
@@ -270,7 +271,7 @@
               title: '操作',
               dataIndex: 'action',
               align: 'center',
-              scopedSlots: { customRender: 'action' }
+              scopedSlots: {customRender: 'action'}
             }
           ],
         columns2: [{
@@ -295,7 +296,7 @@
           {
             title: '操作',
             dataIndex: 'action',
-            scopedSlots: { customRender: 'action' },
+            scopedSlots: {customRender: 'action'},
             align: 'center',
             width: 120
           }],
@@ -314,7 +315,7 @@
       }
     },
     computed: {
-      importExcelUrl: function() {
+      importExcelUrl: function () {
         return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`
       },
       leftColMd() {
@@ -364,17 +365,17 @@
       getQueryField2() {
         //TODO 字段权限控制
         var str = 'id,'
-        this.columns2.forEach(function(value) {
+        this.columns2.forEach(function (value) {
           str += ',' + value.dataIndex
         })
         return str
       },
-      handleEdit2: function(record) {
+      handleEdit2: function (record) {
         this.$refs.modalForm2.title = '编辑'
         this.$refs.modalForm2.roleDisabled = true
         this.$refs.modalForm2.edit(record)
       },
-      handleAdd2: function() {
+      handleAdd2: function () {
         if (this.currentRoleId == '') {
           this.$message.error('请选择一个角色!')
         } else {
@@ -413,18 +414,18 @@
         })
 
       },
-      handleDelete1: function(id) {
+      handleDelete1: function (id) {
         this.handleDelete(id)
         this.dataSource2 = []
         this.currentRoleId = ''
       },
-      handleDelete2: function(id) {
+      handleDelete2: function (id) {
         if (!this.url.delete2) {
           this.$message.error('请设置url.delete2属性!')
           return
         }
         var that = this
-        deleteAction(that.url.delete2, { roleId: this.currentRoleId, userId: id }).then((res) => {
+        deleteAction(that.url.delete2, {roleId: this.currentRoleId, userId: id}).then((res) => {
           if (res.success) {
             that.$message.success(res.message)
             that.loadData2()
@@ -433,7 +434,7 @@
           }
         })
       },
-      batchDel2: function() {
+      batchDel2: function () {
 
         if (!this.url.deleteBatch2) {
           this.$message.error('请设置url.deleteBatch2属性!')
@@ -452,8 +453,8 @@
           this.$confirm({
             title: '确认删除',
             content: '是否删除选中数据?',
-            onOk: function() {
-              deleteAction(that.url.deleteBatch2, { roleId: that.currentRoleId, userIds: ids }).then((res) => {
+            onOk: function () {
+              deleteAction(that.url.deleteBatch2, {roleId: that.currentRoleId, userIds: ids}).then((res) => {
                 if (res.success) {
                   that.$message.success(res.message)
                   that.loadData2()
@@ -524,11 +525,11 @@
         this.ipagination2 = pagination
         this.loadData2()
       },
-      hideUserList(){
+      hideUserList() {
         //this.rightcolval = 0
         this.selectedRowKeys1 = []
       },
-      handlePerssion(roleId){
+      handlePerssion(roleId) {
         this.$refs.modalUserRole.show(roleId);
       }
     }

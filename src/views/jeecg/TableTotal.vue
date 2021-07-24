@@ -44,12 +44,12 @@
           },
         ],
         dataSource: [
-          { name: '张三', point: 23, level: 3, updateTime: '2019-8-14' },
-          { name: '小王', point: 6, level: 1, updateTime: '2019-8-13' },
-          { name: '李四', point: 53, level: 8, updateTime: '2019-8-12' },
-          { name: '小红', point: 44, level: 5, updateTime: '2019-8-11' },
-          { name: '王五', point: 97, level: 10, updateTime: '2019-8-10' },
-          { name: '小明', point: 33, level: 2, updateTime: '2019-8-10' },
+          {name: '张三', point: 23, level: 3, updateTime: '2019-8-14'},
+          {name: '小王', point: 6, level: 1, updateTime: '2019-8-13'},
+          {name: '李四', point: 53, level: 8, updateTime: '2019-8-12'},
+          {name: '小红', point: 44, level: 5, updateTime: '2019-8-11'},
+          {name: '王五', point: 97, level: 10, updateTime: '2019-8-10'},
+          {name: '小明', point: 33, level: 2, updateTime: '2019-8-10'},
         ]
       }
     },
@@ -61,9 +61,9 @@
       /** 表格增加合计行 */
       tableAddTotalRow(columns, dataSource) {
         let numKey = 'rowIndex'
-        let totalRow = { [numKey]: '合计' }
+        let totalRow = {[numKey]: '合计'}
         columns.forEach(column => {
-          let { key, dataIndex } = column
+          let {key, dataIndex} = column
           if (![key, dataIndex].includes(numKey)) {
 
             let total = 0

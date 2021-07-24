@@ -32,7 +32,7 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="置顶顺序">
-              <a-input v-decorator="[ 'top', {}]" />
+              <a-input v-decorator="[ 'top', {}]"/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -42,7 +42,7 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="标题">
-              <a-input placeholder="请输入标题" v-decorator="['title', {}]" />
+              <a-input placeholder="请输入标题" v-decorator="['title', {}]"/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -51,7 +51,7 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="内容">
-          <a-textarea  rows="10" placeholder="请输入内容" v-decorator="['content', {}]" />
+          <a-textarea rows="10" placeholder="请输入内容" v-decorator="['content', {}]"/>
         </a-form-item>
 
         <a-row :gutter="20" style="margin-left: 30px;margin-right: 10px">
@@ -84,7 +84,7 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="用户ID">
-              <a-input placeholder="请输入用户id" v-decorator="['userId', {}]" disabled />
+              <a-input placeholder="请输入用户id" v-decorator="['userId', {}]" disabled/>
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -92,7 +92,7 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="真实姓名">
-              <a-input placeholder="请输入真实姓名" v-decorator="['realname', {}]" disabled />
+              <a-input placeholder="请输入真实姓名" v-decorator="['realname', {}]" disabled/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -103,7 +103,7 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="头像">
-              <a-input placeholder="请输入头像" v-decorator="['avatar', {}]" disabled />
+              <a-input placeholder="请输入头像" v-decorator="['avatar', {}]" disabled/>
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -111,7 +111,7 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="分享数量">
-              <a-input v-decorator="[ 'shareNum', {}]" />
+              <a-input v-decorator="[ 'shareNum', {}]"/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -122,7 +122,7 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="点赞数量">
-              <a-input v-decorator="[ 'likesNum', {}]" />
+              <a-input v-decorator="[ 'likesNum', {}]"/>
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -142,14 +142,13 @@
         </a-row>
 
 
-
       </a-form>
     </a-spin>
   </a-modal>
 </template>
 
 <script>
-  import { httpAction,postAction,getAction } from '@/api/manage'
+  import {httpAction, postAction, getAction} from '@/api/manage'
   import pick from 'lodash.pick'
   import moment from "moment"
   import Vue from 'vue'
@@ -158,29 +157,28 @@
 
   export default {
     components: {ATextarea}, name: "PostBarModal",
-    data () {
+    data() {
       return {
         headers: {},
-        categoryList:[],
+        categoryList: [],
         fileList: [],
         removeFileList: [],
         previewImage: '',
         previewVisible: false,
-        title:"操作",
+        title: "操作",
         visible: false,
         model: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
         confirmLoading: false,
         form: this.$form.createForm(this),
-        validatorRules:{
-        },
+        validatorRules: {},
         url: {
           add: "/postBar/add",
           edit: "/postBar/edit",
@@ -195,15 +193,15 @@
         return this.url.fileUpload;
       }
     },
-    created () {
+    created() {
       const token = Vue.ls.get(ACCESS_TOKEN);
       this.headers = {"X-Access-Token": token}
       this.getCategoryList();
     },
     methods: {
-      getCategoryList(){
-        getAction(this.url.categoryList).then((res)=>{
-          if(res.success){
+      getCategoryList() {
+        getAction(this.url.categoryList).then((res) => {
+          if (res.success) {
             this.categoryList = res.result;
           }
         });
@@ -220,10 +218,10 @@
         return isJPG;
       },
       imageRemove(file) {
-        if(file.url){
+        if (file.url) {
           let rmUrl = file.url.substring(file.url.indexOf("/files"), file.url.length);
           this.removeFileList.push(rmUrl);
-        }else{
+        } else {
           this.removeFileList.push(file.response.message);
         }
 
@@ -240,35 +238,40 @@
       imageCancel() {
         this.previewVisible = false;
       },
-      handleRemoveFile(files){
-        postAction(this.url.removeFile, {filePaths:files}).then((res) => {
+      handleRemoveFile(files) {
+        postAction(this.url.removeFile, {filePaths: files}).then((res) => {
 
         });
       },
       /*******图片*******/
 
-      add () {
-        this.edit({"userId":"1347172483152826370","realname":"福安康 185 1819 9181","avatar":"https://thirdwx.qlogo.cn/mmopen/vi_32/EtnjMAJFZcX6vzbxFibRNsQI9RLHVibyqcfHCFg5BVgMI3CKPN3x1BsTmTFP9mibRTW00Myqib6XycHgW7zYchAdYQ/132","top":99});
+      add() {
+        this.edit({
+          "userId": "1347172483152826370",
+          "realname": "福安康 185 1819 9181",
+          "avatar": "https://thirdwx.qlogo.cn/mmopen/vi_32/EtnjMAJFZcX6vzbxFibRNsQI9RLHVibyqcfHCFg5BVgMI3CKPN3x1BsTmTFP9mibRTW00Myqib6XycHgW7zYchAdYQ/132",
+          "top": 99
+        });
       },
-      edit (record) {
+      edit(record) {
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'categoryId','title','content','images','userId','realname','avatar','shareNum','likesNum','state','top'))
+          this.form.setFieldsValue(pick(this.model, 'categoryId', 'title', 'content', 'images', 'userId', 'realname', 'avatar', 'shareNum', 'likesNum', 'state', 'top'))
         });
         /** 图片渲染 **/
         this.fileList = [];
-        if(this.model.images){
-          let tmpUrls = this.model.images.substring(0,this.model.images.length-1).split(',');
+        if (this.model.images) {
+          let tmpUrls = this.model.images.substring(0, this.model.images.length - 1).split(',');
           let tmpIdx = 0;
           let baseUrl = window._CONFIG['domianURL'] + "/sys/common/view/";
-          for(let i=0;i<tmpUrls.length;i++){
+          for (let i = 0; i < tmpUrls.length; i++) {
             let imgUrl = tmpUrls[i];
             tmpIdx--;
             this.fileList[i] = {
               uid: tmpIdx, //根据官方API文档，该值最好给个负数值，以免与内部对象冲突
-              name: imgUrl.substring(imgUrl.lastIndexOf("/"),imgUrl.indexOf(".")),
+              name: imgUrl.substring(imgUrl.lastIndexOf("/"), imgUrl.indexOf(".")),
               status: 'done',
               url: baseUrl + imgUrl,
               thumbUrl: baseUrl + imgUrl,
@@ -279,11 +282,11 @@
         /** 明细图片渲染 **/
 
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleOk () {
+      handleOk() {
         const that = this;
         // 触发表单验证
         this.form.validateFields((err, values) => {
@@ -291,11 +294,11 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.id){
-              httpurl+=this.url.add;
+            if (!this.model.id) {
+              httpurl += this.url.add;
               method = 'post';
-            }else{
-              httpurl+=this.url.edit;
+            } else {
+              httpurl += this.url.edit;
               method = 'put';
             }
             let formData = Object.assign(this.model, values);
@@ -312,12 +315,12 @@
             formData.images = imageUrls;
 
             console.log(formData)
-            httpAction(httpurl,formData,method).then((res)=>{
-              if(res.success){
+            httpAction(httpurl, formData, method).then((res) => {
+              if (res.success) {
                 this.handleRemoveFile(this.removeFileList);
                 that.$message.success(res.message);
                 that.$emit('ok');
-              }else{
+              } else {
                 that.$message.warning(res.message);
               }
             }).finally(() => {
@@ -328,7 +331,7 @@
           }
         })
       },
-      handleCancel () {
+      handleCancel() {
         let files = [];
         for (let i = 0; i < this.fileList.length; i++) {
           let img = this.fileList[i];

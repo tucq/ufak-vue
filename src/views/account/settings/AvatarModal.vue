@@ -28,7 +28,7 @@
   </a-modal>
 </template>
 <script>
-  import { VueCropper } from 'vue-cropper'
+  import {VueCropper} from 'vue-cropper'
 
   export default {
     components: {

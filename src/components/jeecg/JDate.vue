@@ -11,40 +11,41 @@
 </template>
 <script>
   import moment from 'moment'
+
   export default {
     name: 'JDate',
     props: {
-      placeholder:{
+      placeholder: {
         type: String,
         default: '',
         required: false
       },
-      value:{
+      value: {
         type: String,
         required: false
       },
-      dateFormat:{
+      dateFormat: {
         type: String,
         default: 'YYYY-MM-DD',
         required: false
       },
       //此属性可以被废弃了
-      triggerChange:{
+      triggerChange: {
         type: Boolean,
         required: false,
         default: false
       },
-      readOnly:{
+      readOnly: {
         type: Boolean,
         required: false,
         default: false
       },
-      disabled:{
+      disabled: {
         type: Boolean,
         required: false,
         default: false
       },
-      showTime:{
+      showTime: {
         type: Boolean,
         required: false,
         default: false
@@ -54,25 +55,25 @@
         default: () => document.body
       }
     },
-    data () {
+    data() {
       let dateStr = this.value;
       return {
-        decorator:"",
-        momVal:!dateStr?null:moment(dateStr,this.dateFormat)
+        decorator: "",
+        momVal: !dateStr ? null : moment(dateStr, this.dateFormat)
       }
     },
     watch: {
-      value (val) {
-        if(!val){
+      value(val) {
+        if (!val) {
           this.momVal = null
-        }else{
-          this.momVal = moment(val,this.dateFormat)
+        } else {
+          this.momVal = moment(val, this.dateFormat)
         }
       }
     },
     methods: {
       moment,
-      handleDateChange(mom,dateStr){
+      handleDateChange(mom, dateStr) {
         this.$emit('change', dateStr);
       }
     },

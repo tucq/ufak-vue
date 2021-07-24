@@ -10,7 +10,7 @@
     @ok="handleOk"
     @cancel="handleCancel"
     cancelText="关闭">
-    
+
     <a-spin :spinning="confirmLoading">
       <a-row :gutter="20" style="font-size: 16px;font-weight: bold;padding-left: 30px;">退款信息</a-row>
       <a-form>
@@ -147,9 +147,9 @@
             </a-form-item>
           </a-col>
         </a-row>
-        <a-row :gutter="20" style="padding-top: 10px;" v-for="(item, index) in orderDetails" :key="index" >
+        <a-row :gutter="20" style="padding-top: 10px;" v-for="(item, index) in orderDetails" :key="index">
           <a-col :span="6" push="1">
-            <a-row :gutter="20"type="flex" justify="start" align="middle" >
+            <a-row :gutter="20" type="flex" justify="start" align="middle">
               <img
                 :src="previewUrl(item.viewImage)"
                 style="height:100px;width:100px"
@@ -157,13 +157,13 @@
             </a-row>
           </a-col>
           <a-col :span="18">
-            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
+            <a-row :gutter="20" type="flex" justify="start" align="middle" style="height:30px;">
               {{item.productName}}
             </a-row>
-            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
+            <a-row :gutter="20" type="flex" justify="start" align="middle" style="height:30px;">
               {{item.specsName}}&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;{{item.buyNum}}
             </a-row>
-            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
+            <a-row :gutter="20" type="flex" justify="start" align="middle" style="height:30px;">
               {{item.price}}
             </a-row>
           </a-col>
@@ -176,31 +176,31 @@
 </template>
 
 <script>
-  import {getAction,postAction} from '@/api/manage'
+  import {getAction, postAction} from '@/api/manage'
   import pick from 'lodash.pick'
   import moment from "moment"
 
   export default {
     name: "AfterSaleModal",
-    data () {
+    data() {
       return {
-        title:"操作",
+        title: "操作",
         visible: false,
-        disableSubmit:false,
+        disableSubmit: false,
         model: {},
         order: {},
         orderDetails: [],
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 7 },
+          xs: {span: 24},
+          sm: {span: 7},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
         confirmLoading: false,
-        validatorRules:{
-        orderId:{rules: [{ required: true, message: '请输入订单id!' }]},
+        validatorRules: {
+          orderId: {rules: [{required: true, message: '请输入订单id!'}]},
         },
         url: {
           queryById: "/afterSaleRefund/queryById",
@@ -208,12 +208,12 @@
         },
       }
     },
-    created () {
+    created() {
     },
     methods: {
-      loadData (record) {
-        getAction(this.url.queryById,{"afterSaleId":record.id}).then((res)=>{
-          if(res.success){
+      loadData(record) {
+        getAction(this.url.queryById, {"afterSaleId": record.id}).then((res) => {
+          if (res.success) {
             this.model = res.result.afterSaleRefund;
             this.order = res.result.order;
             this.orderDetails = res.result.orderDetails;
@@ -221,25 +221,25 @@
           }
         })
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleOk () {
+      handleOk() {
         const that = this;
         this.$confirm({
-          title:"确认退款是否提交",
-          content:"提交后退款金额会原路退回，请再次确认该笔订单是否已发货?",
-          onOk: function(){
+          title: "确认退款是否提交",
+          content: "提交后退款金额会原路退回，请再次确认该笔订单是否已发货?",
+          onOk: function () {
             that.confirmLoading = true;
             let params = {
-              "afterSaleId":that.model.afterSaleId
+              "afterSaleId": that.model.afterSaleId
             }
-            postAction(that.url.wxRefund,params).then((res)=>{
-              if(res.success){
+            postAction(that.url.wxRefund, params).then((res) => {
+              if (res.success) {
                 that.$message.success(res.message);
                 that.$emit('ok');
-              }else{
+              } else {
                 that.$message.warning(res.message);
               }
             }).finally(() => {
@@ -249,10 +249,10 @@
           }
         });
       },
-      handleCancel () {
+      handleCancel() {
         this.close()
       },
-      previewUrl(url){
+      previewUrl(url) {
         return window._CONFIG['domianURL'] + "/sys/common/view/" + url;
       }
 

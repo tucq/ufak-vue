@@ -9,44 +9,44 @@
       </div>
       <!--签字-->
       <a-col :md="24" :sm="24">
-      <div class="sign" style="text-align: left;height: inherit">
-        <a-col :span="24">
+        <div class="sign" style="text-align: left;height: inherit">
+          <a-col :span="24">
           <span>
             打印人员:
           </span>
-          <a-input style="width: 30%" v-model="printer"/>
-          <span style="margin-left: 12.5%">打印日期:</span>
-          <a-input style="width: 30%" v-model="printTime"/>
-        </a-col>
-        <a-col :span="24">
-        </a-col>
-        <a-col :span="24" style="margin-top: 20px">
-          <span>打印内容:</span>
-          <a-input style="width: 80%" v-model="printContent"/>
-        </a-col>
-        <a-col :span="24" style="margin-top: 20px">
-          <span>打印目的:</span>
-          <a-input style="width: 80%" v-model="printReason"/>
-        </a-col>
-        <a-col style="margin-top: 20px" :span="24">
-          <span>打印图片:</span>
-          <br/>
-          <a-upload
-            action="/jsonplaceholder.typicode.com/posts/"
-            listType="picture-card"
-            :fileList="fileList"
-            @preview="handlePreview"
-            @change="handleChange">
-            <div v-if="fileList.length < 3">
-              <a-icon type="plus" />
-              <div class="ant-upload-text">Upload</div>
-            </div>
-          </a-upload>
-          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-            <img alt="example" style="width: 100%" :src="previewImage" />
-          </a-modal>
-        </a-col>
-      </div>
+            <a-input style="width: 30%" v-model="printer"/>
+            <span style="margin-left: 12.5%">打印日期:</span>
+            <a-input style="width: 30%" v-model="printTime"/>
+          </a-col>
+          <a-col :span="24">
+          </a-col>
+          <a-col :span="24" style="margin-top: 20px">
+            <span>打印内容:</span>
+            <a-input style="width: 80%" v-model="printContent"/>
+          </a-col>
+          <a-col :span="24" style="margin-top: 20px">
+            <span>打印目的:</span>
+            <a-input style="width: 80%" v-model="printReason"/>
+          </a-col>
+          <a-col style="margin-top: 20px" :span="24">
+            <span>打印图片:</span>
+            <br/>
+            <a-upload
+              action="/jsonplaceholder.typicode.com/posts/"
+              listType="picture-card"
+              :fileList="fileList"
+              @preview="handlePreview"
+              @change="handleChange">
+              <div v-if="fileList.length < 3">
+                <a-icon type="plus"/>
+                <div class="ant-upload-text">Upload</div>
+              </div>
+            </a-upload>
+            <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+              <img alt="example" style="width: 100%" :src="previewImage"/>
+            </a-modal>
+          </a-col>
+        </div>
       </a-col>
     </section>
   </a-card>
@@ -64,29 +64,28 @@
       ACol,
     },
     name: 'Printgzsld',
-    props:{
-      reBizCode:{
+    props: {
+      reBizCode: {
         type: String,
         default: ''
       }
     },
-    data(){
+    data() {
       return {
-        columns: [{
-        }
+        columns: [{}
         ],
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 2 },
+          xs: {span: 24},
+          sm: {span: 2},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 8 },
+          xs: {span: 24},
+          sm: {span: 8},
         },
-        printer:'张三',
-        printTime:'2019-02-01 12:00:00',
-        printContent:'打印内容就是,做一个打印测试',
-        printReason:'做一个打印测试',
+        printer: '张三',
+        printTime: '2019-02-01 12:00:00',
+        printContent: '打印内容就是,做一个打印测试',
+        printReason: '做一个打印测试',
         previewVisible: false,
         previewImage: '',
         fileList: [{
@@ -96,15 +95,15 @@
           url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         },
           {
-            uid:'-2',
-            name:'pic1.png',
-            status:'done',
-            url:'https://www.gizbot.com/img/2016/11/whatsapp-error-lead-image-08-1478607387.jpg',
+            uid: '-2',
+            name: 'pic1.png',
+            status: 'done',
+            url: 'https://www.gizbot.com/img/2016/11/whatsapp-error-lead-image-08-1478607387.jpg',
           }
         ],
-        url:{
-          loadApplicant:"/sps/register/loadApplicants",
-          loadRegisterFiles:"/sps/register/getRegisterFilesConfig",
+        url: {
+          loadApplicant: "/sps/register/loadApplicants",
+          loadRegisterFiles: "/sps/register/getRegisterFilesConfig",
         }
       }
     },
@@ -112,20 +111,20 @@
       this.getDate();
     },
     methods: {
-      loadData(){
+      loadData() {
 
       },
-      getDate(){
+      getDate() {
         // 当前时间
       },
-      handleCancel () {
+      handleCancel() {
         this.previewVisible = false
       },
-      handlePreview (file) {
+      handlePreview(file) {
         this.previewImage = file.url || file.thumbUrl
         this.previewVisible = true
       },
-      handleChange ({ fileList }) {
+      handleChange({fileList}) {
         this.fileList = fileList
       }
     }
@@ -134,34 +133,39 @@
 <style scoped>
   /*update_begin author:scott date:20191203 for:打印机打印的字体模糊问题 */
   * {
-    color: #000000!important;
-    -webkit-tap-highlight-color: #000000!important;
+    color: #000000 !important;
+    -webkit-tap-highlight-color: #000000 !important;
   }
+
   /*update_end author:scott date:20191203 for:打印机打印的字体模糊问题 */
 
-  .abcdefg .ant-card-body{
+  .abcdefg .ant-card-body {
     margin-left: 0%;
     margin-right: 0%;
     margin-bottom: 1%;
-    border:0px solid black;
+    border: 0px solid black;
     min-width: 800px;
-    color:#000000!important;
+    color: #000000 !important;
   }
-  .explain{
+
+  .explain {
     text-align: left;
     margin-left: 50px;
-    color:#000000!important;
+    color: #000000 !important;
   }
-  .explain .ant-input,.sign .ant-input{
-    font-weight:bolder;
-    text-align:center;
-    border-left-width:0px!important;
-    border-top-width:0px!important;
-    border-right-width:0px!important;
+
+  .explain .ant-input, .sign .ant-input {
+    font-weight: bolder;
+    text-align: center;
+    border-left-width: 0px !important;
+    border-top-width: 0px !important;
+    border-right-width: 0px !important;
   }
-  .explain div{
+
+  .explain div {
     margin-bottom: 10px;
   }
+
   /* you can make up upload button and sample style by using stylesheets */
   .ant-upload-select-picture-card i {
     font-size: 32px;

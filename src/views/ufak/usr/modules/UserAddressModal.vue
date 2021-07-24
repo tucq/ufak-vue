@@ -7,104 +7,103 @@
     @ok="handleOk"
     @cancel="handleCancel"
     cancelText="关闭">
-    
+
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-      
+
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="帐户id">
-          <a-input placeholder="请输入帐户id" v-decorator="['userId', {}]" />
+          <a-input placeholder="请输入帐户id" v-decorator="['userId', {}]"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="收货姓名">
-          <a-input placeholder="请输入收货姓名" v-decorator="['username', {}]" />
+          <a-input placeholder="请输入收货姓名" v-decorator="['username', {}]"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="收货电话号码">
-          <a-input placeholder="请输入收货电话号码" v-decorator="['telephone', {}]" />
+          <a-input placeholder="请输入收货电话号码" v-decorator="['telephone', {}]"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="地区">
-          <a-input placeholder="请输入地区" v-decorator="['address', {}]" />
+          <a-input placeholder="请输入地区" v-decorator="['address', {}]"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="详细地址">
-          <a-input placeholder="请输入详细地址" v-decorator="['detailAddress', {}]" />
+          <a-input placeholder="请输入详细地址" v-decorator="['detailAddress', {}]"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="是否默认 0-是,1-否">
-          <a-input placeholder="请输入是否默认 0-是,1-否" v-decorator="['defaule', {}]" />
+          <a-input placeholder="请输入是否默认 0-是,1-否" v-decorator="['defaule', {}]"/>
         </a-form-item>
-		
+
       </a-form>
     </a-spin>
   </a-modal>
 </template>
 
 <script>
-  import { httpAction } from '@/api/manage'
+  import {httpAction} from '@/api/manage'
   import pick from 'lodash.pick'
   import moment from "moment"
 
   export default {
     name: "UserAddressModal",
-    data () {
+    data() {
       return {
-        title:"操作",
+        title: "操作",
         visible: false,
         model: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
 
         confirmLoading: false,
         form: this.$form.createForm(this),
-        validatorRules:{
-        },
+        validatorRules: {},
         url: {
           add: "/com.ufak/userAddress/add",
           edit: "/com.ufak/userAddress/edit",
         },
       }
     },
-    created () {
+    created() {
     },
     methods: {
-      add () {
+      add() {
         this.edit({});
       },
-      edit (record) {
+      edit(record) {
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'userId','username','telephone','address','detailAddress','defaule'))
-		  //时间格式化
+          this.form.setFieldsValue(pick(this.model, 'userId', 'username', 'telephone', 'address', 'detailAddress', 'defaule'))
+          //时间格式化
         });
 
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleOk () {
+      handleOk() {
         const that = this;
         // 触发表单验证
         this.form.validateFields((err, values) => {
@@ -112,22 +111,22 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.id){
-              httpurl+=this.url.add;
+            if (!this.model.id) {
+              httpurl += this.url.add;
               method = 'post';
-            }else{
-              httpurl+=this.url.edit;
-               method = 'put';
+            } else {
+              httpurl += this.url.edit;
+              method = 'put';
             }
             let formData = Object.assign(this.model, values);
             //时间格式化
-            
+
             console.log(formData)
-            httpAction(httpurl,formData,method).then((res)=>{
-              if(res.success){
+            httpAction(httpurl, formData, method).then((res) => {
+              if (res.success) {
                 that.$message.success(res.message);
                 that.$emit('ok');
-              }else{
+              } else {
                 that.$message.warning(res.message);
               }
             }).finally(() => {
@@ -136,11 +135,10 @@
             })
 
 
-
           }
         })
       },
-      handleCancel () {
+      handleCancel() {
         this.close()
       },
 

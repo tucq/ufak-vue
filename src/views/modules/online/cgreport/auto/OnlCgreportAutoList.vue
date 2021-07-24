@@ -6,19 +6,24 @@
         <a-row :gutter="24" v-if="queryInfo && queryInfo.length>0">
           <template v-for="(item,index) in queryInfo">
             <template v-if=" item.hidden==='1' ">
-              <a-col v-if="item.view.indexOf('Date')>=0" :md="12" :sm="16" :key=" 'query'+index " v-show="toggleSearchStatus">
-                <onl-cgreport-query-form-item :queryParam="queryParam" :item="item" :dictOptions="dictOptions"></onl-cgreport-query-form-item>
+              <a-col v-if="item.view.indexOf('Date')>=0" :md="12" :sm="16" :key=" 'query'+index "
+                     v-show="toggleSearchStatus">
+                <onl-cgreport-query-form-item :queryParam="queryParam" :item="item"
+                                              :dictOptions="dictOptions"></onl-cgreport-query-form-item>
               </a-col>
               <a-col v-else :md="6" :sm="8" :key=" 'query'+index " v-show="toggleSearchStatus">
-                <onl-cgreport-query-form-item :queryParam="queryParam" :item="item" :dictOptions="dictOptions"></onl-cgreport-query-form-item>
+                <onl-cgreport-query-form-item :queryParam="queryParam" :item="item"
+                                              :dictOptions="dictOptions"></onl-cgreport-query-form-item>
               </a-col>
             </template>
             <template v-else>
               <a-col v-if="item.view.indexOf('Date')>=0" :md="12" :sm="16" :key=" 'query'+index ">
-                <onl-cgreport-query-form-item :queryParam="queryParam" :item="item" :dictOptions="dictOptions"></onl-cgreport-query-form-item>
+                <onl-cgreport-query-form-item :queryParam="queryParam" :item="item"
+                                              :dictOptions="dictOptions"></onl-cgreport-query-form-item>
               </a-col>
               <a-col v-else :md="6" :sm="8" :key=" 'query'+index ">
-                <onl-cgreport-query-form-item :queryParam="queryParam" :item="item" :dictOptions="dictOptions"></onl-cgreport-query-form-item>
+                <onl-cgreport-query-form-item :queryParam="queryParam" :item="item"
+                                              :dictOptions="dictOptions"></onl-cgreport-query-form-item>
               </a-col>
             </template>
           </template>
@@ -64,22 +69,20 @@
 </template>
 
 <script>
-  import { getAction,downFile } from '@/api/manage'
-  import { filterMultiDictText } from '@/components/dict/JDictSelectUtil'
+  import {getAction, downFile} from '@/api/manage'
+  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
   import {filterObj} from '@/utils/util';
 
   export default {
     name: 'OnlCgreportAutoList',
-    components: {
-    },
+    components: {},
     data() {
       return {
         // 查询参数
         queryInfo: [],
         // 查询参数，多个页面的查询参数用 code 作为键来区分
         queryParamsMap: {},
-        selfParam:{
-        },
+        selfParam: {},
         sorter: {
           column: '',
           order: 'desc',
@@ -92,7 +95,7 @@
           getColumns: '/online/cgreport/api/getColumns/',
           getData: '/online/cgreport/api/getData/',
           getQueryInfo: '/online/cgreport/api/getQueryInfo/',
-          getParamsInfo:'/online/cgreport/api/getParamsInfo/'
+          getParamsInfo: '/online/cgreport/api/getParamsInfo/'
         },
         table: {
           loading: true,
@@ -103,7 +106,7 @@
           // 选择器
           selectedRowKeys: [],
           selectionRows: [],
-          scroll: { x: false },
+          scroll: {x: false},
           // 分页参数
           pagination: {
             current: 1,
@@ -117,7 +120,7 @@
             total: 0
           }
         },
-        cgreportHeadName:""
+        cgreportHeadName: ""
       }
     },
     mounted() {
@@ -142,8 +145,8 @@
       }
     },
     methods: {
-      initParamsInfo(){
-        if(!this.$route.params.code){
+      initParamsInfo() {
+        if (!this.$route.params.code) {
           return false
         }
         //获取报表ID
@@ -152,12 +155,12 @@
           this.queryParam = {}
         }
 
-        this.selfParam={}
+        this.selfParam = {}
         getAction(`${this.url.getParamsInfo}${this.$route.params.code}`).then((res) => {
           if (res.success) {
-            if(res.result && res.result.length>0){
-              for(let i of res.result){
-                this.selfParam['self_'+i.paramName]=(!this.$route.query[i.paramName])?"":this.$route.query[i.paramName]
+            if (res.result && res.result.length > 0) {
+              for (let i of res.result) {
+                this.selfParam['self_' + i.paramName] = (!this.$route.query[i.paramName]) ? "" : this.$route.query[i.paramName]
               }
             }
           } else {
@@ -167,7 +170,7 @@
         })
       },
       initQueryInfo() {
-        if(!this.$route.params.code){
+        if (!this.$route.params.code) {
           return false
         }
         getAction(`${this.url.getQueryInfo}${this.$route.params.code}`).then((res) => {
@@ -180,7 +183,7 @@
         })
       },
       loadData(arg) {
-        if(!this.$route.params.code){
+        if (!this.$route.params.code) {
           return false
         }
         if (arg == 1) {
@@ -195,17 +198,17 @@
           getAction(`${this.url.getColumns}${this.reportCode}`),
           getAction(`${this.url.getData}${this.reportCode}`, params)
         ]).then(results => {
-          let [{result: {columns,cgreportHeadName,dictOptions}}, {result: data}] = results
+          let [{result: {columns, cgreportHeadName, dictOptions}}, {result: data}] = results
           let columnWidth = 230
           this.dictOptions = dictOptions
-          for(let a=0;a<columns.length;a++){
-            if(columns[a].customRender){
+          for (let a = 0; a < columns.length; a++) {
+            if (columns[a].customRender) {
               let field_name = columns[a].customRender;
-              columns[a].customRender=(text)=>{
-                if(!text){
+              columns[a].customRender = (text) => {
+                if (!text) {
                   return ''
-                }else{
-                  return filterMultiDictText(this.dictOptions[field_name], text+"");
+                } else {
+                  return filterMultiDictText(this.dictOptions[field_name], text + "");
                 }
               }
             }
@@ -229,7 +232,7 @@
         })
       },
       getQueryParams() {
-        let param = Object.assign({}, this.queryParam, this.sorter,this.selfParam);
+        let param = Object.assign({}, this.queryParam, this.sorter, this.selfParam);
         param.pageNo = this.table.pagination.current;
         param.pageSize = this.table.pagination.pageSize;
         return filterObj(param);
@@ -246,19 +249,19 @@
       },
       exportExcel() {
         let fileName = this.cgreportHeadName
-        downFile(`/online/cgreport/api/exportXls/${this.reportCode}`,this.queryParam).then((data)=>{
+        downFile(`/online/cgreport/api/exportXls/${this.reportCode}`, this.queryParam).then((data) => {
           if (!data) {
             this.$message.warning("文件下载失败")
             return
           }
           if (typeof window.navigator.msSaveBlob !== 'undefined') {
-            window.navigator.msSaveBlob(new Blob([data]), fileName+'.xls')
-          }else{
+            window.navigator.msSaveBlob(new Blob([data]), fileName + '.xls')
+          } else {
             let url = window.URL.createObjectURL(new Blob([data]))
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            link.setAttribute('download', fileName+'.xls')
+            link.setAttribute('download', fileName + '.xls')
             document.body.appendChild(link)
             link.click()
             document.body.removeChild(link); //下载完成移除元素

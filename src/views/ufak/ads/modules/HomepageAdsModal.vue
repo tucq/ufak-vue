@@ -8,20 +8,21 @@
     @ok="handleOk"
     @cancel="handleCancel"
     cancelText="关闭">
-    
+
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="广告名称">
-          <a-input placeholder="请输入请输入广告名称" v-decorator="['adsName', validatorRules.adsName]" />
+          <a-input placeholder="请输入请输入广告名称" v-decorator="['adsName', validatorRules.adsName]"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="广告类型">
-          <j-dict-select-tag v-decorator="['type', validatorRules.type]" :triggerChange="true" placeholder="请输入广告类型" dictCode="ads_type"/>
+          <j-dict-select-tag v-decorator="['type', validatorRules.type]" :triggerChange="true" placeholder="请输入广告类型"
+                             dictCode="ads_type"/>
         </a-form-item>
 
         <a-row>
@@ -78,7 +79,7 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="背景色">
-          <a-input placeholder="请输入背景色" v-decorator="['bgColor', {}]" />
+          <a-input placeholder="请输入背景色" v-decorator="['bgColor', {}]"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
@@ -102,22 +103,23 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="页面路径">
-          <a-input placeholder="请输入页面跳转路径" v-decorator="['pagePath', {}]" />
+          <a-input placeholder="请输入页面跳转路径" v-decorator="['pagePath', {}]"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="状态">
-          <a-switch checkedChildren="启用" unCheckedChildren="停用" :checked="state == '0' ? true : false" @click="e => handelCheck(e)"/>
+          <a-switch checkedChildren="启用" unCheckedChildren="停用" :checked="state == '0' ? true : false"
+                    @click="e => handelCheck(e)"/>
         </a-form-item>
-		
+
       </a-form>
     </a-spin>
   </a-modal>
 </template>
 
 <script>
-  import { httpAction,postAction} from '@/api/manage'
+  import {httpAction, postAction} from '@/api/manage'
   import pick from 'lodash.pick'
   import moment from "moment"
   import Vue from 'vue'
@@ -127,19 +129,19 @@
 
   export default {
     components: {ACol, ARow}, name: "HomepageAdsModal",
-    data () {
+    data() {
       return {
-        title:"操作",
+        title: "操作",
         visible: false,
         state: '0',
         model: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
         headers: {},
         opt: '',
@@ -153,10 +155,10 @@
         removeFileList2: [],
         confirmLoading: false,
         form: this.$form.createForm(this),
-        validatorRules:{
-          adsName:{rules: [{required: true, message: '请输入广告名称!'}]},
-          type:{rules: [{required: true, message: '请输入广告类型!'}]},
-          sort:{rules: [{required: true, message: '请输入排序!'}]},
+        validatorRules: {
+          adsName: {rules: [{required: true, message: '请输入广告名称!'}]},
+          type: {rules: [{required: true, message: '请输入广告类型!'}]},
+          sort: {rules: [{required: true, message: '请输入排序!'}]},
         },
         url: {
           add: "/homepageAds/add",
@@ -166,7 +168,7 @@
         },
       }
     },
-    created () {
+    created() {
       const token = Vue.ls.get(ACCESS_TOKEN);
       this.headers = {"X-Access-Token": token}
     },
@@ -176,64 +178,64 @@
       }
     },
     methods: {
-      add () {
-        this.edit({state:'0',isList:'0'});
+      add() {
+        this.edit({state: '0', isList: '0'});
         this.opt = 'add';
       },
-      edit (record) {
+      edit(record) {
         this.opt = 'edit';
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'adsName','type','bgColor','sort','isList','pagePath'));
+          this.form.setFieldsValue(pick(this.model, 'adsName', 'type', 'bgColor', 'sort', 'isList', 'pagePath'));
 
         });
         this.state = record.state;
 
         /** 图片渲染 **/
         let url = this.model.imgUrl;
-        if(url){
-          this.renderHtml(url,1);
-        }else{
+        if (url) {
+          this.renderHtml(url, 1);
+        } else {
           this.fileList = [];
         }
         let url2 = this.model.headImg;
-        if(url2){
-          this.renderHtml(url2,2);
-        }else{
+        if (url2) {
+          this.renderHtml(url2, 2);
+        } else {
           this.fileList2 = [];
         }
 
       },
-      renderHtml(url,flag){
+      renderHtml(url, flag) {
         let tmpUrls = url.split(',');
         let tmpIdx = 0;
         let baseUrl = window._CONFIG['domianURL'] + "/sys/common/view/";
-        for(let i=0;i<tmpUrls.length;i++){
+        for (let i = 0; i < tmpUrls.length; i++) {
           let imgUrl = tmpUrls[i];
           tmpIdx--;
           let fileObj = {
             uid: tmpIdx, //根据官方API文档，该值最好给个负数值，以免与内部对象冲突
-            name: imgUrl.substring(imgUrl.lastIndexOf("/"),imgUrl.indexOf(".")),
+            name: imgUrl.substring(imgUrl.lastIndexOf("/"), imgUrl.indexOf(".")),
             status: 'done',
             url: baseUrl + imgUrl,
             thumbUrl: baseUrl + imgUrl,
             isCommit: true, //图片是否已提交
           };
 
-          if(flag === 1){
+          if (flag === 1) {
             this.fileList[i] = fileObj;
-          }else{
+          } else {
             this.fileList2[i] = fileObj;
           }
         }
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleOk () {
+      handleOk() {
         const that = this;
         // 触发表单验证
         this.form.validateFields((err, values) => {
@@ -241,12 +243,12 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.id){
-              httpurl+=this.url.add;
+            if (!this.model.id) {
+              httpurl += this.url.add;
               method = 'post';
-            }else{
-              httpurl+=this.url.edit;
-               method = 'put';
+            } else {
+              httpurl += this.url.edit;
+              method = 'put';
             }
             let formData = Object.assign(this.model, values);
             formData.state = this.state;
@@ -263,7 +265,7 @@
               if (img.response) {
                 imageUrls += img.response.message
               } else {
-                imageUrls += img.url.substring(img.url.indexOf("/files")+1, img.url.length)
+                imageUrls += img.url.substring(img.url.indexOf("/files") + 1, img.url.length)
               }
             }
             formData.imgUrl = imageUrls;
@@ -274,20 +276,20 @@
               if (img.response) {
                 imageUrls2 += img.response.message
               } else {
-                imageUrls2 += img.url.substring(img.url.indexOf("/files")+1, img.url.length)
+                imageUrls2 += img.url.substring(img.url.indexOf("/files") + 1, img.url.length)
               }
             }
             formData.headImg = imageUrls2;
 
             console.log(formData)
-            httpAction(httpurl,formData,method).then((res)=>{
-              if(res.success){
+            httpAction(httpurl, formData, method).then((res) => {
+              if (res.success) {
                 // 提交成功后服务器删除移除的图片
                 this.handleRemoveFile(this.removeFileList);
                 this.handleRemoveFile(this.removeFileList2);
                 that.$message.success(res.message);
                 that.$emit('ok');
-              }else{
+              } else {
                 that.$message.warning(res.message);
               }
             }).finally(() => {
@@ -299,7 +301,7 @@
           }
         })
       },
-      handleCancel () {
+      handleCancel() {
         let files = [];
         for (let i = 0; i < this.fileList.length; i++) {
           let img = this.fileList[i];
@@ -313,61 +315,61 @@
             files.push(img.response.message);
           }
         }
-        console.log("未提交的图片：",files);
+        console.log("未提交的图片：", files);
         // 关闭成功后服务器删除未提交的图片
         this.handleRemoveFile(files);
 
-        if(this.opt == 'add'){
+        if (this.opt == 'add') {
           this.handleRemoveFile(this.removeFileList);
           this.handleRemoveFile(this.removeFileList2);
         }
 
         this.close()
       },
-      handelCheck(check){
-          if(check){
-            this.state = '0';
-          }else {
-            this.state = '1';
-          }
+      handelCheck(check) {
+        if (check) {
+          this.state = '0';
+        } else {
+          this.state = '1';
+        }
       },
       imageCancel(flag) {
-        if(flag === 1){
+        if (flag === 1) {
           this.previewVisible = false;
-        }else{
+        } else {
           this.previewVisible2 = false;
         }
       },
-      handlePreview(file,flag) {
-        if(flag === 1){
+      handlePreview(file, flag) {
+        if (flag === 1) {
           this.previewImage = file.url || file.thumbUrl;
           this.previewVisible = true;
-        }else{
+        } else {
           this.previewImage2 = file.url || file.thumbUrl;
           this.previewVisible2 = true;
         }
       },
-      imageChange(info,flag) {
-        if(flag === 1){
+      imageChange(info, flag) {
+        if (flag === 1) {
           this.fileList = info.fileList;
-        }else{
+        } else {
           this.fileList2 = info.fileList;
         }
-        console.log("上传后：",this.fileList);
+        console.log("上传后：", this.fileList);
       },
-      imageRemove(file,flag) {
-        if(file.url){
+      imageRemove(file, flag) {
+        if (file.url) {
           let rmUrl = file.url.substring(file.url.indexOf("/files"), file.url.length);
-          if(flag === 1){
+          if (flag === 1) {
             this.removeFileList.push(rmUrl);
-          }else{
+          } else {
             this.removeFileList2.push(rmUrl);
           }
-        }else{
-          if(file.response){
-            if(flag === 1){
+        } else {
+          if (file.response) {
+            if (flag === 1) {
               this.removeFileList.push(file.response.message);
-            }else{
+            } else {
               this.removeFileList2.push(file.response.message);
             }
 
@@ -376,7 +378,7 @@
       },
       beforeUpload: function (file) {
         var fileType = file.type;
-        if(fileType.indexOf('image')<0){
+        if (fileType.indexOf('image') < 0) {
           this.$message.warning('请上传图片');
           return false;
         }
@@ -386,8 +388,8 @@
           return false;
         }
       },
-      handleRemoveFile(files){
-        postAction(this.url.removeFile, {filePaths:files});
+      handleRemoveFile(files) {
+        postAction(this.url.removeFile, {filePaths: files});
       }
 
     }

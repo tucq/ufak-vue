@@ -21,17 +21,16 @@
 
   export default {
     name: "RowspanTable",
-    components: {
-    },
+    components: {},
     data() {
       return {
         description: '存放位置设置表管理页面',
-        levelNum:{},
-        gridNum:0,
-        boxNum:0,
-        cabinetNo:"",
+        levelNum: {},
+        gridNum: 0,
+        boxNum: 0,
+        cabinetNo: "",
         // 表头
-        columns: [ {
+        columns: [{
           title: '分组一',
           align: "center",
           dataIndex: 'cabinetNo',
@@ -40,9 +39,9 @@
               children: value,
               attrs: {},
             };
-            if(index===0){
+            if (index === 0) {
               obj.attrs.rowSpan = this.dataSource.length;
-            }else{
+            } else {
               obj.attrs.rowSpan = 0;
             }
             return obj;
@@ -59,15 +58,15 @@
               };
               //当前列跨行的条数
               var a = parseInt(this.levelNum);
-              var b = parseInt(this.gridNum)*parseInt(this.boxNum);
+              var b = parseInt(this.gridNum) * parseInt(this.boxNum);
               console.log(a);
-              for(var c=0;c<=a;c++){
-                if(index === (c*b)){
+              for (var c = 0; c <= a; c++) {
+                if (index === (c * b)) {
                   console.log(1);
-                  console.log(c*b);
+                  console.log(c * b);
                   obj.attrs.rowSpan = b;
                   break;
-                }else{
+                } else {
                   obj.attrs.rowSpan = 0;
                 }
               }
@@ -83,13 +82,13 @@
                 children: value,
                 attrs: {},
               };
-              var a = parseInt(this.levelNum)*parseInt(this.gridNum);
+              var a = parseInt(this.levelNum) * parseInt(this.gridNum);
               var b = parseInt(this.boxNum);
-              for(var c=0;c<=a;c++){
-                if(index === (c*b)){
+              for (var c = 0; c <= a; c++) {
+                if (index === (c * b)) {
                   obj.attrs.rowSpan = b;
                   break;
-                }else{
+                } else {
                   obj.attrs.rowSpan = 0;
                 }
               }
@@ -250,16 +249,15 @@
           column: 'createTime',
           order: 'desc',
         },
-        url: {
-        },
+        url: {},
       }
     },
     created() {
       this.loadData();
     },
     methods: {
-      loadData(){
-        this.levelNum=4;
+      loadData() {
+        this.levelNum = 4;
         this.gridNum = 2;
         this.boxNum = 2;
 
@@ -268,18 +266,35 @@
   }
 </script>
 <style scoped>
-  .ant-card-body .table-operator{
+  .ant-card-body .table-operator {
     margin-bottom: 18px;
   }
-  .ant-table-tbody .ant-table-row td{
-    padding-top:15px;
-    padding-bottom:15px;
-  }
-  .anty-row-operator button{margin: 0 5px}
-  .ant-btn-danger{background-color: #ffffff}
 
-  .ant-modal-cust-warp{height: 100%}
-  .ant-modal-cust-warp .ant-modal-body{height:calc(100% - 110px) !important;overflow-y: auto}
-  .ant-modal-cust-warp .ant-modal-content{height:90% !important;overflow-y: hidden}
+  .ant-table-tbody .ant-table-row td {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .anty-row-operator button {
+    margin: 0 5px
+  }
+
+  .ant-btn-danger {
+    background-color: #ffffff
+  }
+
+  .ant-modal-cust-warp {
+    height: 100%
+  }
+
+  .ant-modal-cust-warp .ant-modal-body {
+    height: calc(100% - 110px) !important;
+    overflow-y: auto
+  }
+
+  .ant-modal-cust-warp .ant-modal-content {
+    height: 90% !important;
+    overflow-y: hidden
+  }
 </style>
 

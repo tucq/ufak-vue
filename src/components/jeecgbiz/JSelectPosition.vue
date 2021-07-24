@@ -7,7 +7,7 @@
 
   export default {
     name: 'JSelectPosition',
-    components: { JSelectBizComponent },
+    components: {JSelectBizComponent},
     props: ['value'],
     data() {
       return {
@@ -19,16 +19,16 @@
           queryParamCode: 'name',
           queryParamText: '职务名称',
           columns: [
-            { title: '职务名称', dataIndex: 'name', align: 'center', width: '30%', widthRight: '70%' },
-            { title: '职务编码', dataIndex: 'code', align: 'center', width: '35%' },
-            { title: '职级', dataIndex: 'rank_dictText', align: 'center', width: '25%' }
+            {title: '职务名称', dataIndex: 'name', align: 'center', width: '30%', widthRight: '70%'},
+            {title: '职务编码', dataIndex: 'code', align: 'center', width: '35%'},
+            {title: '职级', dataIndex: 'rank_dictText', align: 'center', width: '25%'}
           ]
         }
       }
     },
     computed: {
       configs() {
-        return Object.assign({ value: this.value }, this.settings, this.$attrs)
+        return Object.assign({value: this.value}, this.settings, this.$attrs)
       }
     }
   }

@@ -7,7 +7,7 @@
       <span>{{ total }}</span>
       <span class="sub-total">
         {{ subTotal }}
-        <icon :type="`caret-${status}`" />
+        <icon :type="`caret-${status}`"/>
       </span>
     </div>
   </div>
@@ -43,7 +43,7 @@
     components: {
       Icon
     },
-    data () {
+    data() {
       return {}
     }
   }

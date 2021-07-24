@@ -39,7 +39,8 @@
           <a-menu-item key="6" @click="closeAll">合并所有</a-menu-item>
         </a-menu>
         <a-button>
-          树操作 <a-icon type="up" />
+          树操作
+          <a-icon type="up"/>
         </a-button>
       </a-dropdown>
       <a-popconfirm title="确定放弃编辑？" @confirm="close" okText="确定" cancelText="取消">
@@ -54,101 +55,101 @@
 
 </template>
 <script>
-  import {queryTreeListForRole,queryRolePermission,saveRolePermission} from '@/api/api'
+  import {queryTreeListForRole, queryRolePermission, saveRolePermission} from '@/api/api'
   import RoleDataruleModal from './RoleDataruleModal.vue'
 
   export default {
     name: "RoleModal",
-    components:{
+    components: {
       RoleDataruleModal
     },
-    data(){
+    data() {
       return {
-        roleId:"",
+        roleId: "",
         treeData: [],
-        defaultCheckedKeys:[],
-        checkedKeys:[],
-        expandedKeysss:[],
-        allTreeKeys:[],
+        defaultCheckedKeys: [],
+        checkedKeys: [],
+        expandedKeysss: [],
+        allTreeKeys: [],
         autoExpandParent: true,
         checkStrictly: true,
-        title:"角色权限配置",
+        title: "角色权限配置",
         visible: false,
         loading: false,
-        selectedKeys:[]
+        selectedKeys: []
       }
     },
     methods: {
-      onTreeNodeSelect(id){
-        if(id && id.length>0){
+      onTreeNodeSelect(id) {
+        if (id && id.length > 0) {
           this.selectedKeys = id
         }
-        this.$refs.datarule.show(this.selectedKeys[0],this.roleId)
+        this.$refs.datarule.show(this.selectedKeys[0], this.roleId)
       },
-      onCheck (o) {
-        if(this.checkStrictly){
+      onCheck(o) {
+        if (this.checkStrictly) {
           this.checkedKeys = o.checked;
-        }else{
+        } else {
           this.checkedKeys = o
         }
       },
-      show(roleId){
-        this.roleId=roleId
+      show(roleId) {
+        this.roleId = roleId
         this.visible = true;
       },
-      close () {
+      close() {
         this.reset()
         this.$emit('close');
         this.visible = false;
       },
-      onExpand(expandedKeys){
+      onExpand(expandedKeys) {
         this.expandedKeysss = expandedKeys;
         this.autoExpandParent = false
       },
-      reset () {
+      reset() {
         this.expandedKeysss = []
         this.checkedKeys = []
         this.defaultCheckedKeys = []
         this.loading = false
       },
-      expandAll () {
+      expandAll() {
         this.expandedKeysss = this.allTreeKeys
       },
-      closeAll () {
+      closeAll() {
         this.expandedKeysss = []
       },
-      checkALL () {
+      checkALL() {
         this.checkedKeys = this.allTreeKeys
       },
-      cancelCheckALL () {
+      cancelCheckALL() {
         //this.checkedKeys = this.defaultCheckedKeys
         this.checkedKeys = []
       },
-      switchCheckStrictly (v) {
-        if(v==1){
+      switchCheckStrictly(v) {
+        if (v == 1) {
           this.checkStrictly = false
-        }else if(v==2){
+        } else if (v == 2) {
           this.checkStrictly = true
         }
       },
-      handleCancel () {
+      handleCancel() {
         this.close()
       },
-      handleSubmit(){
+      handleSubmit() {
         let that = this;
-        let params =  {
-          roleId:that.roleId,
-          permissionIds:that.checkedKeys.join(","),
-          lastpermissionIds:that.defaultCheckedKeys.join(","),
+        let params = {
+          roleId: that.roleId,
+          permissionIds: that.checkedKeys.join(","),
+          lastpermissionIds: that.defaultCheckedKeys.join(","),
         };
         that.loading = true;
-        console.log("请求参数：",params);
-        saveRolePermission(params).then((res)=>{
-          if(res.success){
+        console.log("请求参数：", params);
+        saveRolePermission(params).then((res) => {
+          if (res.success) {
             that.$message.success(res.message);
             that.loading = false;
             that.close();
-          }else {
+          } else {
             that.$message.error(res.message);
             that.loading = false;
             that.close();
@@ -156,22 +157,22 @@
         })
       },
     },
-  watch: {
-    visible () {
-      if (this.visible) {
-        queryTreeListForRole().then((res) => {
-          this.treeData = res.result.treeList
-          this.allTreeKeys = res.result.ids
-          queryRolePermission({roleId:this.roleId}).then((res)=>{
+    watch: {
+      visible() {
+        if (this.visible) {
+          queryTreeListForRole().then((res) => {
+            this.treeData = res.result.treeList
+            this.allTreeKeys = res.result.ids
+            queryRolePermission({roleId: this.roleId}).then((res) => {
               this.checkedKeys = [...res.result];
               this.defaultCheckedKeys = [...res.result];
               this.expandedKeysss = this.allTreeKeys;
               //console.log(this.defaultCheckedKeys)
+            })
           })
-        })
+        }
       }
     }
-  }
   }
 
 </script>

@@ -37,7 +37,7 @@
 </template>
 <script>
   import moment from 'moment'
-  import { getAction } from '@/api/manage'
+  import {getAction} from '@/api/manage'
 
   moment.locale('zh-cn')
 
@@ -51,37 +51,37 @@
           title: '参数',
           width: '30%',
           dataIndex: 'param',
-          scopedSlots: { customRender: 'param' }
+          scopedSlots: {customRender: 'param'}
         }, {
           title: '描述',
           width: '40%',
           dataIndex: 'text',
-          scopedSlots: { customRender: 'text' }
+          scopedSlots: {customRender: 'text'}
         }, {
           title: '当前值',
           width: '30%',
           dataIndex: 'value',
-          scopedSlots: { customRender: 'value' }
+          scopedSlots: {customRender: 'value'}
         }],
         dataSource: [],
         // 列表通过 textInfo 渲染出颜色、描述和单位
         textInfo: {
-          'jvm.memory.max': { color: 'purple', text: 'JVM 最大内存', unit: 'MB' },
-          'jvm.memory.committed': { color: 'purple', text: 'JVM 可用内存', unit: 'MB' },
-          'jvm.memory.used': { color: 'purple', text: 'JVM 已用内存', unit: 'MB' },
-          'jvm.buffer.memory.used': { color: 'cyan', text: 'JVM 缓冲区已用内存', unit: 'MB' },
-          'jvm.buffer.count': { color: 'cyan', text: '当前缓冲区数量', unit: '个' },
-          'jvm.threads.daemon': { color: 'green', text: 'JVM 守护线程数量', unit: '个' },
-          'jvm.threads.live': { color: 'green', text: 'JVM 当前活跃线程数量', unit: '个' },
-          'jvm.threads.peak': { color: 'green', text: 'JVM 峰值线程数量', unit: '个' },
-          'jvm.classes.loaded': { color: 'orange', text: 'JVM 已加载 Class 数量', unit: '个' },
-          'jvm.classes.unloaded': { color: 'orange', text: 'JVM 未加载 Class 数量', unit: '个' },
-          'jvm.gc.memory.allocated': { color: 'pink', text: 'GC 时, 年轻代分配的内存空间', unit: 'MB' },
-          'jvm.gc.memory.promoted': { color: 'pink', text: 'GC 时, 老年代分配的内存空间', unit: 'MB' },
-          'jvm.gc.max.data.size': { color: 'pink', text: 'GC 时, 老年代的最大内存空间', unit: 'MB' },
-          'jvm.gc.live.data.size': { color: 'pink', text: 'FullGC 时, 老年代的内存空间', unit: 'MB' },
-          'jvm.gc.pause.count': { color: 'blue', text: '系统启动以来GC 次数', unit: '次' },
-          'jvm.gc.pause.totalTime': { color: 'blue', text: '系统启动以来GC 总耗时', unit: '秒' }
+          'jvm.memory.max': {color: 'purple', text: 'JVM 最大内存', unit: 'MB'},
+          'jvm.memory.committed': {color: 'purple', text: 'JVM 可用内存', unit: 'MB'},
+          'jvm.memory.used': {color: 'purple', text: 'JVM 已用内存', unit: 'MB'},
+          'jvm.buffer.memory.used': {color: 'cyan', text: 'JVM 缓冲区已用内存', unit: 'MB'},
+          'jvm.buffer.count': {color: 'cyan', text: '当前缓冲区数量', unit: '个'},
+          'jvm.threads.daemon': {color: 'green', text: 'JVM 守护线程数量', unit: '个'},
+          'jvm.threads.live': {color: 'green', text: 'JVM 当前活跃线程数量', unit: '个'},
+          'jvm.threads.peak': {color: 'green', text: 'JVM 峰值线程数量', unit: '个'},
+          'jvm.classes.loaded': {color: 'orange', text: 'JVM 已加载 Class 数量', unit: '个'},
+          'jvm.classes.unloaded': {color: 'orange', text: 'JVM 未加载 Class 数量', unit: '个'},
+          'jvm.gc.memory.allocated': {color: 'pink', text: 'GC 时, 年轻代分配的内存空间', unit: 'MB'},
+          'jvm.gc.memory.promoted': {color: 'pink', text: 'GC 时, 老年代分配的内存空间', unit: 'MB'},
+          'jvm.gc.max.data.size': {color: 'pink', text: 'GC 时, 老年代的最大内存空间', unit: 'MB'},
+          'jvm.gc.live.data.size': {color: 'pink', text: 'FullGC 时, 老年代的内存空间', unit: 'MB'},
+          'jvm.gc.pause.count': {color: 'blue', text: '系统启动以来GC 次数', unit: '次'},
+          'jvm.gc.pause.totalTime': {color: 'blue', text: '系统启动以来GC 总耗时', unit: '秒'}
         },
         // 当一条记录中需要取出多条数据的时候需要配置该字段
         moreInfo: {
@@ -140,7 +140,7 @@
               ) {
                 val = this.convert(val, Number)
               }
-              info.push({ id: param + id, param, text: 'false value', value: val })
+              info.push({id: param + id, param, text: 'false value', value: val})
             })
           })
           this.dataSource = info

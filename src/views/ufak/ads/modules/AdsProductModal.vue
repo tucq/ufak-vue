@@ -42,7 +42,7 @@
             :pagination="ipagination"
             :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
             @change="handleTableChange"
-            >
+          >
             <span slot="image" slot-scope="image">
                 <a-row>
                   <img :src="getAvatarView(image.split(',')[0])" style="height:50px;max-width:50px"/>
@@ -56,24 +56,24 @@
 </template>
 
 <script>
-  import { postAction,getAction} from '@/api/manage'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {postAction, getAction} from '@/api/manage'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import ProductCategoryTree from "@/views/ufak/common/ProductCategoryTree"
 
   export default {
     name: "HomepageAdsModal",
-    mixins:[JeecgListMixin],
+    mixins: [JeecgListMixin],
     components: {
       ProductCategoryTree,
     },
-    data () {
+    data() {
       return {
-        title:"操作",
+        title: "操作",
         visible: false,
         adsId: "",
-        queryParam:{},
-        dataSource:[],
-        selectedRowKeys:[],
+        queryParam: {},
+        dataSource: [],
+        selectedRowKeys: [],
         confirmLoading: false,
         columns: [
           {
@@ -116,47 +116,47 @@
         },
         url: {
           list: "/product/info/list",
-          imgerver: window._CONFIG['domianURL']+"/sys/common/view",
+          imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
           addProduct: "/homepageAds/addProduct",
         },
       }
     },
-    created(){
+    created() {
       this.loadData(1);
     },
     methods: {
-      loadData (arg){
-        if(arg===1){
+      loadData(arg) {
+        if (arg === 1) {
           this.ipagination.current = 1;
         }
         let params = this.getQueryParams();//查询条件
         params.state = '0';
-        getAction(this.url.list,params).then((res)=>{
-          if(res.success){
+        getAction(this.url.list, params).then((res) => {
+          if (res.success) {
             this.dataSource = res.result.records;
             this.ipagination.total = res.result.total;
           }
         })
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleCancel () {
+      handleCancel() {
         this.close();
       },
-      handleOk () {
+      handleOk() {
         const that = this;
         that.confirmLoading = true;
         let param = {
           productIds: this.selectedRowKeys,
           adsId: this.adsId
         };
-        postAction(this.url.addProduct,param).then((res)=>{
-          if(res.success){
+        postAction(this.url.addProduct, param).then((res) => {
+          if (res.success) {
             that.$message.success(res.message);
             that.$emit('ok');
-          }else{
+          } else {
             that.$message.warning(res.message);
           }
         }).finally(() => {
@@ -165,10 +165,10 @@
         });
 
       },
-      getAvatarView(image){
-        return this.url.imgerver +"/"+ image;
+      getAvatarView(image) {
+        return this.url.imgerver + "/" + image;
       },
-      selectedCategory(selectedKeys,e){
+      selectedCategory(selectedKeys, e) {
         this.queryParam.categoryCode = e.node.dataRef.code;
         this.searchQuery();
       },

@@ -89,7 +89,7 @@
   import Vue from 'vue'
   import {ACCESS_TOKEN} from "@/store/mutation-types"
 
-  import { getUploadFileList,getFilePaths } from '@/utils/commonUploadFile.js'
+  import {getUploadFileList, getFilePaths} from '@/utils/commonUploadFile.js'
 
   export default {
     name: "JeecgOrderCustomerModal",
@@ -166,7 +166,7 @@
         hiding: false,
         headers: {},
         picUrl: "",
-        picArray:[],
+        picArray: [],
         previewVisible: false,
         previewImage: '',
         addStatus: false,
@@ -230,7 +230,7 @@
           this.addStatus = false;
           this.editStatus = true;
           this.$nextTick(() => {
-            this.form.setFieldsValue(pick(this.model, 'id', 'name', 'sex', 'idcard','telphone', 'orderId', 'createBy', 'createTime', 'updateBy', 'updateTime'))
+            this.form.setFieldsValue(pick(this.model, 'id', 'name', 'sex', 'idcard', 'telphone', 'orderId', 'createBy', 'createTime', 'updateBy', 'updateTime'))
           });
         } else {
           this.addStatus = false;
@@ -242,7 +242,7 @@
         this.$emit('close');
         this.visible = false;
         this.picUrl = "";
-        this.fileList=[];
+        this.fileList = [];
       },
       handleOk() {
         const that = this;
@@ -308,9 +308,9 @@
       },
       handlePicCancel() {
         this.previewVisible = false
-        this.previewImage=''
+        this.previewImage = ''
       },
-      handlePicView(url){
+      handlePicView(url) {
         this.previewImage = this.url.imgerver + "/" + url
         this.previewVisible = true
       },
@@ -319,7 +319,7 @@
         this.previewVisible = true
       },
       getIdCardView(url) {
-       // let pics = this.model.idcardPic.split(",");
+        // let pics = this.model.idcardPic.split(",");
         //let pics_len = pics.length;
         // 显示上传的最后一个图片
         return this.url.imgerver + "/" + url

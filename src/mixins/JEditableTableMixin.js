@@ -1,6 +1,6 @@
 import JEditableTable from '@/components/jeecg/JEditableTable'
-import { VALIDATE_NO_PASSED, getRefPromise, validateFormAndTables } from '@/utils/JEditableTableUtil'
-import { httpAction, getAction } from '@/api/manage'
+import {VALIDATE_NO_PASSED, getRefPromise, validateFormAndTables} from '@/utils/JEditableTableUtil'
+import {httpAction, getAction} from '@/api/manage'
 
 export const JEditableTableMixin = {
   components: {
@@ -14,12 +14,12 @@ export const JEditableTableMixin = {
       confirmLoading: false,
       model: {},
       labelCol: {
-        xs: { span: 24 },
-        sm: { span: 6 }
+        xs: {span: 24},
+        sm: {span: 6}
       },
       wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 18 }
+        xs: {span: 24},
+        sm: {span: 18}
       }
     }
   },

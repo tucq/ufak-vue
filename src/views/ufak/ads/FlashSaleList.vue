@@ -17,7 +17,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="6" :sm="8" >
+          <a-col :md="6" :sm="8">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
@@ -55,10 +55,10 @@
         </span>
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
-          <a-divider type="vertical" />
+          <a-divider type="vertical"/>
           <a v-if="record.state === '0'" @click="stop(record.id)">禁用</a>
           <a v-if="record.state === '1'" @click="start(record.id)">启用</a>
-          <a-divider type="vertical" />
+          <a-divider type="vertical"/>
           <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
             <a>删除</a>
           </a-popconfirm>
@@ -75,111 +75,109 @@
 
 <script>
   import FlashSaleModal from './modules/FlashSaleModal'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import { getAction,postAction } from '@/api/manage'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+  import {getAction, postAction} from '@/api/manage'
 
   export default {
     name: "FlashSaleList",
-    mixins:[JeecgListMixin],
+    mixins: [JeecgListMixin],
     components: {
       FlashSaleModal
     },
-    data () {
+    data() {
       return {
         description: '限制抢购管理页面',
         // 表头
         columns: [
-		   {
+          {
             title: '商品图片',
-            align:"center",
-            width:"10%",
+            align: "center",
+            width: "10%",
             dataIndex: 'specsImage',
             scopedSlots: {customRender: 'specsImage'},
-           },
+          },
           {
             title: '商品名称',
-            align:"center",
-            width:"15%",
+            align: "center",
+            width: "15%",
             dataIndex: 'productName'
           },
-		   {
+          {
             title: '标题',
-            align:"center",
-            width:"10%",
+            align: "center",
+            width: "10%",
             dataIndex: 'title'
-           },
-		   {
+          },
+          {
             title: '描述',
-            align:"center",
-            width:"10%",
+            align: "center",
+            width: "10%",
             dataIndex: 'remark'
-           },
-		   {
+          },
+          {
             title: '秒杀价',
-            align:"center",
-            width:"7%",
+            align: "center",
+            width: "7%",
             dataIndex: 'killPrice'
-           },
-		   {
+          },
+          {
             title: '抢购数量',
-            align:"center",
-            width:"7%",
+            align: "center",
+            width: "7%",
             dataIndex: 'stock'
-           },
-		   {
+          },
+          {
             title: '状态',
-            align:"center",
-            width:"5%",
+            align: "center",
+            width: "5%",
             dataIndex: 'state',
             scopedSlots: {customRender: 'state'},
-           },
-		   {
+          },
+          {
             title: '开始时间',
-            align:"center",
-            width:"13%",
+            align: "center",
+            width: "13%",
             dataIndex: 'startTime'
-           },
-		   {
+          },
+          {
             title: '结束时间',
-            align:"center",
-            width:"13%",
+            align: "center",
+            width: "13%",
             dataIndex: 'endTime'
-           },
+          },
           {
             title: '操作',
             dataIndex: 'action',
-            width:"10%",
-            align:"center",
-            scopedSlots: { customRender: 'action' },
+            width: "10%",
+            align: "center",
+            scopedSlots: {customRender: 'action'},
           }
         ],
-		url: {
+        url: {
           list: "/flashSale/list",
           delete: "/flashSale/delete",
           stop: "/flashSale/stop",
           start: "/flashSale/start",
-          imgerver: window._CONFIG['domianURL']+"/sys/common/view",
-       },
-    }
-  },
-  computed: {
-
-  },
+          imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
+        },
+      }
+    },
+    computed: {},
     methods: {
-      getAvatarView(image){
-        return this.url.imgerver +"/"+ image;
+      getAvatarView(image) {
+        return this.url.imgerver + "/" + image;
       },
-      stop(id){
-        postAction(this.url.stop+"?id="+id,null).then((res)=>{
-          if(res.success){
+      stop(id) {
+        postAction(this.url.stop + "?id=" + id, null).then((res) => {
+          if (res.success) {
             this.$message.success(res.message);
             this.loadData();
           }
         });
       },
-      start(id){
-        postAction(this.url.start+"?id="+id,null).then((res)=>{
-          if(res.success){
+      start(id) {
+        postAction(this.url.start + "?id=" + id, null).then((res) => {
+          if (res.success) {
             this.$message.success(res.message);
             this.loadData();
           }

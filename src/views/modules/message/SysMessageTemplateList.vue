@@ -86,7 +86,7 @@
 
         <!-- 字符串超长截取省略号显示-->
         <span slot="templateContent" slot-scope="text">
-          <j-ellipsis :value="text" :length="25" />
+          <j-ellipsis :value="text" :length="25"/>
         </span>
 
 
@@ -170,16 +170,16 @@
             align: "center",
             dataIndex: 'templateType',
             customRender: function (text) {
-              if(text=='1') {
+              if (text == '1') {
                 return "短信";
               }
-              if(text=='2') {
+              if (text == '2') {
                 return "邮件";
               }
-              if(text=='3') {
+              if (text == '3') {
                 return "微信";
               }
-              if(text=='4') {
+              if (text == '4') {
                 return "系统";
               }
             }
@@ -206,7 +206,7 @@
       }
     },
     methods: {
-      handleTest(record){
+      handleTest(record) {
         this.$refs.testModal.open(record);
         this.$refs.testModal.title = "发送测试";
       }

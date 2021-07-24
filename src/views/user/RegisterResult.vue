@@ -19,29 +19,29 @@
     components: {
       Result
     },
-    data () {
+    data() {
       return {
         form: {},
       }
     },
     computed: {
-      email () {
+      email() {
         let v = this.form && this.form.username || 'xxx'
         let title = `你的账户：${v} 注册成功`
         this.username = v;
         return title
       }
     },
-    created () {
+    created() {
       this.form = this.$route.params
     },
     methods: {
-      goHomeHandle () {
-        let params={};
-        params.username=this.form.username;
-        params.password=this.form.password;
+      goHomeHandle() {
+        let params = {};
+        params.username = this.form.username;
+        params.password = this.form.password;
         console.log(params);
-        this.$router.push({name:'login',params})
+        this.$router.push({name: 'login', params})
       },
     }
   }

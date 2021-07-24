@@ -1,5 +1,5 @@
 <template>
-  <exception-page type="500" />
+  <exception-page type="500"/>
 </template>
 
 <script>

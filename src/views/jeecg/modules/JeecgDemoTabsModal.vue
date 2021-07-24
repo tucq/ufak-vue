@@ -11,21 +11,24 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
 
-        <a-card class="card"  :bordered="false">
+        <a-card class="card" :bordered="false">
           <a-row class="form-row" :gutter="16">
             <a-col :lg="8">
               <a-form-item label="任务名">
-                <a-input placeholder="请输入任务名称"  v-decorator="[ 'task.name', {rules: [{ required: true, message: '请输入任务名称', whitespace: true}]} ]"/>
+                <a-input placeholder="请输入任务名称"
+                         v-decorator="[ 'task.name', {rules: [{ required: true, message: '请输入任务名称', whitespace: true}]} ]"/>
               </a-form-item>
             </a-col>
             <a-col :lg="8">
               <a-form-item label="任务描述">
-                <a-input placeholder="请输入任务描述"  v-decorator="['task.description', {rules: [{ required: true, message: '请输入任务描述', whitespace: true}]} ]"/>
+                <a-input placeholder="请输入任务描述"
+                         v-decorator="['task.description', {rules: [{ required: true, message: '请输入任务描述', whitespace: true}]} ]"/>
               </a-form-item>
             </a-col>
             <a-col :lg="8">
               <a-form-item label="执行人">
-                <a-select placeholder="请选择执行人" v-decorator="['task.executor',{rules: [{ required: true, message: '请选择执行人'}]}  ]">
+                <a-select placeholder="请选择执行人"
+                          v-decorator="['task.executor',{rules: [{ required: true, message: '请选择执行人'}]}  ]">
                   <a-select-option value="黄丽丽">黄丽丽</a-select-option>
                   <a-select-option value="李大刀">李大刀</a-select-option>
                 </a-select>
@@ -35,7 +38,8 @@
           <a-row class="form-row" :gutter="16">
             <a-col :lg="8">
               <a-form-item label="责任人">
-                <a-select placeholder="请选择责任人" v-decorator="['task.manager',  {rules: [{ required: true, message: '请选择责任人'}]} ]">
+                <a-select placeholder="请选择责任人"
+                          v-decorator="['task.manager',  {rules: [{ required: true, message: '请选择责任人'}]} ]">
                   <a-select-option value="王伟">王伟</a-select-option>
                   <a-select-option value="李红军">李红军</a-select-option>
                 </a-select>
@@ -43,13 +47,15 @@
             </a-col>
             <a-col :lg="8">
               <a-form-item label="提醒时间">
-                <a-time-picker style="width: 100%" v-decorator="['task.time', {rules: [{ required: true, message: '请选择提醒时间'}]} ]"/>
+                <a-time-picker style="width: 100%"
+                               v-decorator="['task.time', {rules: [{ required: true, message: '请选择提醒时间'}]} ]"/>
               </a-form-item>
             </a-col>
             <a-col :lg="8">
               <a-form-item
                 label="任务类型">
-                <a-select placeholder="请选择任务类型" v-decorator="['task.type', {rules: [{ required: true, message: '请选择任务类型'}]} ]">
+                <a-select placeholder="请选择任务类型"
+                          v-decorator="['task.type', {rules: [{ required: true, message: '请选择任务类型'}]} ]">
                   <a-select-option value="定时执行">定时执行</a-select-option>
                   <a-select-option value="周期执行">周期执行</a-select-option>
                 </a-select>
@@ -58,14 +64,17 @@
           </a-row>
         </a-card>
 
-        <a-tabs defaultActiveKey="1" >
+        <a-tabs defaultActiveKey="1">
           <a-tab-pane tab="Tab 1" key="1">
 
             <a-table :columns="columns" :dataSource="data" :pagination="false" size="middle">
-              <template v-for="(col, i) in ['name', 'workId', 'department']" :slot="col" slot-scope="text, record, index">
-                <a-tooltip  title="必填项" :defaultVisible="false" overlayStyle="{ color: 'red' }">
-                  <a-input :key="col" v-if="record.editable" style="margin: -5px 0"  :value="text" :placeholder="columns[i].title" @change="e => handlerRowChange(e.target.value, record.key, col)"/>
-                <template v-else>{{ text }}</template>
+              <template v-for="(col, i) in ['name', 'workId', 'department']" :slot="col"
+                        slot-scope="text, record, index">
+                <a-tooltip title="必填项" :defaultVisible="false" overlayStyle="{ color: 'red' }">
+                  <a-input :key="col" v-if="record.editable" style="margin: -5px 0" :value="text"
+                           :placeholder="columns[i].title"
+                           @change="e => handlerRowChange(e.target.value, record.key, col)"/>
+                  <template v-else>{{ text }}</template>
                 </a-tooltip>
               </template>
               <template slot="operation" slot-scope="text, record, index">
@@ -89,7 +98,9 @@
               </template>
             </a-table>
 
-            <a-button style="width: 100%; margin-top: 16px; margin-bottom: 8px" type="dashed" icon="plus" @click="newRow">新增成员</a-button>
+            <a-button style="width: 100%; margin-top: 16px; margin-bottom: 8px" type="dashed" icon="plus"
+                      @click="newRow">新增成员
+            </a-button>
           </a-tab-pane>
           <a-tab-pane tab="Tab 2" key="2" forceRender>
             Content of Tab Pane 2
@@ -236,10 +247,10 @@
       handleCancel() {
         this.close()
       },
-      newRow () {
+      newRow() {
         // 通过时间戳生成 UUID
         let uuid = Math.round(new Date().getTime()).toString();
-        console.log('uuid: '+ uuid)
+        console.log('uuid: ' + uuid)
         this.data.push({
           key: uuid,
           name: '',
@@ -249,16 +260,16 @@
           isNew: true
         })
       },
-      removeRow (key) {
+      removeRow(key) {
         const newData = this.data.filter(item => item.key !== key)
         this.data = newData
       },
-      saveRow (key) {
+      saveRow(key) {
         let target = this.data.filter(item => item.key === key)[0]
         target.editable = false
         target.isNew = false
       },
-      handlerRowChange (value, key, column) {
+      handlerRowChange(value, key, column) {
         const newData = [...this.data]
         const target = newData.filter(item => key === item.key)[0]
         if (target) {
@@ -266,11 +277,11 @@
           this.data = newData
         }
       },
-      editRow (key) {
+      editRow(key) {
         let target = this.data.filter(item => item.key === key)[0]
         target.editable = !target.editable
       },
-      cancelEditRow (key) {
+      cancelEditRow(key) {
         let target = this.data.filter(item => item.key === key)[0]
         target.editable = false
       },
@@ -280,6 +291,6 @@
 
 <style scoped>
   .ant-modal-body {
-    padding: 8px!important;
+    padding: 8px !important;
   }
 </style>

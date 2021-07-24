@@ -17,7 +17,8 @@
 
               <a-col :span="14">
                 <a-form-item :label="(queryParamText||name)">
-                  <a-input v-model="queryParam[queryParamCode||valueKey]" :placeholder="'请输入' + (queryParamText||name)" @pressEnter="searchQuery"/>
+                  <a-input v-model="queryParam[queryParamCode||valueKey]" :placeholder="'请输入' + (queryParamText||name)"
+                           @pressEnter="searchQuery"/>
                 </a-form-item>
               </a-col>
               <a-col :span="8">
@@ -62,9 +63,9 @@
 </template>
 
 <script>
-  import { getAction } from '@/api/manage'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import { cloneObject, pushIfNotExist } from '@/utils/util'
+  import {getAction} from '@/api/manage'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+  import {cloneObject, pushIfNotExist} from '@/utils/util'
 
   export default {
     name: 'JSelectBizComponentModal',
@@ -137,17 +138,17 @@
         // 已选择列表
         selectedTable: {
           pagination: false,
-          scroll: { y: 240 },
+          scroll: {y: 240},
           columns: [
             {
               ...this.columns[0],
               width: this.columns[0].widthRight || this.columns[0].width,
             },
-            { title: '操作', dataIndex: 'action', align: 'center', width: 60, scopedSlots: { customRender: 'action' }, }
+            {title: '操作', dataIndex: 'action', align: 'center', width: 60, scopedSlots: {customRender: 'action'},}
           ],
           dataSource: [],
         },
-        url: { list: this.listUrl },
+        url: {list: this.listUrl},
         /* 分页参数 */
         ipagination: {
           current: 1,
@@ -267,7 +268,7 @@
         dataSource.forEach(data => {
           let key = data[this.valueKey]
           this.dataSourceMap[key] = data
-          pushIfNotExist(this.options, { label: data[this.displayKey || this.valueKey], value: key }, 'value')
+          pushIfNotExist(this.options, {label: data[this.displayKey || this.valueKey], value: key}, 'value')
           typeof callback === 'function' ? callback(data) : ''
         })
         this.$emit('options', this.options, this.dataSourceMap)

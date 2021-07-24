@@ -30,7 +30,7 @@
               </a-form-item>
             </a-col>
           </template>
-          <a-col :md="6" :sm="8" >
+          <a-col :md="6" :sm="8">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
@@ -50,21 +50,21 @@
       <!--<a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>-->
       <a-button type="primary" icon="download" @click="handleExportXls('订单主表')">导出</a-button>
       <!--<a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">-->
-        <!--<a-button type="primary" icon="import">导入</a-button>-->
+      <!--<a-button type="primary" icon="import">导入</a-button>-->
       <!--</a-upload>-->
       <!--<a-dropdown v-if="selectedRowKeys.length > 0">-->
-        <!--<a-menu slot="overlay">-->
-          <!--<a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>-->
-        <!--</a-menu>-->
-        <!--<a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>-->
+      <!--<a-menu slot="overlay">-->
+      <!--<a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>-->
+      <!--</a-menu>-->
+      <!--<a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>-->
       <!--</a-dropdown>-->
     </div>
 
     <!-- table区域-begin -->
     <div>
       <!--<div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">-->
-        <!--<i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项-->
-        <!--<a style="margin-left: 24px" @click="onClearSelected">清空</a>-->
+      <!--<i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项-->
+      <!--<a style="margin-left: 24px" @click="onClearSelected">清空</a>-->
       <!--</div>-->
 
       <a-table
@@ -89,20 +89,20 @@
             <a-tag v-else="record.orderStatus == null || record.orderStatus == ''" color="red">异常</a-tag>
         </span>
 
-        <span slot="action"  slot-scope="text, record">
+        <span slot="action" slot-scope="text, record">
           <a v-if="record.orderStatus === '1'" @click="sendGoods(record)">发货</a>
-          <a-divider v-if="record.orderStatus === '1'" type="vertical" />
+          <a-divider v-if="record.orderStatus === '1'" type="vertical"/>
           <a @click="handleEdit(record)">查看</a>
-          <a-divider type="vertical" />
+          <a-divider type="vertical"/>
           <a @click="changePrice(record)">改价</a>
           <!--<a-dropdown>-->
-            <!--<a class="ant-dropdown-link">更多 <a-icon type="down"/></a>-->
-            <!--<a-menu slot="overlay">-->
-              <!--<a-menu-item @click="handleEdit(record)">查看</a-menu-item>-->
-              <!--<a-menu-item>-->
-                <!--<a-menu-item @click="changePrice(record)">改价</a-menu-item>-->
-              <!--</a-menu-item>-->
-            <!--</a-menu>-->
+          <!--<a class="ant-dropdown-link">更多 <a-icon type="down"/></a>-->
+          <!--<a-menu slot="overlay">-->
+          <!--<a-menu-item @click="handleEdit(record)">查看</a-menu-item>-->
+          <!--<a-menu-item>-->
+          <!--<a-menu-item @click="changePrice(record)">改价</a-menu-item>-->
+          <!--</a-menu-item>-->
+          <!--</a-menu>-->
           <!--</a-dropdown>-->
         </span>
 
@@ -119,88 +119,88 @@
 <script>
   import OrderModal from './modules/OrderModal'
   import SendGoods from './modules/SendGoods'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 
   export default {
     name: "OrderList",
-    mixins:[JeecgListMixin],
+    mixins: [JeecgListMixin],
     components: {
       OrderModal,
       SendGoods
     },
-    data () {
+    data() {
       return {
         description: '订单主表管理页面',
-        orderStatusList:[
-            {code:'',name:'全部'},
-            {code:'0',name:'待付款'},
-            {code:'1',name:'待发货'},
-            {code:'2',name:'待收货'},
-            {code:'3',name:'已取消'},
-            {code:'4',name:'已完成'},
-            {code:'5',name:'已退款'},
-            {code:'6',name:'售后待审核'}
+        orderStatusList: [
+          {code: '', name: '全部'},
+          {code: '0', name: '待付款'},
+          {code: '1', name: '待发货'},
+          {code: '2', name: '待收货'},
+          {code: '3', name: '已取消'},
+          {code: '4', name: '已完成'},
+          {code: '5', name: '已退款'},
+          {code: '6', name: '售后待审核'}
         ],
         // 表头
         columns: [
-		   {
+          {
             title: '订单编号',
-            align:"center",
+            align: "center",
             dataIndex: 'orderNo'
-           },
-		   {
+          },
+          {
             title: '实收金额',
-            align:"center",
+            align: "center",
             dataIndex: 'paymentAmount'
-           },
-		   {
+          },
+          {
             title: '订单状态',
-            align:"center",
+            align: "center",
             dataIndex: 'orderStatus',
-            scopedSlots: { customRender: 'orderStatus' },
-           },
-		   {
+            scopedSlots: {customRender: 'orderStatus'},
+          },
+          {
             title: '收货人',
-            align:"center",
+            align: "center",
             dataIndex: 'usernameTel'
-           },
-		   {
+          },
+          {
             title: '收货地址',
-            align:"center",
+            align: "center",
             dataIndex: 'userAddress'
-           },
+          },
           {
             title: '创建时间',
-            align:"center",
+            align: "center",
             dataIndex: 'createTime'
           },
           {
             title: '操作',
             dataIndex: 'action',
-            align:"left",
-            scopedSlots: { customRender: 'action' },
+            align: "left",
+            scopedSlots: {customRender: 'action'},
           }
         ],
-		url: {
+        url: {
           list: "/order/list",
           exportXlsUrl: "/order/exportXls",
           importExcelUrl: "/order/importExcel",
-       },
-    }
-  },
-  computed: {
-    importExcelUrl: function(){
-      return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
-    }
-  },
+        },
+      }
+    },
+    computed: {
+      importExcelUrl: function () {
+        return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
+      }
+    },
     methods: {
-      sendGoods(record){
+      sendGoods(record) {
         this.$refs.sendGoods.edit(record);
         this.$refs.sendGoods.title = "发货";
         this.$refs.sendGoods.disableSubmit = true;
       },
-      changePrice(record){
-        alert("开发中..."+record.id);
+      changePrice(record) {
+        alert("开发中..." + record.id);
       },
     }
   }

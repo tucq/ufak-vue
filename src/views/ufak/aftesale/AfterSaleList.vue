@@ -23,7 +23,7 @@
               <a-input placeholder="请输入退款售后单号" v-model="queryParam.afterSaleNo"></a-input>
             </a-form-item>
           </a-col>
-          <a-col :md="6" :sm="8" >
+          <a-col :md="6" :sm="8">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
@@ -80,16 +80,16 @@
 
 <script>
   import AfterSaleModal from './modules/AfterSaleModal'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import InvoiceModal from "./modules/InvoiceModal";
 
   export default {
     name: "AfterSaleList",
-    mixins:[JeecgListMixin],
+    mixins: [JeecgListMixin],
     components: {
       InvoiceModal, AfterSaleModal
     },
-    data () {
+    data() {
       return {
         description: '售后处理管理页面',
         // 表头
@@ -97,73 +97,73 @@
           {
             title: '#',
             dataIndex: '',
-            key:'rowIndex',
-            width:60,
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
+            key: 'rowIndex',
+            width: 60,
+            align: "center",
+            customRender: function (t, r, index) {
+              return parseInt(index) + 1;
             }
-           },
-		   {
+          },
+          {
             title: '售后单号',
-            align:"center",
+            align: "center",
             dataIndex: 'afterSaleNo'
-           },
-		   {
+          },
+          {
             title: '售后类型',
-            align:"center",
+            align: "center",
             dataIndex: 'serviceType',
-            scopedSlots: { customRender: 'serviceType' },
-           },
-		   {
+            scopedSlots: {customRender: 'serviceType'},
+          },
+          {
             title: '状态',
-            align:"center",
+            align: "center",
             dataIndex: 'status',
-            scopedSlots: { customRender: 'status' },
-           },
-		   {
+            scopedSlots: {customRender: 'status'},
+          },
+          {
             title: '微信支付订单号',
-            align:"center",
+            align: "center",
             dataIndex: 'transactionId'
-           },
+          },
           {
             title: '创建时间',
-            align:"center",
+            align: "center",
             dataIndex: 'createTime'
           },
           {
             title: '操作',
             dataIndex: 'action',
-            align:"center",
-            scopedSlots: { customRender: 'action' },
+            align: "center",
+            scopedSlots: {customRender: 'action'},
           }
         ],
-		url: {
+        url: {
           list: "/afterSale/list",
           delete: "/afterSale/delete",
           deleteBatch: "/afterSale/deleteBatch",
           exportXlsUrl: "/afterSale/exportXls",
-       },
-    }
-  },
-  computed: {
-    importExcelUrl: function(){
-      return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
-    }
-  },
+        },
+      }
+    },
+    computed: {
+      importExcelUrl: function () {
+        return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
+      }
+    },
     methods: {
       handleEdit: function (record) {
-        if(record.serviceType == "0"){
+        if (record.serviceType == "0") {
           this.$refs.modalForm.title = "退款处理";
           this.$refs.modalForm.loadData(record);
           this.$refs.modalForm.disableSubmit = false;
-        }else if(record.serviceType == "1"){
+        } else if (record.serviceType == "1") {
           this.$refs.modalForm.title = "退货处理";
-        }else if(record.serviceType == "2"){
+        } else if (record.serviceType == "2") {
           this.$refs.modalForm.title = "换货处理";
-        }else if(record.serviceType == "3"){
+        } else if (record.serviceType == "3") {
           this.$refs.modalForm.title = "维修处理";
-        }else if(record.serviceType == "4"){
+        } else if (record.serviceType == "4") {
           this.$refs.invoiceForm.title = "开票处理";
           this.$refs.invoiceForm.loadData(record);
           this.$refs.invoiceForm.disableSubmit = false;
@@ -171,17 +171,17 @@
 
       },
       handleView: function (record) {
-        if(record.serviceType == "0"){
+        if (record.serviceType == "0") {
           this.$refs.modalForm.loadData(record);
           this.$refs.modalForm.title = "退款查看";
           this.$refs.modalForm.disableSubmit = true;
-        }else if(record.serviceType == "1"){
+        } else if (record.serviceType == "1") {
           this.$refs.modalForm.title = "退货处理";
-        }else if(record.serviceType == "2"){
+        } else if (record.serviceType == "2") {
           this.$refs.modalForm.title = "换货处理";
-        }else if(record.serviceType == "3"){
+        } else if (record.serviceType == "3") {
           this.$refs.modalForm.title = "维修处理";
-        }else if(record.serviceType == "4"){
+        } else if (record.serviceType == "4") {
           this.$refs.invoiceForm.loadData(record);
           this.$refs.invoiceForm.title = "开票查看";
           this.$refs.invoiceForm.disableSubmit = true;

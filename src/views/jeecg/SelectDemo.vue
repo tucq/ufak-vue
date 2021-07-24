@@ -10,7 +10,7 @@
           <a-col :span="12">
             <a-form-item label="性别">
               <j-dict-select-tag v-model="formData.sex" title="性别" dictCode="sex"/>
-            <!--  <j-dict-select-tag title="性别" dictCode="sex" disabled/>-->
+              <!--  <j-dict-select-tag title="性别" dictCode="sex" disabled/>-->
             </a-form-item>
           </a-col>
           <a-col :span="12">选中值：{{ formData.sex}}</a-col>
@@ -30,7 +30,8 @@
         <a-row :gutter="24">
           <a-col :span="12">
             <a-form-item label="字典表下拉(带条件)">
-              <j-dict-select-tag v-model="formData.user2" placeholder="请选择用户" dictCode="sys_user,realname,id,username!='admin' order by create_time"/>
+              <j-dict-select-tag v-model="formData.user2" placeholder="请选择用户"
+                                 dictCode="sys_user,realname,id,username!='admin' order by create_time"/>
             </a-form-item>
           </a-col>
           <a-col :span="12">选中值：{{ formData.user2}}</a-col>
@@ -40,7 +41,8 @@
         <a-row :gutter="24">
           <a-col :span="12">
             <a-form-item label="选择部门 自定义返回值">
-              <j-select-depart v-decorator="['departId']" :trigger-change="true" customReturnField="departName"></j-select-depart>
+              <j-select-depart v-decorator="['departId']" :trigger-change="true"
+                               customReturnField="departName"></j-select-depart>
             </a-form-item>
           </a-col>
           <a-col :span="12">选中的部门ID(v-decorator):{{ getDepartIdValue() }}</a-col>
@@ -69,7 +71,7 @@
         <a-row :gutter="24">
           <a-col :span="12">
             <a-form-item label="选择用户">
-              <j-select-multi-user v-model="multiUser" ></j-select-multi-user>
+              <j-select-multi-user v-model="multiUser"></j-select-multi-user>
             </a-form-item>
           </a-col>
           <a-col :span="12">选中的用户(v-model):{{ multiUser }}</a-col>
@@ -217,7 +219,7 @@
         <a-row :gutter="24">
           <a-col :span="12">
             <a-form-item label="树字典">
-              <j-tree-dict parentCode="B01" />
+              <j-tree-dict parentCode="B01"/>
             </a-form-item>
           </a-col>
           <a-col :span="12"></a-col>
@@ -258,7 +260,8 @@
         <a-row :gutter="24">
           <a-col :span="12">
             <a-form-item label="cron表达式">
-              <j-cron ref="innerVueCron" v-decorator="['cronExpression', { initialValue: '* * * * * ? *' }]" @change="setCorn"></j-cron>
+              <j-cron ref="innerVueCron" v-decorator="['cronExpression', { initialValue: '* * * * * ? *' }]"
+                      @change="setCorn"></j-cron>
             </a-form-item>
           </a-col>
         </a-row>
@@ -313,10 +316,10 @@
         jcheckbox: {
           values: 'spring,jeecgboot',
           options: [
-            { label: 'Jeecg', value: 'jeecg' },
-            { label: 'Jeecg-Boot', value: 'jeecgboot' },
-            { label: 'Spring', value: 'spring', disabled: true },
-            { label: 'MyBaits', value: 'mybatis' }
+            {label: 'Jeecg', value: 'jeecg'},
+            {label: 'Jeecg-Boot', value: 'jeecgboot'},
+            {label: 'Spring', value: 'spring', disabled: true},
+            {label: 'MyBaits', value: 'mybatis'}
           ]
         },
         jcodedditor: {
@@ -342,10 +345,10 @@ sayHi('hello, world!')`
         },
         jselectMultiple: {
           options: [
-            { text: '字符串', value: 'String' },
-            { text: '整数型', value: 'Integer' },
-            { text: '浮点型', value: 'Double' },
-            { text: '布尔型', value: 'Boolean' }
+            {text: '字符串', value: 'String'},
+            {text: '整数型', value: 'Integer'},
+            {text: '浮点型', value: 'Double'},
+            {text: '布尔型', value: 'Boolean'}
           ],
           value: 'Integer,Boolean'
         },
@@ -353,14 +356,14 @@ sayHi('hello, world!')`
           title: '这里是标题',
           visible: false,
           width: '100%',
-          style: { top: '20px' },
+          style: {top: '20px'},
           fullScreen: true
         },
         cron: '',
       }
     },
     computed: {
-      nameList: function() {
+      nameList: function () {
 
         var names = []
         for (var a = 0; a < this.selectList.length; a++) {
@@ -375,10 +378,10 @@ sayHi('hello, world!')`
       getDepartIdValue() {
         return this.form.getFieldValue('departId')
       },
-      selectOK: function(data) {
+      selectOK: function (data) {
         this.selectList = data
       },
-      handleSelect: function() {
+      handleSelect: function () {
         this.$refs.selectDemoModal.add()
       },
       selectReset() {
@@ -411,7 +414,7 @@ sayHi('hello, world!')`
         }
         this.modal.fullScreen = mode
       },
-      setCorn(data){
+      setCorn(data) {
         this.$nextTick(() => {
           this.form.cronExpression = data;
         })

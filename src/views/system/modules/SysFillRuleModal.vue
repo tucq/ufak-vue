@@ -22,7 +22,8 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="规则Code">
-          <a-input placeholder="请输入规则Code" :disabled="disabledCode" v-decorator="['ruleCode', validatorRules.ruleCode]"/>
+          <a-input placeholder="请输入规则Code" :disabled="disabledCode"
+                   v-decorator="['ruleCode', validatorRules.ruleCode]"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
@@ -44,8 +45,8 @@
 
 <script>
   import pick from 'lodash.pick'
-  import { httpAction } from '@/api/manage'
-  import { validateDuplicateValue } from '@/utils/util'
+  import {httpAction} from '@/api/manage'
+  import {validateDuplicateValue} from '@/utils/util'
 
   export default {
     name: 'SysFillRuleModal',
@@ -55,20 +56,20 @@
         title: '操作',
         visible: false,
         model: {},
-        labelCol: { xs: { span: 24 }, sm: { span: 5 } },
-        wrapperCol: { xs: { span: 24 }, sm: { span: 16 } },
+        labelCol: {xs: {span: 24}, sm: {span: 5}},
+        wrapperCol: {xs: {span: 24}, sm: {span: 16}},
 
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules: {
-          ruleName: { rules: [{ required: true, message: '规则名称不能为空' }] },
+          ruleName: {rules: [{required: true, message: '规则名称不能为空'}]},
           ruleCode: {
             rules: [
-              { required: true, message: '规则Code不能为空' },
-              { validator: (rule, value, callback) => validateDuplicateValue('sys_fill_rule', 'rule_code', value, this.model.id, callback) }
+              {required: true, message: '规则Code不能为空'},
+              {validator: (rule, value, callback) => validateDuplicateValue('sys_fill_rule', 'rule_code', value, this.model.id, callback)}
             ]
           },
-          ruleClass: { rules: [{ required: true, message: '规则实现类不能为空' }] },
+          ruleClass: {rules: [{required: true, message: '规则实现类不能为空'}]},
           ruleParams: {
             rules: [{
               validator: (rule, value, callback) => {

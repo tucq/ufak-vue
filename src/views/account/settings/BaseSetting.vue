@@ -7,7 +7,7 @@
           <a-form-item
             label="昵称"
           >
-            <a-input placeholder="给自己起个名字" />
+            <a-input placeholder="给自己起个名字"/>
           </a-form-item>
           <a-form-item
             label="Bio"
@@ -52,10 +52,10 @@
 
       </a-col>
       <a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">
-        <div class="ant-upload-preview" @click="$refs.modal.edit(1)" >
+        <div class="ant-upload-preview" @click="$refs.modal.edit(1)">
           <a-icon type="cloud-upload-o" class="upload-icon"/>
           <div class="mask">
-            <a-icon type="plus" />
+            <a-icon type="plus"/>
           </div>
           <img :src="option.img"/>
         </div>
@@ -76,7 +76,7 @@
     components: {
       AvatarModal
     },
-    data () {
+    data() {
       return {
         // cropper
         preview: {},
@@ -97,9 +97,7 @@
         }
       }
     },
-    methods: {
-
-    }
+    methods: {}
   }
 </script>
 
@@ -128,10 +126,11 @@
       border-radius: 50%;
       border: 1px solid rgba(0, 0, 0, 0.2);
     }
+
     .mask {
       opacity: 0;
       position: absolute;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0, 0, 0, 0.4);
       cursor: pointer;
       transition: opacity 0.4s;
 

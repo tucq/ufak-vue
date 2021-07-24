@@ -19,7 +19,7 @@
 <script>
   import Avatar from 'ant-design-vue/es/avatar'
   import AvatarItem from './Item'
-  import { filterEmpty } from '@/components/_util/util'
+  import {filterEmpty} from '@/components/_util/util'
 
   export default {
     AvatarItem,
@@ -61,7 +61,7 @@
         }
       }
     },
-    data () {
+    data() {
       return {}
     },
     methods: {
@@ -73,28 +73,46 @@
 
         if (this.maxLength > 0) {
           items = items.slice(0, this.maxLength)
-          items.push((<Avatar size={ this.size } style={ this.excessItemsStyle }>{`+${this.maxLength}`}</Avatar>))
+          items.push(( < Avatar
+          size = {this.size}
+          style = {this.excessItemsStyle} > {`+${this.maxLength}`
+        }<
+          /Avatar>))
         }
         const itemList = items.map((item) => (
-          <li class={ classString }>{ item }</li>
-        ))
+          < li
+      class
+        = {classString} > {item} < /li>
+      ))
         return itemList
       }
     },
-    render () {
-      const { prefixCls, size } = this.$props
+    render() {
+      const {prefixCls, size} = this.$props
       const classString = {
         [`${prefixCls}`]: true,
         [`${size}`]: true,
       }
       const items = filterEmpty(this.$slots.default)
-      const itemsDom = items && items.length ? <ul class={`${prefixCls}-items`}>{ this.getItems(items) }</ul> : null
+      const itemsDom = items && items.length ?
+    <
+      ul
+    class
+      = {`${prefixCls}-items`
+    }>
+      {
+        this.getItems(items)
+      }
+    <
+      /ul> : null
 
       return (
-        <div class={ classString }>
-          { itemsDom }
-        </div>
-      )
+        < div
+    class
+      = {classString} >
+        {itemsDom}
+        < /div>
+    )
     }
   }
 </script>

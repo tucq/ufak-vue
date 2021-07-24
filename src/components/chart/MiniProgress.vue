@@ -59,6 +59,7 @@
         }
       }
     }
+
     .progress-wrapper {
       background-color: #f5f5f5;
       position: relative;

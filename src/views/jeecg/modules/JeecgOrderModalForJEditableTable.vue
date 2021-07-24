@@ -100,8 +100,8 @@
 <script>
 
   import JEditableTable from '@/components/jeecg/JEditableTable'
-  import { FormTypes, VALIDATE_NO_PASSED, getRefPromise, validateFormAndTables } from '@/utils/JEditableTableUtil'
-  import { httpAction, getAction } from '@/api/manage'
+  import {FormTypes, VALIDATE_NO_PASSED, getRefPromise, validateFormAndTables} from '@/utils/JEditableTableUtil'
+  import {httpAction, getAction} from '@/api/manage'
   import JDate from '@/components/jeecg/JDate'
   import pick from 'lodash.pick'
   import moment from 'moment'
@@ -119,12 +119,12 @@
         confirmLoading: false,
         model: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 6 }
+          xs: {span: 24},
+          sm: {span: 6}
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 24 - 6 }
+          xs: {span: 24},
+          sm: {span: 24 - 6}
         },
         activeKey: '1',
         // 客户信息
@@ -139,7 +139,7 @@
               type: FormTypes.input,
               defaultValue: '',
               placeholder: '请输入${title}',
-              validateRules: [{ required: true, message: '${title}不能为空' }]
+              validateRules: [{required: true, message: '${title}不能为空'}]
             },
             {
               title: '性别',
@@ -147,8 +147,8 @@
               width: '18%',
               type: FormTypes.select,
               options: [ // 下拉选项
-                { title: '男', value: '1' },
-                { title: '女', value: '2' }
+                {title: '男', value: '1'},
+                {title: '女', value: '2'}
               ],
               defaultValue: '',
               placeholder: '请选择${title}'
@@ -191,7 +191,7 @@
               type: FormTypes.input,
               defaultValue: '',
               placeholder: '请输入${title}',
-              validateRules: [{ required: true, message: '${title}不能为空' }]
+              validateRules: [{required: true, message: '${title}不能为空'}]
             },
             {
               title: '航班时间',
@@ -241,12 +241,12 @@
         this.$nextTick(() => {
           this.form.setFieldsValue(pick(this.model, 'orderCode', 'ctype', 'orderMoney', 'content'))
           //时间格式化
-          this.form.setFieldsValue({ orderDate: this.model.orderDate ? moment(this.model.orderDate) : null })
+          this.form.setFieldsValue({orderDate: this.model.orderDate ? moment(this.model.orderDate) : null})
         })
 
         // 加载子表数据
         if (this.model.id) {
-          let params = { id: this.model.id }
+          let params = {id: this.model.id}
           this.requestTableData(this.url.orderCustomerList, params, this.table1)
           this.requestTableData(this.url.orderTicketList, params, this.table2)
         }

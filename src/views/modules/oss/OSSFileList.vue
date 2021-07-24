@@ -22,13 +22,13 @@
     <div class="table-operator">
       <!--      <a-button type="primary" icon="download" @click="handleExportXls('文件列表')">导出</a-button>-->
       <a-upload
-          name="file"
-          :multiple="false"
-          :action="uploadAction"
-          :headers="tokenHeader"
-          :showUploadList="false"
-          :beforeUpload="beforeUpload"
-          @change="handleChange">
+        name="file"
+        :multiple="false"
+        :action="uploadAction"
+        :headers="tokenHeader"
+        :showUploadList="false"
+        :beforeUpload="beforeUpload"
+        @change="handleChange">
         <a-button>
           <a-icon type="upload"/>
           文件上传
@@ -40,22 +40,22 @@
     <div>
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
         <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a
-          style="font-weight: 600">{{
+        style="font-weight: 600">{{
         selectedRowKeys.length }}</a>项
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
       <a-table
-          ref="table"
-          size="middle"
-          bordered
-          rowKey="id"
-          :columns="columns"
-          :dataSource="dataSource"
-          :pagination="ipagination"
-          :loading="loading"
-          :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-          @change="handleTableChange">
+        ref="table"
+        size="middle"
+        bordered
+        rowKey="id"
+        :columns="columns"
+        :dataSource="dataSource"
+        :pagination="ipagination"
+        :loading="loading"
+        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+        @change="handleTableChange">
 
         <span slot="action" slot-scope="text, record">
             <a @click="ossDelete(record.id)">删除</a>

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import { queryDepartTreeList, searchByKeywords } from '@/api/api'
+  import {queryDepartTreeList, searchByKeywords} from '@/api/api'
 
   export default {
     name: 'AddressListLeft',
@@ -44,7 +44,7 @@
 
       handleSearch(value) {
         if (value) {
-          this.commonRequestThen(searchByKeywords({ keyWord: value }))
+          this.commonRequestThen(searchByKeywords({keyWord: value}))
         } else {
           this.queryTreeData()
         }

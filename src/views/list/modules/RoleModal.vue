@@ -16,22 +16,22 @@
           label="唯一识别码"
           hasFeedback
         >
-          <a-input placeholder="唯一识别码" disabled="disabled" v-decorator="[ 'id', {rules: []} ]" />
+          <a-input placeholder="唯一识别码" disabled="disabled" v-decorator="[ 'id', {rules: []} ]"/>
         </a-form-item>
 
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="角色名称"
-          hasFeedback >
-          <a-input placeholder="起一个名字" v-decorator="[ 'name', {rules: [{ required: true, message: '不起一个名字吗？' }] }]" />
+          hasFeedback>
+          <a-input placeholder="起一个名字" v-decorator="[ 'name', {rules: [{ required: true, message: '不起一个名字吗？' }] }]"/>
         </a-form-item>
 
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="状态"
-          hasFeedback >
+          hasFeedback>
           <a-select v-decorator="[ 'status', {rules: []} ]">
             <a-select-option :value="1">正常</a-select-option>
             <a-select-option :value="2">禁用</a-select-option>
@@ -44,7 +44,7 @@
           label="描述"
           hasFeedback
         >
-          <a-textarea :rows="5" placeholder="..." v-decorator="[ 'describe', { rules: [] } ]" />
+          <a-textarea :rows="5" placeholder="..." v-decorator="[ 'describe', { rules: [] } ]"/>
         </a-form-item>
 
         <a-divider/>
@@ -67,7 +67,8 @@
                 @change="onChangeCheckAll($event, permission)">
                 全选
               </a-checkbox>
-              <a-checkbox-group :options="permission.actionsOptions" v-model="permission.selected" @change="onChangeCheck(permission)" />
+              <a-checkbox-group :options="permission.actionsOptions" v-model="permission.selected"
+                                @change="onChangeCheck(permission)"/>
             </a-col>
           </a-row>
 
@@ -78,21 +79,21 @@
 </template>
 
 <script>
-  import { getPermissions } from '@/api/manage'
-  import { actionToObject } from '@/utils/permissions'
+  import {getPermissions} from '@/api/manage'
+  import {actionToObject} from '@/utils/permissions'
   import pick from 'lodash.pick'
 
   export default {
     name: "RoleModal",
-    data () {
+    data() {
       return {
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
         visible: false,
         confirmLoading: false,
@@ -102,14 +103,14 @@
         permissions: []
       }
     },
-    created () {
+    created() {
       this.loadPermissions()
     },
     methods: {
-      add () {
-        this.edit({ id: 0 })
+      add() {
+        this.edit({id: 0})
       },
-      edit (record) {
+      edit(record) {
         this.mdl = Object.assign({}, record)
         this.visible = true
 
@@ -132,11 +133,11 @@
         console.log('this.mdl', this.mdl)
 
       },
-      close () {
+      close() {
         this.$emit('close')
         this.visible = false
       },
-      handleOk () {
+      handleOk() {
         const _this = this
         // 触发表单验证
         this.form.validateFields((err, values) => {
@@ -161,21 +162,21 @@
           }
         })
       },
-      handleCancel () {
+      handleCancel() {
         this.close()
       },
-      onChangeCheck (permission) {
+      onChangeCheck(permission) {
         permission.indeterminate = !!permission.selected.length && (permission.selected.length < permission.actionsOptions.length)
         permission.checkedAll = permission.selected.length === permission.actionsOptions.length
       },
-      onChangeCheckAll (e, permission) {
+      onChangeCheckAll(e, permission) {
         Object.assign(permission, {
           selected: e.target.checked ? permission.actionsOptions.map(obj => obj.value) : [],
           indeterminate: false,
           checkedAll: e.target.checked
         })
       },
-      loadPermissions () {
+      loadPermissions() {
         getPermissions().then(res => {
           let result = res.result
           this.permissions = result.map(permission => {

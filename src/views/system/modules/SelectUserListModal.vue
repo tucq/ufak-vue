@@ -52,7 +52,7 @@
             </a-col>
           </template>
 
-          <a-col :span="6" >
+          <a-col :span="6">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchByquery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
@@ -66,7 +66,7 @@
         </a-row>
       </a-form>
     </div>
- <!--    update-begin author:kangxiaolin   date:20190921   for:系统发送通知 用户多选失败 #513  -->
+    <!--    update-begin author:kangxiaolin   date:20190921   for:系统发送通知 用户多选失败 #513  -->
     <a-table
       ref="table"
       rowKey="id"
@@ -76,71 +76,70 @@
       :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange,onSelect:onSelect}"
       @change="handleTableChange"
     >
-<!--     update-end   author:kangxiaolin  date:20190921     for:系统发送通知 用户多选失败 #513 -->
+      <!--     update-end   author:kangxiaolin  date:20190921     for:系统发送通知 用户多选失败 #513 -->
     </a-table>
   </a-modal>
 </template>
 
 <script>
-  import { filterObj } from '@/utils/util';
+  import {filterObj} from '@/utils/util';
 
-  import { getUserList } from '@/api/api'
+  import {getUserList} from '@/api/api'
 
   export default {
     name: "SelectUserListModal",
-    components: {
-    },
-    data () {
+    components: {},
+    data() {
       return {
-        title:"选择用户",
+        title: "选择用户",
         queryParam: {},
         columns: [{
           title: '用户账号',
-          align:"center",
+          align: "center",
           dataIndex: 'username',
-          fixed:'left',
-          width:200
-        },{
+          fixed: 'left',
+          width: 200
+        }, {
           title: '真实姓名',
-          align:"center",
+          align: "center",
           dataIndex: 'realname',
-        },{
+        }, {
           title: '性别',
-          align:"center",
+          align: "center",
           dataIndex: 'sex',
-          customRender:function (text) {
-            if(text==1){
+          customRender: function (text) {
+            if (text == 1) {
               return "男";
-            }else if(text==2){
+            } else if (text == 2) {
               return "女";
-            }else{
+            } else {
               return text;
             }
           }
-        },{
+        }, {
           title: '手机号码',
-          align:"center",
+          align: "center",
           dataIndex: 'phone'
-        },{
+        }, {
           title: '邮箱',
-          align:"center",
+          align: "center",
           dataIndex: 'email'
-        },{
+        }, {
           title: '状态',
-          align:"center",
+          align: "center",
           dataIndex: 'status',
-          customRender:function (text) {
-            if(text==1){
+          customRender: function (text) {
+            if (text == 1) {
               return "正常";
-            }else if(text==2){
+            } else if (text == 2) {
               return "冻结";
-            }else{
+            } else {
               return text;
             }
           }
         }],
-        dataSource:[],
-        ipagination:{
+        dataSource: [],
+        ipagination: {
           current: 1,
           pageSize: 5,
           pageSizeOptions: ['5', '10', '20'],
@@ -151,56 +150,56 @@
           showSizeChanger: true,
           total: 0
         },
-        isorter:{
+        isorter: {
           column: 'createTime',
           order: 'desc',
         },
         selectedRowKeys: [],
         selectionRows: [],
-        visible:false,
-        toggleSearchStatus:false,
+        visible: false,
+        toggleSearchStatus: false,
       }
     },
     created() {
       this.loadData();
     },
     methods: {
-      add (selectUser,userIds) {
+      add(selectUser, userIds) {
         this.visible = true;
-        this.edit(selectUser,userIds);
+        this.edit(selectUser, userIds);
       },
-      edit(selectUser,userIds){
-        if(!userIds){
+      edit(selectUser, userIds) {
+        if (!userIds) {
           this.selectedRowKeys = []
-        }else{
+        } else {
           this.selectedRowKeys = userIds.split(',');
         }
-        if(!selectUser){
-          this.selectionRows=[]
-        }else{
-          var that=this;
-          that.selectionRows=[];
-          selectUser.forEach(function(record,index){
+        if (!selectUser) {
+          this.selectionRows = []
+        } else {
+          var that = this;
+          that.selectionRows = [];
+          selectUser.forEach(function (record, index) {
             console.log(record)
-            that.selectionRows.push({id: that.selectedRowKeys[index],realname:record})
+            that.selectionRows.push({id: that.selectedRowKeys[index], realname: record})
           })
           // this.selectionRows = selectUser;
         }
       },
-      loadData (arg){
-        if(arg===1){
+      loadData(arg) {
+        if (arg === 1) {
           this.ipagination.current = 1;
         }
         let params = this.getQueryParams();//查询条件
-        getUserList(params).then((res)=>{
-          if(res.success){
+        getUserList(params).then((res) => {
+          if (res.success) {
             this.dataSource = res.result.records;
             this.ipagination.total = res.result.total;
           }
         })
       },
-      getQueryParams(){
-        let param = Object.assign({}, this.queryParam,this.isorter);
+      getQueryParams() {
+        let param = Object.assign({}, this.queryParam, this.isorter);
         param.field = this.getQueryField();
         //--update-begin----author:scott---date:20190818------for:新建公告时指定特定用户翻页错误SelectUserListModal #379----
         // param.current = this.ipagination.current;
@@ -210,23 +209,23 @@
         //--update-end----author:scott---date:20190818------for:新建公告时指定特定用户翻页错误SelectUserListModal #379---
         return filterObj(param);
       },
-      getQueryField(){
+      getQueryField() {
         let str = "id,";
-        for(let a = 0;a<this.columns.length;a++){
-          str+=","+this.columns[a].dataIndex;
+        for (let a = 0; a < this.columns.length; a++) {
+          str += "," + this.columns[a].dataIndex;
         }
         return str;
       },
       //--update-begin----author:kangxiaolin---date:20190921------for:系统发送通知 用户多选失败 #513----
-      onSelectChange (selectedRowKeys) {
+      onSelectChange(selectedRowKeys) {
         this.selectedRowKeys = selectedRowKeys;
       },
-      onSelect(record, selected){
-        if(selected == true ){
+      onSelect(record, selected) {
+        if (selected == true) {
           this.selectionRows.push(record);
-        }else {
-          this.selectionRows.forEach(function(item,index,arr){
-            if(item.id == record.id) {
+        } else {
+          this.selectionRows.forEach(function (item, index, arr) {
+            if (item.id == record.id) {
               arr.splice(index, 1);
             }
           })
@@ -234,56 +233,78 @@
         //--update-end----author:kangxiaolin---date:20190921------for:系统发送通知 用户多选失败 #513----
       },
 
-      searchReset(){
+      searchReset() {
         let that = this;
-        Object.keys(that.queryParam).forEach(function(key){
+        Object.keys(that.queryParam).forEach(function (key) {
           that.queryParam[key] = '';
         });
         that.loadData(1);
       },
-      handleTableChange(pagination, filters, sorter){
+      handleTableChange(pagination, filters, sorter) {
         //TODO 筛选
-        if (Object.keys(sorter).length>0){
+        if (Object.keys(sorter).length > 0) {
           this.isorter.column = sorter.field;
-          this.isorter.order = "ascend"==sorter.order?"asc":"desc"
+          this.isorter.order = "ascend" == sorter.order ? "asc" : "desc"
         }
         this.ipagination = pagination;
         this.loadData();
       },
-      handleCancel () {
+      handleCancel() {
         this.selectionRows = [];
         this.selectedRowKeys = [];
         this.visible = false;
       },
-      handleOk () {
-        this.$emit("choseUser",this.selectionRows);
+      handleOk() {
+        this.$emit("choseUser", this.selectionRows);
         this.handleCancel();
       },
-      searchByquery(){
+      searchByquery() {
         this.loadData(1);
       },
-      handleToggleSearch(){
+      handleToggleSearch() {
         this.toggleSearchStatus = !this.toggleSearchStatus;
       },
     }
   }
 </script>
 <style scoped>
-  .ant-card-body .table-operator{
+  .ant-card-body .table-operator {
     margin-bottom: 18px;
   }
 
-  .ant-table-tbody .ant-table-row td{
-    padding-top:15px;
-    padding-bottom:15px;
+  .ant-table-tbody .ant-table-row td {
+    padding-top: 15px;
+    padding-bottom: 15px;
   }
-  .anty-row-operator button{margin: 0 5px}
-  .ant-btn-danger{background-color: #ffffff}
 
-  .ant-modal-cust-warp{height: 100%}
-  .ant-modal-cust-warp .ant-modal-body{height:calc(100% - 110px) !important;overflow-y: auto}
-  .ant-modal-cust-warp .ant-modal-content{height:90% !important;overflow-y: hidden}
+  .anty-row-operator button {
+    margin: 0 5px
+  }
 
-  .anty-img-wrap{height:25px;position: relative;}
-  .anty-img-wrap > img{max-height:100%;}
+  .ant-btn-danger {
+    background-color: #ffffff
+  }
+
+  .ant-modal-cust-warp {
+    height: 100%
+  }
+
+  .ant-modal-cust-warp .ant-modal-body {
+    height: calc(100% - 110px) !important;
+    overflow-y: auto
+  }
+
+  .ant-modal-cust-warp .ant-modal-content {
+    height: 90% !important;
+    overflow-y: hidden
+  }
+
+  .anty-img-wrap {
+    height: 25px;
+    position: relative;
+  }
+
+  .anty-img-wrap > img {
+    max-height: 100%;
+  }
 </style>

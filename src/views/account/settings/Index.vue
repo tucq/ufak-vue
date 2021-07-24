@@ -51,7 +51,7 @@
 <script>
   import PageLayout from '@/components/page/PageLayout'
   import RouteView from "@/components/layouts/RouteView"
-  import { mixinDevice } from '@/utils/mixin.js'
+  import {mixinDevice} from '@/utils/mixin.js'
 
   export default {
     components: {
@@ -59,11 +59,11 @@
       PageLayout
     },
     mixins: [mixinDevice],
-    data () {
+    data() {
       return {
         // horizontal  inline
         mode: 'inline',
-        mainInfoHeight:"100%",
+        mainInfoHeight: "100%",
         openKeys: [],
         defaultSelectedKeys: [],
 
@@ -88,19 +88,19 @@
         pageTitle: ''
       }
     },
-    created () {
+    created() {
       this.updateMenu()
     },
-    mounted(){
-      this.mainInfoHeight = (window.innerHeight-285)+"px";
+    mounted() {
+      this.mainInfoHeight = (window.innerHeight - 285) + "px";
     },
     methods: {
-      onOpenChange (openKeys) {
+      onOpenChange(openKeys) {
         this.openKeys = openKeys
       },
-      updateMenu () {
+      updateMenu() {
         let routes = this.$route.matched.concat()
-        this.defaultSelectedKeys = [ routes.pop().path ]
+        this.defaultSelectedKeys = [routes.pop().path]
       }
     },
   }
@@ -124,6 +124,7 @@
         overflow-x: auto;
         overflow-y: scroll;
       }
+
       .account-settings-info-right {
         padding: 20px 40px;
       }
@@ -139,12 +140,13 @@
       padding: 8px 40px;
 
       .account-settings-info-title {
-        color: rgba(0,0,0,.85);
+        color: rgba(0, 0, 0, .85);
         font-size: 20px;
         font-weight: 500;
         line-height: 28px;
         margin-bottom: 12px;
       }
+
       .account-settings-info-view {
         padding-top: 12px;
       }

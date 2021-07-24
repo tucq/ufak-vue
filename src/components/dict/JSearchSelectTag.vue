@@ -35,102 +35,102 @@
 </template>
 
 <script>
-  import { ajaxGetDictItems } from '@/api/api'
+  import {ajaxGetDictItems} from '@/api/api'
   import debounce from 'lodash/debounce';
-  import { getAction } from '../../api/manage'
+  import {getAction} from '../../api/manage'
 
   export default {
     name: 'JSearchSelectTag',
-    props:{
+    props: {
       disabled: Boolean,
       value: String,
       dict: String,
       dictOptions: Array,
       async: Boolean,
-      placeholder:{
-        type:String,
-        default:"请选择",
-        required:false
+      placeholder: {
+        type: String,
+        default: "请选择",
+        required: false
       }
     },
-    data(){
+    data() {
       this.loadData = debounce(this.loadData, 800);//消抖
       this.lastLoad = 0;
       return {
-        loading:false,
-        selectedValue:[],
-        selectedAsyncValue:[],
+        loading: false,
+        selectedValue: [],
+        selectedAsyncValue: [],
         options: [],
       }
     },
-    created(){
+    created() {
       this.initDictData();
     },
-    watch:{
-      "value":{
-        immediate:true,
-        handler(val){
-          if(!val){
-            this.selectedValue=[]
-            this.selectedAsyncValue=[]
-          }else{
+    watch: {
+      "value": {
+        immediate: true,
+        handler(val) {
+          if (!val) {
+            this.selectedValue = []
+            this.selectedAsyncValue = []
+          } else {
             this.initSelectValue()
           }
         }
       },
-      "dict":{
-        handler(){
+      "dict": {
+        handler() {
           this.initDictData()
         }
       }
     },
-    methods:{
-      initSelectValue(){
-        if(this.async){
-          if(!this.selectedAsyncValue || !this.selectedAsyncValue.key || this.selectedAsyncValue.key!=this.value){
+    methods: {
+      initSelectValue() {
+        if (this.async) {
+          if (!this.selectedAsyncValue || !this.selectedAsyncValue.key || this.selectedAsyncValue.key != this.value) {
             console.log("这才请求后台")
-            getAction(`/sys/dict/loadDictItem/${this.dict}`,{key:this.value}).then(res=>{
-              if(res.success){
+            getAction(`/sys/dict/loadDictItem/${this.dict}`, {key: this.value}).then(res => {
+              if (res.success) {
                 let obj = {
-                  key:this.value,
-                  label:res.result
+                  key: this.value,
+                  label: res.result
                 }
                 this.selectedAsyncValue = {...obj}
               }
             })
           }
-        }else{
+        } else {
           this.selectedValue = this.value
         }
       },
-      loadData(value){
-        console.log("数据加载",value)
-        this.lastLoad +=1
+      loadData(value) {
+        console.log("数据加载", value)
+        this.lastLoad += 1
         const currentLoad = this.lastLoad
         this.options = []
-        this.loading=true
+        this.loading = true
         // 字典code格式：table,text,code
-        getAction(`/sys/dict/loadDict/${this.dict}`,{keyword:value}).then(res=>{
-          this.loading=false
-          if(res.success){
-            if(currentLoad!=this.lastLoad){
+        getAction(`/sys/dict/loadDict/${this.dict}`, {keyword: value}).then(res => {
+          this.loading = false
+          if (res.success) {
+            if (currentLoad != this.lastLoad) {
               return
             }
             this.options = res.result
-            console.log("我是第一个",res)
-          }else{
+            console.log("我是第一个", res)
+          } else {
             this.$message.warning(res.message)
           }
 
         })
 
       },
-      initDictData(){
-        if(!this.async){
+      initDictData() {
+        if (!this.async) {
           //如果字典项集合有数据
-          if(this.dictOptions && this.dictOptions.length>0){
+          if (this.dictOptions && this.dictOptions.length > 0) {
             this.options = [...this.dictOptions]
-          }else{
+          } else {
             //根据字典Code, 初始化字典数组
             ajaxGetDictItems(this.dict, null).then((res) => {
               if (res.success) {
@@ -143,23 +143,23 @@
       filterOption(input, option) {
         return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
       },
-      handleChange (selectedValue) {
-        console.log("selectedValue",selectedValue)
+      handleChange(selectedValue) {
+        console.log("selectedValue", selectedValue)
         this.selectedValue = selectedValue
         this.callback()
       },
-      handleAsyncChange(selectedObj){
+      handleAsyncChange(selectedObj) {
         this.selectedAsyncValue = selectedObj
         this.selectedValue = selectedObj.key
         this.callback()
       },
-      callback(){
+      callback() {
         this.$emit('change', this.selectedValue);
       },
-      setCurrentDictOptions(dictOptions){
+      setCurrentDictOptions(dictOptions) {
         this.options = dictOptions
       },
-      getCurrentDictOptions(){
+      getCurrentDictOptions() {
         return this.options
       }
 

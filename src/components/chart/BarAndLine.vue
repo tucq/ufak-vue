@@ -23,13 +23,13 @@
       dataSource: {
         type: Array,
         default: () => [
-          { type: '10:10', bar: 200, line: 1000 },
-          { type: '10:15', bar: 600, line: 1000},
-          { type: '10:20', bar: 200, line: 1000},
-          { type: '10:25', bar: 900, line: 1000},
-          { type: '10:30', bar: 200, line: 1000},
-          { type: '10:35', bar: 200, line: 1000},
-          { type: '10:40', bar: 100, line: 1000}
+          {type: '10:10', bar: 200, line: 1000},
+          {type: '10:15', bar: 600, line: 1000},
+          {type: '10:20', bar: 200, line: 1000},
+          {type: '10:25', bar: 900, line: 1000},
+          {type: '10:30', bar: 200, line: 1000},
+          {type: '10:35', bar: 200, line: 1000},
+          {type: '10:40', bar: 100, line: 1000}
         ]
       },
       height: {
@@ -39,7 +39,7 @@
     },
     data() {
       return {
-        padding: { top:50, right:50, bottom:100, left:50 },
+        padding: {top: 50, right: 50, bottom: 100, left: 50},
         scale: [{
           dataKey: 'bar',
           min: 0

@@ -52,7 +52,8 @@
     <!-- table区域-begin -->
     <div>
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
+        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
+        selectedRowKeys.length }}</a>项
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
@@ -121,7 +122,7 @@
       return {
         description: '订单管理页面',
         /* 分页参数 */
-        ipagination:{
+        ipagination: {
           current: 1,
           pageSize: 5,
           pageSizeOptions: ['5', '10', '20'],
@@ -234,7 +235,7 @@
           }
         });
       },
-      searchQuery:function(){
+      searchQuery: function () {
         this.selectedRowKeys = [];
         this.selectionRows = [];
         this.$refs.JeecgOrderCustomerList.queryParam.mainId = null;

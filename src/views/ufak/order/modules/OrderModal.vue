@@ -8,7 +8,7 @@
     @ok="handleOk"
     @cancel="handleCancel"
     cancelText="关闭">
-    
+
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
 
@@ -120,7 +120,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="20" >
+        <a-row :gutter="20">
           <a-col :span="24" style="padding-left: 23px;">
             <a-form-item
               :labelCol="{xs: { span: 24 },sm: { span: 2 },offset: 0}"
@@ -131,9 +131,9 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="20" style="padding-top: 10px;" v-for="(item, index) in model.orderDetails" :key="index" >
+        <a-row :gutter="20" style="padding-top: 10px;" v-for="(item, index) in model.orderDetails" :key="index">
           <a-col :span="4" push="1">
-            <a-row :gutter="20"type="flex" justify="start" align="middle" >
+            <a-row :gutter="20" type="flex" justify="start" align="middle">
               <img
                 :src="previewUrl(item.viewImage)"
                 style="height:100px;width:100px"
@@ -141,61 +141,58 @@
             </a-row>
           </a-col>
           <a-col :span="20">
-            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
+            <a-row :gutter="20" type="flex" justify="start" align="middle" style="height:30px;">
               {{item.productName}}
             </a-row>
-            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
+            <a-row :gutter="20" type="flex" justify="start" align="middle" style="height:30px;">
               {{item.specsName}}&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;{{item.buyNum}}
             </a-row>
-            <a-row :gutter="20"type="flex" justify="start" align="middle" style="height:30px;">
+            <a-row :gutter="20" type="flex" justify="start" align="middle" style="height:30px;">
               {{item.price}}
             </a-row>
           </a-col>
         </a-row>
 
 
-		
       </a-form>
     </a-spin>
   </a-modal>
 </template>
 
 <script>
-  import { getAction } from '@/api/manage'
+  import {getAction} from '@/api/manage'
   import pick from 'lodash.pick'
   import moment from "moment"
 
   export default {
     name: "OrderModal",
-    data () {
+    data() {
       return {
-        title:"操作",
+        title: "操作",
         visible: false,
         model: {},
-        orderDetails:[],
+        orderDetails: [],
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 7 },
+          xs: {span: 24},
+          sm: {span: 7},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 14 },
+          xs: {span: 24},
+          sm: {span: 14},
         },
         confirmLoading: false,
         form: this.$form.createForm(this),
-        validatorRules:{
-        },
-        url: {
-        },
+        validatorRules: {},
+        url: {},
       }
     },
-    created () {
+    created() {
     },
     methods: {
-      add () {
+      add() {
         this.edit({});
       },
-      edit (record) {
+      edit(record) {
 //        this.form.resetFields();
 //        this.model = Object.assign({}, record);
 //        this.visible = true;
@@ -204,24 +201,24 @@
 //		  //时间格式化
 //        });
 
-        getAction('/order/'+record.id,null).then((res)=>{
-          if(res.success){
+        getAction('/order/' + record.id, null).then((res) => {
+          if (res.success) {
             this.model = res.result;
             this.visible = true;
           }
         })
       },
-      previewUrl(url){
+      previewUrl(url) {
         return window._CONFIG['domianURL'] + "/sys/common/view/" + url;
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleOk () {
+      handleOk() {
         this.close();
       },
-      handleCancel () {
+      handleCancel() {
         this.close()
       },
 

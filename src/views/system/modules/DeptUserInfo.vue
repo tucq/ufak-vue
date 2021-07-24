@@ -208,13 +208,13 @@
         deleteAction(that.url.delete, {depId: this.currentDeptId, userId: id}).then((res) => {
           if (res.success) {
             that.$message.success(res.message);
-            if (this.selectedRowKeys.length>0){
-               for(let i =0; i<this.selectedRowKeys.length;i++){
-                   if (this.selectedRowKeys[i] == id){
-                     this.selectedRowKeys.splice(i,1);
-                     break;
-                   }
-               }
+            if (this.selectedRowKeys.length > 0) {
+              for (let i = 0; i < this.selectedRowKeys.length; i++) {
+                if (this.selectedRowKeys[i] == id) {
+                  this.selectedRowKeys.splice(i, 1);
+                  break;
+                }
+              }
             }
             that.loadData();
           } else {

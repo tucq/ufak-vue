@@ -21,7 +21,8 @@
     <!-- table区域-begin -->
     <div>
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
+        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
+        selectedRowKeys.length }}</a>项
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
@@ -135,8 +136,10 @@
         }
         //update-begin--Author:kangxiaolin  Date:20190905 for：[442]主子表分开维护，生成的代码子表的分页改为真实的分页--------------------
         var params = this.getQueryParams();
-        getAction(this.url.list, {orderId: params.mainId, pageNo : this.ipagination.current,
-          pageSize :this.ipagination.pageSize}).then((res) => {
+        getAction(this.url.list, {
+          orderId: params.mainId, pageNo: this.ipagination.current,
+          pageSize: this.ipagination.pageSize
+        }).then((res) => {
           if (res.success) {
             this.dataSource = res.result.records;
             this.ipagination.total = res.result.total;

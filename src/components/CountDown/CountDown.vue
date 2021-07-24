@@ -87,7 +87,7 @@
         }, this.interval)
       }
     },
-    beforeUpdate () {
+    beforeUpdate() {
       if (this.originTargetTime !== this.target) {
         this.initTime()
       }

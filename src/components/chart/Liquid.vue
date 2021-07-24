@@ -49,9 +49,9 @@
 <script>
 
   const sourceDataConst = [
-    { transfer: '一月', value: 813 },
-    { transfer: '二月', value: 233 },
-    { transfer: '三月', value: 561 }
+    {transfer: '一月', value: 813},
+    {transfer: '二月', value: 233},
+    {transfer: '三月', value: 561}
   ]
 
   export default {

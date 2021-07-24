@@ -47,23 +47,23 @@ export function filterDictText(dictOptions, text) {
  * @return String
  */
 export function filterMultiDictText(dictOptions, text) {
-  if(!text || !dictOptions || dictOptions.length==0){
+  if (!text || !dictOptions || dictOptions.length == 0) {
     return ""
   }
   let re = "";
   let arr = text.split(",")
   dictOptions.forEach(function (option) {
-    for(let i=0;i<arr.length;i++){
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] === option.value) {
-        re += option.text+",";
+        re += option.text + ",";
         break;
       }
     }
   });
-  if(re==""){
+  if (re == "") {
     return text;
   }
-  return re.substring(0,re.length-1);
+  return re.substring(0, re.length - 1);
 }
 
 /**

@@ -3,8 +3,12 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button v-if="buttonSwitch.add" @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button v-if="buttonSwitch.import" @click="handleImportXls" type="primary" icon="upload" style="margin-left:8px">导入</a-button>
-      <a-button v-if="buttonSwitch.export" @click="handleExportXls" type="primary" icon="download" style="margin-left:8px">导出</a-button>
+      <a-button v-if="buttonSwitch.import" @click="handleImportXls" type="primary" icon="upload"
+                style="margin-left:8px">导入
+      </a-button>
+      <a-button v-if="buttonSwitch.export" @click="handleExportXls" type="primary" icon="download"
+                style="margin-left:8px">导出
+      </a-button>
       <template v-if="cgButtonList && cgButtonList.length>0" v-for="(item,index) in cgButtonList">
         <a-button
           v-if=" item.optType=='js' "
@@ -33,7 +37,8 @@
         v-show="selectedRowKeys.length > 0"
         ghost
         type="primary"
-        icon="delete">批量删除</a-button>
+        icon="delete">批量删除
+      </a-button>
     </div>
 
     <div>
@@ -67,7 +72,8 @@
 
         <template slot="imgSlot" slot-scope="text">
           <span v-if="!text" style="font-size: 12px;font-style: italic;">无图片</span>
-          <img v-else :src="getImgView(text)" height="25px" alt="图片不存在" style="max-width:80px;font-size: 12px;font-style: italic;"/>
+          <img v-else :src="getImgView(text)" height="25px" alt="图片不存在"
+               style="max-width:80px;font-size: 12px;font-style: italic;"/>
         </template>
 
         <template slot="fileSlot" slot-scope="text">
@@ -92,10 +98,10 @@
 
           <a-dropdown>
             <a class="ant-dropdown-link">
-              更多 <a-icon type="down" />
+              更多 <a-icon type="down"/>
             </a>
             <a-menu slot="overlay">
-              <a-menu-item >
+              <a-menu-item>
                 <a @click="handleDetail(record)">详情</a>
               </a-menu-item>
 
@@ -113,10 +119,11 @@
                 </a-popconfirm>
               </a-menu-item>
               <!-- 自定义按钮 -->
-              <template v-if="cgButtonLinkList && cgButtonLinkList.length>0" v-for="(btnItem,btnIndex) in cgButtonLinkList">
+              <template v-if="cgButtonLinkList && cgButtonLinkList.length>0"
+                        v-for="(btnItem,btnIndex) in cgButtonLinkList">
                 <a-menu-item :key=" 'cgbtnLink'+btnIndex ">
                   <a href="javascript:void(0);" @click="cgButtonLinkHandler(record,btnItem.buttonCode,btnItem.optType)">
-                    <a-icon v-if="btnItem.buttonIcon" :type="btnItem.buttonIcon" />
+                    <a-icon v-if="btnItem.buttonIcon" :type="btnItem.buttonIcon"/>
                     {{ btnItem.buttonName }}
                   </a>
                 </a-menu-item>
@@ -138,9 +145,9 @@
 
 <script>
 
-  import { getAction,postAction,deleteAction,downFile } from '@/api/manage'
-  import { filterMultiDictText } from '@/components/dict/JDictSelectUtil'
-  import { filterObj } from '@/utils/util';
+  import {getAction, postAction, deleteAction, downFile} from '@/api/manage'
+  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
+  import {filterObj} from '@/utils/util';
   import JImportModal from '@/components/jeecg/JImportModal'
 
   export default {
@@ -152,10 +159,10 @@
       return {
         code: '87b55a515d3441b6b98e48e5b35474a6',
         description: '在线报表功能测试页面',
-        currentTableName:"",
-        pidField:"",
-        hasChildrenField:"",
-        textField:'',
+        currentTableName: "",
+        pidField: "",
+        hasChildrenField: "",
+        textField: '',
         loading: false,
         // 表头
         columns: [],
@@ -180,69 +187,65 @@
         url: {
           getColumns: '/online/cgform/api/getColumns/',
           getTreeData: '/online/cgform/api/getTreeData/',
-          optPre:"/online/cgform/api/form/",
-          exportXls:'/online/cgform/api/exportXls/',
-          buttonAction:'/online/cgform/api/doButton',
+          optPre: "/online/cgform/api/form/",
+          exportXls: '/online/cgform/api/exportXls/',
+          buttonAction: '/online/cgform/api/doButton',
           startProcess: "/process/extActProcess/startMutilProcess"
         },
-        isorter:{
+        isorter: {
           column: 'create_time',
           order: 'desc',
         },
-        dictOptions:{
+        dictOptions: {},
 
-        },
-
-        queryParam:{
-
-        },
-        actionColumn:{
+        queryParam: {},
+        actionColumn: {
           title: '操作',
           dataIndex: 'action',
-          scopedSlots: { customRender: 'action' },
-          fixed:"right",
-          align:"center",
-          width:150
+          scopedSlots: {customRender: 'action'},
+          fixed: "right",
+          align: "center",
+          width: 150
         },
-        formTemplate:"99",
+        formTemplate: "99",
 
         /*自定义按钮-link*/
-        cgButtonLinkList:[],
+        cgButtonLinkList: [],
         /*自定义按钮-button*/
-        cgButtonList:[],
+        cgButtonList: [],
         /*JS增强*/
-        EnhanceJS:'',
+        EnhanceJS: '',
         /*操作按钮权限*/
-        buttonSwitch:{
-          add:true,
-          update:true,
-          delete:true,
-          batch_delete:true,
-          import:true,
-          export:true
+        buttonSwitch: {
+          add: true,
+          update: true,
+          delete: true,
+          batch_delete: true,
+          import: true,
+          export: true
         },
-        expandedRowKeys:[],
-        hasBpmStatus:false,
-        flowCodePre:"onl_",
+        expandedRowKeys: [],
+        hasBpmStatus: false,
+        flowCodePre: "onl_",
 
       }
     },
     created() {
-      this.initAutoListConfig().then(()=>{
+      this.initAutoListConfig().then(() => {
         this.loadData(1)
-      }).catch(msg=>{
+      }).catch(msg => {
         console.log(msg)
       })
     },
-    mounted(){
+    mounted() {
       //this.cgButtonJsHandler('mounted')
     },
     watch: {
       '$route'() {
         // 刷新参数放到这里去触发，就可以刷新相同界面了
-        this.initAutoListConfig().then(()=>{
+        this.initAutoListConfig().then(() => {
           this.loadData(1)
-        }).catch(msg=>{
+        }).catch(msg => {
           console.log(msg)
         })
       }
@@ -261,16 +264,16 @@
       }
     },
     methods: {
-      resetData(){
-        this.description=''
-        this.currentTableName=''
-        this.pidField=''
-        this.hasChildrenField=''
-        this.textField=''
+      resetData() {
+        this.description = ''
+        this.currentTableName = ''
+        this.pidField = ''
+        this.hasChildrenField = ''
+        this.textField = ''
         this.columns = []
         this.dataSource = []
-        this.selectedRowKeys=[]
-        this.selectionRows=[]
+        this.selectedRowKeys = []
+        this.selectionRows = []
       },
       initAutoListConfig() {
         return new Promise((resolve, reject) => {
@@ -283,10 +286,10 @@
             getAction(`${this.url.getColumns}${this.code}`)
               .then(res => {
                 console.log("--onlineList-加载动态列>>", res);
-                if(res.success){
+                if (res.success) {
                   this.configInfohandler(res)
                   resolve();
-                }else{
+                } else {
                   reject("onlineList-加载表配置信息失败")
                 }
                 this.loading = false
@@ -297,7 +300,7 @@
           }
         })
       },
-      configInfohandler(res){
+      configInfohandler(res) {
         this.dictOptions = res.result.dictOptions
         this.formTemplate = res.result.formTemplate
         this.description = res.result.description
@@ -314,63 +317,63 @@
         let currColumns = res.result.columns
         let textFieldIndex = -1
         let hasBpmStatus = false
-        for(let a=0;a<currColumns.length;a++){
+        for (let a = 0; a < currColumns.length; a++) {
           currColumns[a].align = 'left'
           //找到显示列
-          if(this.textField==currColumns[a].dataIndex){
+          if (this.textField == currColumns[a].dataIndex) {
             textFieldIndex = a
           }
           //数据字典翻译
-          if(currColumns[a].customRender){
+          if (currColumns[a].customRender) {
             let dictCode = currColumns[a].customRender;
-            currColumns[a].customRender=(text)=>{
+            currColumns[a].customRender = (text) => {
               return filterMultiDictText(this.dictOptions[dictCode], text);
             }
           }
           //判断是否有bpm_status
-          if(currColumns[a].dataIndex.toLowerCase()=='bpm_status'){
+          if (currColumns[a].dataIndex.toLowerCase() == 'bpm_status') {
             hasBpmStatus = true;
           }
         }
         this.hasBpmStatus = hasBpmStatus;
 
-        if(textFieldIndex!=-1){
-          let textFieldColumn = currColumns.splice(textFieldIndex,1)
+        if (textFieldIndex != -1) {
+          let textFieldColumn = currColumns.splice(textFieldIndex, 1)
           currColumns.unshift(textFieldColumn[0])
         }
         currColumns.push(this.actionColumn);
         this.columns = [...currColumns]
       },
       //加载根节点
-      loadData(arg){
-        if(arg==1){
-          this.pagination.current=1
+      loadData(arg) {
+        if (arg == 1) {
+          this.pagination.current = 1
         }
         this.loading = true
-        this.expandedRowKeys=[]
+        this.expandedRowKeys = []
         let params = this.getQueryParams();//查询条件
-        params[this.pidField]='0'
-        console.log("--onlineList-查询条件-->",params)
-        getAction(`${this.url.getTreeData}${this.code}`,params).then((res)=>{
-          console.log("--onlineList-列表数据",res)
-          if(res.success){
+        params[this.pidField] = '0'
+        console.log("--onlineList-查询条件-->", params)
+        getAction(`${this.url.getTreeData}${this.code}`, params).then((res) => {
+          console.log("--onlineList-列表数据", res)
+          if (res.success) {
             let result = res.result;
-            if(Number(result.total)>0){
+            if (Number(result.total) > 0) {
               this.pagination.total = Number(result.total)
               let dataSource = res.result.records.map(item => {
                 // 判断是否标记了带有子级
-                if (item[this.hasChildrenField] === true || item[this.hasChildrenField]=='1') {
-                  let loadChild = { id: `${item.id}_loadChild`, name: 'loading...', isLoading: true }
+                if (item[this.hasChildrenField] === true || item[this.hasChildrenField] == '1') {
+                  let loadChild = {id: `${item.id}_loadChild`, name: 'loading...', isLoading: true}
                   item.children = [loadChild]
                 }
                 return item
               })
               this.dataSource = dataSource
-            }else{
-              this.pagination.total=0;
-              this.dataSource=[]
+            } else {
+              this.pagination.total = 0;
+              this.dataSource = []
             }
-          }else{
+          } else {
             this.$message.warning(res.message)
           }
           this.loading = false
@@ -381,179 +384,179 @@
         // 判断是否是展开状态
         if (expanded) {
           this.expandedRowKeys.push(record.id)
-          if (record.children.length>0 && record.children[0].isLoading === true) {
+          if (record.children.length > 0 && record.children[0].isLoading === true) {
             let params = this.getQueryParams();//查询条件
             params[this.pidField] = record.id
-            getAction(`${this.url.getTreeData}${this.code}`,params).then((res)=>{
-              if(res.success){
-                if(Number(res.result.total)>0){
+            getAction(`${this.url.getTreeData}${this.code}`, params).then((res) => {
+              if (res.success) {
+                if (Number(res.result.total) > 0) {
                   let dataSource = res.result.records.map(item => {
                     // 判断是否标记了带有子级
-                    if (item[this.hasChildrenField] === true || item[this.hasChildrenField]=='1') {
-                      let loadChild = { id: `${item.id}_loadChild`, name: 'loading...', isLoading: true }
+                    if (item[this.hasChildrenField] === true || item[this.hasChildrenField] == '1') {
+                      let loadChild = {id: `${item.id}_loadChild`, name: 'loading...', isLoading: true}
                       item.children = [loadChild]
                     }
                     return item
                   })
                   record.children = dataSource
-                }else{
-                  record.children=''
-                  record.hasChildrenField='0'
+                } else {
+                  record.children = ''
+                  record.hasChildrenField = '0'
                 }
-              }else{
+              } else {
                 this.$message.warning(res.message)
               }
             })
           }
-        }else{
+        } else {
           let keyIndex = this.expandedRowKeys.indexOf(record.id)
-          if(keyIndex>=0){
+          if (keyIndex >= 0) {
             this.expandedRowKeys.splice(keyIndex, 1);
           }
         }
       },
       getQueryParams() {
-        let param = Object.assign({}, this.queryParam,this.isorter);
+        let param = Object.assign({}, this.queryParam, this.isorter);
         param.pageNo = this.pagination.current;
         param.pageSize = this.pagination.pageSize;
         return filterObj(param);
       },
-      initCgButtonList(btnList){
+      initCgButtonList(btnList) {
         let linkArr = []
         let buttonArr = []
-        if(btnList && btnList.length>0){
-          for(let i=0;i<btnList.length;i++){
+        if (btnList && btnList.length > 0) {
+          for (let i = 0; i < btnList.length; i++) {
             let temp = btnList[i]
-            if(temp.buttonStyle=='button'){
+            if (temp.buttonStyle == 'button') {
               buttonArr.push(temp)
-            }else if(temp.buttonStyle=='link'){
+            } else if (temp.buttonStyle == 'link') {
               linkArr.push(temp)
             }
           }
         }
         this.cgButtonLinkList = [...linkArr]
-        this.cgButtonList=[...buttonArr]
+        this.cgButtonList = [...buttonArr]
       },
-      initCgEnhanceJs(enhanceJs){
+      initCgEnhanceJs(enhanceJs) {
         //console.log("--onlineList-js增强",enhanceJs)
-        if(enhanceJs){
-          let Obj = eval ("(" + enhanceJs + ")");
-          this.EnhanceJS = new Obj(getAction,postAction,deleteAction);
+        if (enhanceJs) {
+          let Obj = eval("(" + enhanceJs + ")");
+          this.EnhanceJS = new Obj(getAction, postAction, deleteAction);
           this.cgButtonJsHandler('created')
-        }else{
+        } else {
           this.EnhanceJS = ''
         }
       },
-      initButtonSwitch(hideColumns){
-        if(hideColumns && hideColumns.length>0){
-          Object.keys(this.buttonSwitch).forEach(key=>{
-            if(hideColumns.indexOf(key)>=0){
-              this.buttonSwitch[key]=false
+      initButtonSwitch(hideColumns) {
+        if (hideColumns && hideColumns.length > 0) {
+          Object.keys(this.buttonSwitch).forEach(key => {
+            if (hideColumns.indexOf(key) >= 0) {
+              this.buttonSwitch[key] = false
             }
           })
 
         }
       },
-      onClearSelected(){
+      onClearSelected() {
         this.selectedRowKeys = []
         this.selectionRows = []
       },
-      handleTableChange(pagination, filters, sorter){
+      handleTableChange(pagination, filters, sorter) {
         //TODO 筛选
-        if (Object.keys(sorter).length>0){
+        if (Object.keys(sorter).length > 0) {
           this.isorter.column = sorter.field;
-          this.isorter.order = "ascend"==sorter.order?"asc":"desc"
+          this.isorter.order = "ascend" == sorter.order ? "asc" : "desc"
         }
         this.pagination = pagination;
         this.loadData();
       },
       /*-------数据格式化-begin----------*/
-      getDateNoTime(text){
-        if(!text){
+      getDateNoTime(text) {
+        if (!text) {
           return ''
         }
         let a = text;
-        if(a.length>10){
-          a = a.substring(0,10);
+        if (a.length > 10) {
+          a = a.substring(0, 10);
         }
         return a;
       },
-      getImgView(text){
-        if(text && text.indexOf(",")>0){
-          text = text.substring(0,text.indexOf(","))
+      getImgView(text) {
+        if (text && text.indexOf(",") > 0) {
+          text = text.substring(0, text.indexOf(","))
         }
-        return window._CONFIG['imgDomainURL']+"/"+text
+        return window._CONFIG['imgDomainURL'] + "/" + text
       },
-      downloadRowFile(text){
-        if(!text){
+      downloadRowFile(text) {
+        if (!text) {
           this.$message.warning("未知的文件")
           return;
         }
-        if(text.indexOf(",")>0){
-          text = text.substring(0,text.indexOf(","))
+        if (text.indexOf(",") > 0) {
+          text = text.substring(0, text.indexOf(","))
         }
-        window.open(window._CONFIG['downloadUrl']+"/"+text);
+        window.open(window._CONFIG['downloadUrl'] + "/" + text);
       },
       /*-------数据格式化-end----------*/
 
       /*-------功能按钮触发事件-begin----------*/
-      handleEdit(record){
-        this.cgButtonLinkHandler(record,"beforeEdit","js")
-        this.$refs.modal.edit(this.formTemplate,record.id);
+      handleEdit(record) {
+        this.cgButtonLinkHandler(record, "beforeEdit", "js")
+        this.$refs.modal.edit(this.formTemplate, record.id);
       },
-      handleDetail(record){
-        this.$refs.modal.detail(this.formTemplate,record.id);
+      handleDetail(record) {
+        this.$refs.modal.detail(this.formTemplate, record.id);
       },
-      handleDeleteOne(record){
-        this.cgButtonLinkHandler(record,"beforeDelete","js")
+      handleDeleteOne(record) {
+        this.cgButtonLinkHandler(record, "beforeDelete", "js")
         this.handleDelete(record.id)
       },
-      handleDelete(id){
-        deleteAction(this.url.optPre+this.code+"/"+id).then((res)=>{
-          if(res.success){
+      handleDelete(id) {
+        deleteAction(this.url.optPre + this.code + "/" + id).then((res) => {
+          if (res.success) {
             this.$message.success(res.message)
             this.loadData()
-          }else{
+          } else {
             this.$message.warning(res.message)
           }
         })
       },
-      handleAdd(){
+      handleAdd() {
         this.cgButtonJsHandler('beforeAdd')
         this.$refs.modal.add(this.formTemplate);
       },
-      handleFormSuccess(){
+      handleFormSuccess() {
         this.loadData()
       },
-      handleImportXls(){
+      handleImportXls() {
         this.$refs.importModal.show()
       },
-      importOk(){
+      importOk() {
         this.loadData(1)
       },
-      getImportUrl(){
-        return '/online/cgform/api/importXls/'+this.code
+      getImportUrl() {
+        return '/online/cgform/api/importXls/' + this.code
       },
-      handleExportXls(){
+      handleExportXls() {
         let param = this.queryParam;
-        if(this.selectedRowKeys && this.selectedRowKeys.length>0){
+        if (this.selectedRowKeys && this.selectedRowKeys.length > 0) {
           param['selections'] = this.selectedRowKeys.join(",")
         }
-        console.log("导出参数",param)
+        console.log("导出参数", param)
         let paramsStr = JSON.stringify(filterObj(param));
-        downFile(this.url.exportXls+this.code,{paramsStr:paramsStr}).then((data)=>{
+        downFile(this.url.exportXls + this.code, {paramsStr: paramsStr}).then((data) => {
           if (!data) {
             this.$message.warning("文件下载失败")
             return
           }
           if (typeof window.navigator.msSaveBlob !== 'undefined') {
-            window.navigator.msSaveBlob(new Blob([data]), this.description+'.xls')
-          }else{
+            window.navigator.msSaveBlob(new Blob([data]), this.description + '.xls')
+          } else {
             let url = window.URL.createObjectURL(new Blob([data]))
             let link = document.createElement('a')
             link.style.display = 'none'
             link.href = url
-            link.setAttribute('download', this.description+'.xls')
+            link.setAttribute('download', this.description + '.xls')
             document.body.appendChild(link)
             link.click()
             document.body.removeChild(link); //下载完成移除元素
@@ -561,20 +564,20 @@
           }
         })
       },
-      handleDelBatch(){
-        if(this.selectedRowKeys.length<=0){
+      handleDelBatch() {
+        if (this.selectedRowKeys.length <= 0) {
           this.$message.warning('请选择一条记录！');
           return false;
-        }else{
+        } else {
           let ids = "";
           let that = this;
-          that.selectedRowKeys.forEach(function(val) {
-            ids+=val+",";
+          that.selectedRowKeys.forEach(function (val) {
+            ids += val + ",";
           });
           that.$confirm({
-            title:"确认删除",
-            content:"是否删除选中数据?",
-            onOk: function(){
+            title: "确认删除",
+            content: "是否删除选中数据?",
+            onOk: function () {
               that.handleDelete(ids)
               that.onClearSelected();
             }
@@ -584,107 +587,107 @@
       /*-------功能按钮触发事件-begin----------*/
 
       /*-------JS增强-begin----------*/
-      cgButtonLinkHandler(record,buttonCode,optType){
-        if(optType=="js"){
-          if(this.EnhanceJS[buttonCode]){
-            this.EnhanceJS[buttonCode](this,record)
+      cgButtonLinkHandler(record, buttonCode, optType) {
+        if (optType == "js") {
+          if (this.EnhanceJS[buttonCode]) {
+            this.EnhanceJS[buttonCode](this, record)
           }
-        }else if(optType=="action"){
+        } else if (optType == "action") {
           let params = {
-            formId:this.code,
-            buttonCode:buttonCode,
-            dataId:record.id
+            formId: this.code,
+            buttonCode: buttonCode,
+            dataId: record.id
           }
-          console.log("自定义按钮link请求后台参数：",params)
-          postAction(this.url.buttonAction,params).then(res=>{
-            if(res.success){
+          console.log("自定义按钮link请求后台参数：", params)
+          postAction(this.url.buttonAction, params).then(res => {
+            if (res.success) {
               this.loadData()
               this.$message.success("处理完成!")
-            }else{
+            } else {
               this.$message.warning("处理失败!")
             }
           })
         }
       },
-      cgButtonJsHandler(buttonCode){
-        if(this.EnhanceJS[buttonCode]){
+      cgButtonJsHandler(buttonCode) {
+        if (this.EnhanceJS[buttonCode]) {
           this.EnhanceJS[buttonCode](this)
         }
       },
-      cgButtonActionHandler(buttonCode){
+      cgButtonActionHandler(buttonCode) {
         //处理自定义button的 需要配置该button自定义sql
-        if(!this.selectedRowKeys || this.selectedRowKeys.length==0){
+        if (!this.selectedRowKeys || this.selectedRowKeys.length == 0) {
           this.$message.warning("请先选中一条记录")
           return false
         }
-        if(this.selectedRowKeys.length>1){
+        if (this.selectedRowKeys.length > 1) {
           this.$message.warning("请只选中一条记录")
           return false
         }
         let params = {
-          formId:this.code,
-          buttonCode:buttonCode,
-          dataId:this.selectedRowKeys[0]
+          formId: this.code,
+          buttonCode: buttonCode,
+          dataId: this.selectedRowKeys[0]
         }
-        console.log("自定义按钮请求后台参数：",params)
-        postAction(this.url.buttonAction,params).then(res=>{
-          if(res.success){
+        console.log("自定义按钮请求后台参数：", params)
+        postAction(this.url.buttonAction, params).then(res => {
+          if (res.success) {
             this.loadData()
             this.$message.success("处理完成!")
-          }else{
+          } else {
             this.$message.warning("处理失败!")
           }
         })
 
       },
       /*-------JS增强-end----------*/
-      showOptButton(opt,record){
+      showOptButton(opt, record) {
         //只有当按钮属性为false,或是按钮属性为true但是流程已提交时才隐藏
-        if(!this.buttonSwitch[opt]){
+        if (!this.buttonSwitch[opt]) {
           return false
-        }else{
-          if(this.hasBpmStatus){
-            if(record.bpm_status !=null && record.bpm_status !='' && record.bpm_status != '1'){
+        } else {
+          if (this.hasBpmStatus) {
+            if (record.bpm_status != null && record.bpm_status != '' && record.bpm_status != '1') {
               return false
             }
           }
         }
         return true
       },
-      showSubmitFlowButton(record){
-        if(this.hasBpmStatus){
-          if(record.bpm_status ==null || record.bpm_status =='' || record.bpm_status == '1'){
+      showSubmitFlowButton(record) {
+        if (this.hasBpmStatus) {
+          if (record.bpm_status == null || record.bpm_status == '' || record.bpm_status == '1') {
             return true
           }
         }
         return false
       },
-      showViewFlowButton(record){
-        if(this.hasBpmStatus){
-          if(record.bpm_status !=null && record.bpm_status !='' && record.bpm_status != '1'){
+      showViewFlowButton(record) {
+        if (this.hasBpmStatus) {
+          if (record.bpm_status != null && record.bpm_status != '' && record.bpm_status != '1') {
             return true
           }
         }
         return false
       },
-      startProcess: function(record){
+      startProcess: function (record) {
         var that = this;
         this.$confirm({
-          title:"提示",
-          content:"确认提交流程吗?",
-          onOk: function(){
+          title: "提示",
+          content: "确认提交流程吗?",
+          onOk: function () {
             var param = {
-              flowCode:that.flowCodePre+that.currentTableName,
-              id:record.id,
-              formUrl:"modules/bpm/task/form/OnlineFormDetail",
-              formUrlMobile:"modules/bpm/task/form/OnlineFormDetail"
+              flowCode: that.flowCodePre + that.currentTableName,
+              id: record.id,
+              formUrl: "modules/bpm/task/form/OnlineFormDetail",
+              formUrlMobile: "modules/bpm/task/form/OnlineFormDetail"
             }
-            postAction(that.url.startProcess,param).then((res)=>{
-              if(res.success){
+            postAction(that.url.startProcess, param).then((res) => {
+              if (res.success) {
                 that.$message.success(res.message);
                 that.loadData();
                 that.onClearSelected();
-              }else{
+              } else {
                 that.$message.warning(res.message);
               }
             });
@@ -695,19 +698,43 @@
   }
 </script>
 <style>
-  .ant-card-body .table-operator{
+  .ant-card-body .table-operator {
     margin-bottom: 18px;
   }
-  .ant-table-tbody .ant-table-row td{
-    padding-top:15px;
-    padding-bottom:15px;
-  }
-  .anty-row-operator button{margin: 0 5px}
-  .ant-btn-danger{background-color: #ffffff}
 
-  .anty-img-wrap{height:25px;position: relative;}
-  .anty-img-wrap > img{max-height:100%;}
-  .ant-modal-cust-warp{height: 100%}
-  .ant-modal-cust-warp .ant-modal-body{height:calc(100% - 110px) !important;overflow-y: auto}
-  .ant-modal-cust-warp .ant-modal-content{height:90% !important;overflow-y: hidden}
+  .ant-table-tbody .ant-table-row td {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .anty-row-operator button {
+    margin: 0 5px
+  }
+
+  .ant-btn-danger {
+    background-color: #ffffff
+  }
+
+  .anty-img-wrap {
+    height: 25px;
+    position: relative;
+  }
+
+  .anty-img-wrap > img {
+    max-height: 100%;
+  }
+
+  .ant-modal-cust-warp {
+    height: 100%
+  }
+
+  .ant-modal-cust-warp .ant-modal-body {
+    height: calc(100% - 110px) !important;
+    overflow-y: auto
+  }
+
+  .ant-modal-cust-warp .ant-modal-content {
+    height: 90% !important;
+    overflow-y: hidden
+  }
 </style>

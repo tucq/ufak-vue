@@ -34,8 +34,8 @@
 <script>
   import GlobalLayout from '@/components/page/GlobalLayout'
   import Contextmenu from '@/components/menu/Contextmenu'
-  import { mixin, mixinDevice } from '@/utils/mixin.js'
-  import { triggerWindowResizeEvent } from '@/utils/util'
+  import {mixin, mixinDevice} from '@/utils/mixin.js'
+  import {triggerWindowResizeEvent} from '@/utils/util'
 
   const indexKey = '/dashboard/analysis'
 
@@ -53,18 +53,18 @@
         activePage: '',
         menuVisible: false,
         menuItemList: [
-          { key: '4', icon: 'reload', text: '刷 新' },
-          { key: '1', icon: 'arrow-left', text: '关闭左侧' },
-          { key: '2', icon: 'arrow-right', text: '关闭右侧' },
-          { key: '3', icon: 'close', text: '关闭其它' }
+          {key: '4', icon: 'reload', text: '刷 新'},
+          {key: '1', icon: 'arrow-left', text: '关闭左侧'},
+          {key: '2', icon: 'arrow-right', text: '关闭右侧'},
+          {key: '3', icon: 'close', text: '关闭其它'}
         ],
-        reloadFlag:true
+        reloadFlag: true
       }
     },
     /* update_begin author:wuxianquan date:20190828 for: 关闭当前tab页，供子页面调用 ->望菜单能配置外链，直接弹出新页面而不是嵌入iframe #428 */
-    provide(){
-      return{
-        closeCurrent:this.closeCurrent
+    provide() {
+      return {
+        closeCurrent: this.closeCurrent
       }
     },
     /* update_end author:wuxianquan date:20190828 for: 关闭当前tab页，供子页面调用->望菜单能配置外链，直接弹出新页面而不是嵌入iframe #428 */
@@ -96,27 +96,27 @@
       this.activePage = this.$route.fullPath
     },
     watch: {
-      '$route': function(newRoute) {
+      '$route': function (newRoute) {
         this.activePage = newRoute.fullPath
         if (!this.multipage) {
           this.linkList = [newRoute.fullPath]
-          this.pageList = [Object.assign({},newRoute)]
+          this.pageList = [Object.assign({}, newRoute)]
         } else if (this.linkList.indexOf(newRoute.fullPath) < 0) {
           this.linkList.push(newRoute.fullPath)
-          this.pageList.push(Object.assign({},newRoute))
+          this.pageList.push(Object.assign({}, newRoute))
         } else if (this.linkList.indexOf(newRoute.fullPath) >= 0) {
           let oldIndex = this.linkList.indexOf(newRoute.fullPath)
           let oldPositionRoute = this.pageList[oldIndex]
-          this.pageList.splice(oldIndex, 1, Object.assign({},newRoute,{meta:oldPositionRoute.meta}))
+          this.pageList.splice(oldIndex, 1, Object.assign({}, newRoute, {meta: oldPositionRoute.meta}))
         }
       },
-      'activePage': function(key) {
+      'activePage': function (key) {
         let index = this.linkList.lastIndexOf(key)
         let waitRouter = this.pageList[index]
-        this.$router.push(Object.assign({},waitRouter));
+        this.$router.push(Object.assign({}, waitRouter));
       },
-      'multipage': function(newVal) {
-        if(this.reloadFlag){
+      'multipage': function (newVal) {
+        if (this.reloadFlag) {
           if (!newVal) {
             this.linkList = [this.$route.fullPath]
             this.pageList = [this.$route]
@@ -187,13 +187,13 @@
         }
       },
       /* update_begin author:wuxianquan date:20190828 for: 关闭当前tab页，供子页面调用->望菜单能配置外链，直接弹出新页面而不是嵌入iframe #428 */
-      closeCurrent(){
+      closeCurrent() {
         this.remove(this.activePage);
       },
       /* update_end author:wuxianquan date:20190828 for: 关闭当前tab页，供子页面调用->望菜单能配置外链，直接弹出新页面而不是嵌入iframe #428 */
       closeOthers(pageKey) {
         let index = this.linkList.indexOf(pageKey)
-        if (pageKey == indexKey || pageKey.indexOf('?ticke=')>=0) {
+        if (pageKey == indexKey || pageKey.indexOf('?ticke=') >= 0) {
           this.linkList = this.linkList.slice(index, index + 1)
           this.pageList = this.pageList.slice(index, index + 1)
           this.activePage = this.linkList[0]
@@ -230,23 +230,23 @@
         }
       },
       //update-begin-author:taoyan date:20190430 for:动态路由title显示配置的菜单title而不是其对应路由的title
-      dynamicRouterShow(key,title){
+      dynamicRouterShow(key, title) {
         let keyIndex = this.linkList.indexOf(key)
-        if(keyIndex>=0){
+        if (keyIndex >= 0) {
           let currRouter = this.pageList[keyIndex]
-          let meta = Object.assign({},currRouter.meta,{title:title})
-          this.pageList.splice(keyIndex, 1, Object.assign({},currRouter,{meta:meta}))
+          let meta = Object.assign({}, currRouter.meta, {title: title})
+          this.pageList.splice(keyIndex, 1, Object.assign({}, currRouter, {meta: meta}))
         }
       },
       //update-end-author:taoyan date:20190430 for:动态路由title显示配置的菜单title而不是其对应路由的title
 
       //update-begin-author:taoyan date:20191008 for:路由刷新
-      routeReload(){
+      routeReload() {
         this.reloadFlag = false
         let ToggleMultipage = "ToggleMultipage"
-        this.$store.dispatch(ToggleMultipage,false)
-        this.$nextTick(()=>{
-          this.$store.dispatch(ToggleMultipage,true)
+        this.$store.dispatch(ToggleMultipage, false)
+        this.$nextTick(() => {
+          this.$store.dispatch(ToggleMultipage, true)
           this.reloadFlag = true
         })
       }
@@ -332,8 +332,9 @@
       border: none !important;
       border-bottom: 1px solid transparent !important;
     }
+
     .ant-tabs-tab-active {
-      border-color: @primary-color!important;
+      border-color: @primary-color !important;
     }
   }
 

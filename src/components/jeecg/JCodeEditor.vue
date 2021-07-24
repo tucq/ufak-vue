@@ -62,11 +62,11 @@
         type: String,
         default: null
       },
-     languageChange:{
-       type: Boolean,
-       default:false,
-       required:false
-     },
+      languageChange: {
+        type: Boolean,
+        default: false,
+        required: false
+      },
       placeholder: {
         type: String,
         default: null
@@ -87,11 +87,11 @@
         default: 999
       }
     },
-    data () {
+    data() {
       return {
         // 内部真实的内容
         code: '',
-        hasCode:false,
+        hasCode: false,
         // 默认的语法类型
         mode: 'javascript',
         // 编辑器实例
@@ -103,7 +103,7 @@
           // 主题，对应主题库 JS 需要提前引入
           theme: 'panda-syntax',
           line: true,
-         // extraKeys: {'Ctrl': 'autocomplete'},//自定义快捷键
+          // extraKeys: {'Ctrl': 'autocomplete'},//自定义快捷键
           hintOptions: {
             tables: {
               users: ['name', 'score', 'birthDate'],
@@ -190,11 +190,11 @@
           return this.placeholder
         }
       },
-      nullTipStyle(){
+      nullTipStyle() {
         if (this.lineNumbers) {
-          return { left: '36px' }
+          return {left: '36px'}
         } else {
-          return { left: '12px' }
+          return {left: '12px'}
         }
       },
       // coder 配置
@@ -207,7 +207,7 @@
           hintOptions: this.options.hintOptions
         }
       },
-      fullScreenParentProps(){
+      fullScreenParentProps() {
         let props = {
           class: ['full-screen-parent', this.fullCoder ? 'full-screen' : ''],
           style: {}
@@ -218,65 +218,65 @@
         return props
       }
     },
-    mounted () {
+    mounted() {
       // 初始化
       this._initialize()
     },
     methods: {
       // 初始化
-      _initialize () {
+      _initialize() {
         // 初始化编辑器实例，传入需要被实例化的文本域对象和默认配置
         this.coder = CodeMirror.fromTextArea(this.$refs.textarea, this.coderOptions)
         // 编辑器赋值
-        if(this.value||this.code){
-          this.hasCode=true
+        if (this.value || this.code) {
+          this.hasCode = true
           this.coder.setValue(this.value || this.code)
-        }else{
+        } else {
           this.coder.setValue('')
-          this.hasCode=false
+          this.hasCode = false
         }
         // 支持双向绑定
         this.coder.on('change', (coder) => {
           this.code = coder.getValue()
-          if(this.code){
-            this.hasCode=true
-          }else{
-            this.hasCode=false
+          if (this.code) {
+            this.hasCode = true
+          } else {
+            this.hasCode = false
           }
           if (this.$emit) {
             this.$emit('input', this.code)
           }
         })
         this.coder.on('focus', () => {
-          this.hasCode=true
+          this.hasCode = true
         })
         this.coder.on('blur', () => {
-          if(this.code){
-            this.hasCode=true
-          }else{
-            this.hasCode=false
+          if (this.code) {
+            this.hasCode = true
+          } else {
+            this.hasCode = false
           }
         })
 
-       /* this.coder.on('cursorActivity',()=>{
-          this.coder.showHint()
-        })*/
+        /* this.coder.on('cursorActivity',()=>{
+           this.coder.showHint()
+         })*/
 
       },
-      getCodeContent(){
+      getCodeContent() {
         return this.code
       },
-      setCodeContent(val){
-        setTimeout(()=>{
-          if(!val){
+      setCodeContent(val) {
+        setTimeout(() => {
+          if (!val) {
             this.coder.setValue('')
-          }else{
+          } else {
             this.coder.setValue(val)
           }
-        },300)
+        }, 300)
       },
       // 获取当前语法类型
-      _getLanguage (language) {
+      _getLanguage(language) {
         // 在支持的语法类型列表中寻找传入的语法类型
         return this.modes.find((mode) => {
           // 所有的值都忽略大小写，方便比较
@@ -301,7 +301,7 @@
         })
       },
       // 更改模式
-      changeMode (val) {
+      changeMode(val) {
         // 修改编辑器的语法配置
         this.coder.setOption('mode', `text/${val}`)
 
@@ -311,7 +311,7 @@
         // 允许父容器通过以下函数监听当前的语法值
         this.$emit('language-change', label)
       },
-      nullTipClick(){
+      nullTipClick() {
         this.coder.focus()
       }
     }
@@ -319,31 +319,36 @@
 </script>
 
 <style lang="less">
-  .code-editor-cust{
-    flex-grow:1;
-    display:flex;
-    position:relative;
-    height:100%;
-    .CodeMirror{
-      flex-grow:1;
-      z-index:1;
-      .CodeMirror-code{
-        line-height:19px;
+  .code-editor-cust {
+    flex-grow: 1;
+    display: flex;
+    position: relative;
+    height: 100%;
+
+    .CodeMirror {
+      flex-grow: 1;
+      z-index: 1;
+
+      .CodeMirror-code {
+        line-height: 19px;
       }
 
     }
-    .code-mode-select{
-      position:absolute;
-      z-index:2;
-      right:10px;
-      top:10px;
-      max-width:130px;
+
+    .code-mode-select {
+      position: absolute;
+      z-index: 2;
+      right: 10px;
+      top: 10px;
+      max-width: 130px;
     }
-    .CodeMirror{
+
+    .CodeMirror {
       height: auto;
-      min-height:100%;
+      min-height: 100%;
     }
-    .null-tip{
+
+    .null-tip {
       position: absolute;
       top: 4px;
       left: 36px;
@@ -351,7 +356,8 @@
       color: #ffffffc9;
       line-height: initial;
     }
-    .null-tip-hidden{
+
+    .null-tip-hidden {
       display: none;
     }
   }
@@ -398,6 +404,7 @@
         top: 12px;
         right: 12px;
       }
+
       .full-screen-child {
         height: 100%;
         max-height: 100%;
@@ -412,7 +419,7 @@
 
   }
 
-.CodeMirror-cursor{
-  height:18.4px !important;
-}
+  .CodeMirror-cursor {
+    height: 18.4px !important;
+  }
 </style>

@@ -45,7 +45,7 @@
 </template>
 
 <script>
-  import { registerShape } from 'viser-vue';
+  import {registerShape} from 'viser-vue';
 
   registerShape('point', 'pointer', {
     draw(cfg, container) {
@@ -88,27 +88,27 @@
   }];
 
   const data = [
-    { value: 7.0 },
+    {value: 7.0},
   ];
 
   export default {
-    name:"DashChartDemo",
-    props:{
-      datasource:{
+    name: "DashChartDemo",
+    props: {
+      datasource: {
         type: Number,
-        default:7
+        default: 7
       },
       title: {
         type: String,
         default: ''
       }
     },
-    created(){
-      if(!this.datasource){
+    created() {
+      if (!this.datasource) {
         this.chartData = data;
-      }else{
+      } else {
         this.chartData = [
-          { value: this.datasource },
+          {value: this.datasource},
         ];
       }
       this.getChartData()
@@ -116,35 +116,35 @@
     watch: {
       'datasource': function (val) {
         this.chartData = [
-          { value: val},
+          {value: val},
         ];
         this.getChartData();
       }
     },
-    methods:{
-      getChartData(){
-        if(this.chartData && this.chartData.length>0){
+    methods: {
+      getChartData() {
+        if (this.chartData && this.chartData.length > 0) {
           this.abcd = this.chartData[0].value * 10
-        }else{
+        } else {
           this.abcd = 70
         }
       },
-      getHtmlGuideHtml(){
+      getHtmlGuideHtml() {
         return '<div style="width: 300px;text-align: center;">\n' +
-          '<p style="font-size: 14px;color: #545454;margin: 0;">'+this.title+'</p>\n' +
-          '<p style="font-size: 36px;color: #545454;margin: 0;">'+this.abcd+'%</p>\n' +
+          '<p style="font-size: 14px;color: #545454;margin: 0;">' + this.title + '</p>\n' +
+          '<p style="font-size: 36px;color: #545454;margin: 0;">' + this.abcd + '%</p>\n' +
           '</div>'
       },
-      getArcGuide2End(){
+      getArcGuide2End() {
         return [this.chartData[0].value, 0.945]
       }
     },
     data() {
       return {
-        chartData:[],
+        chartData: [],
         height: 400,
         scale: scale,
-        abcd:70,
+        abcd: 70,
         axisLabel: {
           offset: -16,
           textStyle: {

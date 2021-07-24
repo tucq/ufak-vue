@@ -37,16 +37,16 @@
     components: {
       Result
     },
-    data () {
+    data() {
       return {
         loading: false
       }
     },
     methods: {
-      finish () {
+      finish() {
         this.$emit('finish')
       },
-      toOrderList () {
+      toOrderList() {
         this.$router.push('/list/query-list')
       }
     }
@@ -60,8 +60,9 @@
       margin-bottom: 24px;
     }
   }
+
   .money {
-    font-family: "Helvetica Neue",sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
     font-weight: 500;
     font-size: 20px;
     line-height: 14px;

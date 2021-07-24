@@ -1,43 +1,44 @@
 <template>
   <div>
-      <a-form style="margin: 40px auto 0;">
+    <a-form style="margin: 40px auto 0;">
       <result title="更改密码成功" :is-success="true">
         <div class="toLogin">
           <h3>将在<span>{{time}}</span>秒后返回登录页面.</h3>
         </div>
       </result>
 
-      </a-form>
+    </a-form>
   </div>
 </template>
 
 <script>
   import Result from '@/views/result/Result'
+
   export default {
     name: "Step4",
-    props:['userList'],
+    props: ['userList'],
     components: {
       Result
     },
-    data () {
+    data() {
       return {
         loading: false,
         time: 0,
       }
     },
     methods: {
-      countDown(){
+      countDown() {
         let that = this;
         that.time--;
       }
     },
-    mounted(){
+    mounted() {
       let that = this;
       that.time = 5;
       setInterval(that.countDown, 1000);
     },
     watch: {
-      time: function (newVal,oldVal) {
+      time: function (newVal, oldVal) {
         if (newVal == 0) {
           var params = {
             username: this.userList.username
@@ -49,7 +50,7 @@
   }
 </script>
 <style scoped>
-  .toLogin{
+  .toLogin {
     text-align: center;
   }
 </style>

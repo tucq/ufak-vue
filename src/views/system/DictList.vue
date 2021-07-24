@@ -28,7 +28,7 @@
         <a-button @click="handleAdd" type="primary" icon="plus">添加</a-button>
         <!--<a-button type="primary" icon="download" @click="handleExportXls('字典信息')">导出</a-button>-->
         <!--<a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">-->
-          <!--<a-button type="primary" icon="import">导入</a-button>-->
+        <!--<a-button type="primary" icon="import">导入</a-button>-->
         <!--</a-upload>-->
 
         <!--<a-button type="primary" icon="hdd" @click="openDeleteList">回收站</a-button>-->
@@ -65,16 +65,16 @@
 </template>
 
 <script>
-  import { filterObj } from '@/utils/util';
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {filterObj} from '@/utils/util';
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import DictModal from './modules/DictModal'
   import DictItemList from './DictItemList'
   import DictDeleteList from './DictDeleteList'
 
   export default {
     name: "DictList",
-    mixins:[JeecgListMixin],
-    components: {DictModal, DictItemList,DictDeleteList},
+    mixins: [JeecgListMixin],
+    components: {DictModal, DictItemList, DictDeleteList},
     data() {
       return {
         description: '这是数据字典页面',
@@ -166,7 +166,7 @@
         that.loadData(this.ipagination.current);
       },
 
-      openDeleteList(){
+      openDeleteList() {
         this.$refs.dictDeleteList.show()
       }
     },

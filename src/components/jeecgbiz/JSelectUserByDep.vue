@@ -7,7 +7,8 @@
       @search="onSearchDepUser">
       <a-button slot="enterButton" :disabled="disabled">选择用户</a-button>
     </a-input-search>
-    <j-select-user-by-dep-modal ref="selectModal" :modal-width="modalWidth" :multi="multi" @ok="selectOK" :user-ids="value" @initComp="initComp"/>
+    <j-select-user-by-dep-modal ref="selectModal" :modal-width="modalWidth" :multi="multi" @ok="selectOK"
+                                :user-ids="value" @initComp="initComp"/>
   </div>
 </template>
 

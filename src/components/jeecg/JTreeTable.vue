@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import { getAction } from '@/api/manage'
+  import {getAction} from '@/api/manage'
 
   export default {
     name: 'JTreeTable',
@@ -61,10 +61,10 @@
         type: Boolean,
         default: true
       },
-      condition:{
-        type:String,
-        default:'',
-        required:false
+      condition: {
+        type: String,
+        default: '',
+        required: false
       }
     },
     data() {
@@ -109,7 +109,7 @@
 
       /** 加载数据*/
       loadData(id = this.topValue, first = true, url = this.url) {
-        this.$emit('requestBefore', { first })
+        this.$emit('requestBefore', {first})
 
         if (first) {
           this.expandedRowKeys = []
@@ -117,7 +117,7 @@
 
         let params = Object.assign({}, this.queryParams || {})
         params[this.queryKey] = id
-        if(this.condition && this.condition.length>0){
+        if (this.condition && this.condition.length > 0) {
           params['condition'] = this.condition
         }
 
@@ -140,7 +140,7 @@
                 if (firstColumn) break
               }
               // 定义默认展开时显示的loading子级，实际子级数据只在展开时加载
-              let loadChild = { id: `${item.id}_loadChild`, [firstColumn]: 'loading...', isLoading: true }
+              let loadChild = {id: `${item.id}_loadChild`, [firstColumn]: 'loading...', isLoading: true}
               item.children = [loadChild]
             }
             return item
@@ -148,9 +148,9 @@
           if (first) {
             this.dataSource = dataSource
           }
-          this.$emit('requestSuccess', { first, dataSource, res })
+          this.$emit('requestSuccess', {first, dataSource, res})
           return Promise.resolve(dataSource)
-        }).finally(() => this.$emit('requestFinally', { first }))
+        }).finally(() => this.$emit('requestFinally', {first}))
       },
 
       /** 点击展开图标时触发 */

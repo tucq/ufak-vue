@@ -20,15 +20,15 @@
 
   export default {
     name: 'JSelectMultiUser',
-    components: { JSelectBizComponent },
+    components: {JSelectBizComponent},
     props: ['value'],
     data() {
       return {
         returnKeys: ['id', 'roleCode'],
-        url: { list: '/sys/role/list' },
+        url: {list: '/sys/role/list'},
         columns: [
-          { title: '角色名称', dataIndex: 'roleName', align: 'center', width: 120 },
-          { title: '角色编码', dataIndex: 'roleCode', align: 'center', width: 120 }
+          {title: '角色名称', dataIndex: 'roleName', align: 'center', width: 120},
+          {title: '角色编码', dataIndex: 'roleCode', align: 'center', width: 120}
         ]
       }
     }

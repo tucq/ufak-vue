@@ -16,12 +16,13 @@
           <a-input placeholder="请输入用户账号" v-decorator="[ 'username', {}]" :readOnly="true"/>
         </a-form-item>
 
-        <a-form-item label="登陆密码" :labelCol="labelCol" :wrapperCol="wrapperCol" hasFeedback >
-          <a-input type="password" placeholder="请输入登陆密码" v-decorator="[ 'password', validatorRules.password]" />
+        <a-form-item label="登陆密码" :labelCol="labelCol" :wrapperCol="wrapperCol" hasFeedback>
+          <a-input type="password" placeholder="请输入登陆密码" v-decorator="[ 'password', validatorRules.password]"/>
         </a-form-item>
 
-        <a-form-item label="确认密码" :labelCol="labelCol" :wrapperCol="wrapperCol" hasFeedback >
-          <a-input type="password" @blur="handleConfirmBlur" placeholder="请重新输入登陆密码" v-decorator="[ 'confirmpassword', validatorRules.confirmpassword]"/>
+        <a-form-item label="确认密码" :labelCol="labelCol" :wrapperCol="wrapperCol" hasFeedback>
+          <a-input type="password" @blur="handleConfirmBlur" placeholder="请重新输入登陆密码"
+                   v-decorator="[ 'confirmpassword', validatorRules.confirmpassword]"/>
         </a-form-item>
 
       </a-form>
@@ -34,22 +35,22 @@
 
   export default {
     name: "PasswordModal",
-    data () {
+    data() {
       return {
         visible: false,
         confirmLoading: false,
         confirmDirty: false,
-        validatorRules:{
-          password:{
+        validatorRules: {
+          password: {
             rules: [{
               required: true,
-              pattern:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,./]).{8,}$/,
+              pattern: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,./]).{8,}$/,
               message: '密码由8位数字、大小写字母和特殊符号组成!'
             }, {
               validator: this.validateToNextPassword,
             }],
           },
-          confirmpassword:{
+          confirmpassword: {
             rules: [{
               required: true, message: '请重新输入登陆密码!',
             }, {
@@ -61,46 +62,46 @@
         model: {},
 
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
-        form:this.$form.createForm(this)
+        form: this.$form.createForm(this)
       }
     },
-    created () {
+    created() {
       console.log("created");
     },
 
     methods: {
-      show (username) {
+      show(username) {
         this.form.resetFields();
         this.visible = true;
         this.model.username = username;
         this.$nextTick(() => {
-          this.form.setFieldsValue({username:username});
+          this.form.setFieldsValue({username: username});
         });
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
         this.disableSubmit = false;
         this.selectedRole = [];
       },
-      handleSubmit () {
+      handleSubmit() {
         // 触发表单验证
         this.form.validateFields((err, values) => {
           if (!err) {
             this.confirmLoading = true;
             let formData = Object.assign(this.model, values);
-            changPassword(formData).then((res)=>{
-              if(res.success){
+            changPassword(formData).then((res) => {
+              if (res.success) {
                 this.$message.success(res.message);
                 this.$emit('ok');
-              }else{
+              } else {
                 this.$message.warning(res.message);
               }
             }).finally(() => {
@@ -110,22 +111,22 @@
           }
         })
       },
-      handleCancel () {
+      handleCancel() {
         this.close()
       },
-      validateToNextPassword  (rule, value, callback) {
+      validateToNextPassword(rule, value, callback) {
         const form = this.form;
-        const confirmpassword=form.getFieldValue('confirmpassword');
-        console.log("confirmpassword==>",confirmpassword);
+        const confirmpassword = form.getFieldValue('confirmpassword');
+        console.log("confirmpassword==>", confirmpassword);
         if (value && confirmpassword && value !== confirmpassword) {
           callback('两次输入的密码不一样！');
         }
         if (value && this.confirmDirty) {
-          form.validateFields(['confirm'], { force: true })
+          form.validateFields(['confirm'], {force: true})
         }
         callback();
       },
-      compareToFirstPassword  (rule, value, callback) {
+      compareToFirstPassword(rule, value, callback) {
         const form = this.form;
         if (value && value !== form.getFieldValue('password')) {
           callback('两次输入的密码不一样！');
@@ -133,7 +134,7 @@
           callback()
         }
       },
-      handleConfirmBlur  (e) {
+      handleConfirmBlur(e) {
         const value = e.target.value
         this.confirmDirty = this.confirmDirty || !!value
       }

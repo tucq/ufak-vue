@@ -34,7 +34,7 @@
 
   export default {
     name: 'JSelectBizComponent',
-    components: { JSelectBizComponentModal },
+    components: {JSelectBizComponentModal},
     props: {
       value: {
         type: String,

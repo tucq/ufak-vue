@@ -27,7 +27,7 @@
 
   export default {
     name: 'JeecgEditableTableExample',
-    components: { DefaultTable, ReadOnlyTable, ThreeLinkage },
+    components: {DefaultTable, ReadOnlyTable, ThreeLinkage},
     data() {
       return {}
     },

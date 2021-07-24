@@ -42,7 +42,7 @@
     <a-col :md="13" :sm="24">
       <a-card :bordered="false">
         <div class="table-operator">
-          <a-button @click="addProduct" type="primary" icon="plus" :disabled="this.adsId == ''" >新增商品</a-button>
+          <a-button @click="addProduct" type="primary" icon="plus" :disabled="this.adsId == ''">新增商品</a-button>
           <span style="padding-left: 20px;">
             广告名称：<span style="color: red;">{{adsName}}</span>
           </span>
@@ -69,9 +69,9 @@
             <span slot="layout" slot-scope="text, record, index">
                 <a-row>
                   <a-select @change="e => layoutChange(e, record)" v-model="record.layout" style="width: 80px;">
-                    <a-select-option value="0" >单排</a-select-option>
-                    <a-select-option value="1" >双排</a-select-option>
-                    <a-select-option value="2" >三排</a-select-option>
+                    <a-select-option value="0">单排</a-select-option>
+                    <a-select-option value="1">双排</a-select-option>
+                    <a-select-option value="2">三排</a-select-option>
                   </a-select>
                 </a-row>
             </span>
@@ -97,9 +97,9 @@
   import HomepageAdsModal from './modules/HomepageAdsModal'
   import AdsProductModal from './modules/AdsProductModal'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
-  import { getAction,deleteAction } from '@/api/manage'
-  import { filterObj } from '@/utils/util'
-//  import ARow from "ant-design-vue/es/grid/Row";
+  import {getAction, deleteAction} from '@/api/manage'
+  import {filterObj} from '@/utils/util'
+  //  import ARow from "ant-design-vue/es/grid/Row";
 
   export default {
     name: "HomepageAdsList",
@@ -109,12 +109,12 @@
       HomepageAdsModal,
       AdsProductModal
     },
-    data () {
+    data() {
       return {
         description: '首页广告管理页面',
         adsId: "",
         adsName: "",
-        btnDisabled: this.adsId == "" ? true:false,
+        btnDisabled: this.adsId == "" ? true : false,
         // 表头
         columns: [
           {
@@ -154,7 +154,7 @@
             scopedSlots: {customRender: 'action'},
           }
         ],
-        productDataSource:[],
+        productDataSource: [],
         productColumns: [
           {
             title: '#',
@@ -180,11 +180,11 @@
             dataIndex: 'productName'
           },
           {
-              title: '排版',
-              width: '18%',
-              align: "center",
-              dataIndex: 'layout',
-              scopedSlots: {customRender: 'layout'},
+            title: '排版',
+            width: '18%',
+            align: "center",
+            dataIndex: 'layout',
+            scopedSlots: {customRender: 'layout'},
           },
           {
             title: '销量',
@@ -200,7 +200,7 @@
             scopedSlots: {customRender: 'adsAction'},
           }
         ],
-        adsProductPagination:{
+        adsProductPagination: {
           current: 1,
           pageSize: 10,
           pageSizeOptions: ['10', '20', '30'],
@@ -218,8 +218,8 @@
           exportXlsUrl: "/homepageAds/exportXls",
           importExcelUrl: "/homepageAds/importExcel",
           imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
-          adsList:"/adsProduct/list",
-          deleteAdsProduct:"/adsProduct/delete",
+          adsList: "/adsProduct/list",
+          deleteAdsProduct: "/adsProduct/delete",
         },
       }
     },
@@ -228,17 +228,17 @@
       this.loadAdsProduct(1);
     },
     methods: {
-      loadData (arg){
-        if(arg===1){
+      loadData(arg) {
+        if (arg === 1) {
           this.ipagination.current = 1;
         }
         let params = this.getQueryParams();//查询条件
-        getAction(this.url.list,params).then((res)=>{
-          if(res.success){
+        getAction(this.url.list, params).then((res) => {
+          if (res.success) {
             this.dataSource = res.result.records;
             this.ipagination.total = res.result.total;
 
-            if(this.dataSource.length > 0){
+            if (this.dataSource.length > 0) {
               let record = this.dataSource[0];
               this.adsId = record.id;
               this.adsName = record.adsName;
@@ -247,21 +247,21 @@
           }
         })
       },
-      getQueryParams(){
-        let param = Object.assign({}, this.queryParam,this.isorter);
+      getQueryParams() {
+        let param = Object.assign({}, this.queryParam, this.isorter);
         param.pageNo = this.ipagination.current;
         param.pageSize = this.ipagination.pageSize;
         return filterObj(param);
       },
-      searchQuery(){
+      searchQuery() {
         this.loadData(1);
       },
-      searchReset(){
-        this.queryParam={};
+      searchReset() {
+        this.queryParam = {};
         this.loadData(1);
       },
-      loadAdsProduct(arg){
-        if(arg===1){
+      loadAdsProduct(arg) {
+        if (arg === 1) {
           this.adsProductPagination.current = 1;
         }
         let params = {
@@ -269,23 +269,23 @@
           pageNo: this.adsProductPagination.current,
           pageSize: this.adsProductPagination.pageSize
         };
-        getAction(this.url.adsList,params).then((res)=>{
-          if(res.success){
+        getAction(this.url.adsList, params).then((res) => {
+          if (res.success) {
             this.productDataSource = res.result.records;
             this.adsProductPagination.total = res.result.total;
           }
         })
       },
-      getAvatarView(image){
+      getAvatarView(image) {
         return this.url.imgerver + "/" + image;
       },
-      addProduct(){
-          this.$refs.adsForm.title = "新增";
-          this.$refs.adsForm.visible = true;
-          this.$refs.adsForm.adsId = this.adsId;
-          this.$refs.adsForm.selectedRowKeys = [];
+      addProduct() {
+        this.$refs.adsForm.title = "新增";
+        this.$refs.adsForm.visible = true;
+        this.$refs.adsForm.adsId = this.adsId;
+        this.$refs.adsForm.selectedRowKeys = [];
       },
-      onClickRow (record) {
+      onClickRow(record) {
         return {
           on: {
             click: () => {
@@ -296,29 +296,29 @@
           }
         }
       },
-      handelAdsModal(){
+      handelAdsModal() {
         this.loadAdsProduct();
       },
-      handleView(record){
-          alert('开发中...');
+      handleView(record) {
+        alert('开发中...');
       },
-      handleDeleteAds(id){
-          deleteAction(this.url.deleteAdsProduct, {id: id}).then((res) => {
-            if (res.success) {
-              this.$message.success(res.message);
-              this.loadAdsProduct();
-            } else {
-              this.$message.warning(res.message);
-            }
-          });
+      handleDeleteAds(id) {
+        deleteAction(this.url.deleteAdsProduct, {id: id}).then((res) => {
+          if (res.success) {
+            this.$message.success(res.message);
+            this.loadAdsProduct();
+          } else {
+            this.$message.warning(res.message);
+          }
+        });
       },
       adsHandleTableChange(pagination, filters, sorter) {
         this.adsProductPagination = pagination;
         this.loadAdsProduct();
       },
-      layoutChange(e,record){
-         console.log(e);
-         console.log(record);
+      layoutChange(e, record) {
+        console.log(e);
+        console.log(record);
       }
 
     }

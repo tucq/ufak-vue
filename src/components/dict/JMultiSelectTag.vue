@@ -1,6 +1,7 @@
 <template>
   <a-checkbox-group v-if="tagType=='checkbox'" @change="onChange" :value="arrayValue" :disabled="disabled">
-    <a-checkbox v-for="(item, key) in dictOptions" :key="key" :value="item.value">{{ item.text || item.label }}</a-checkbox>
+    <a-checkbox v-for="(item, key) in dictOptions" :key="key" :value="item.value">{{ item.text || item.label }}
+    </a-checkbox>
   </a-checkbox-group>
 
   <a-select
@@ -25,6 +26,7 @@
 
 <script>
   import {ajaxGetDictItems} from '@/api/api'
+
   export default {
     name: 'JMultiSelectTag',
     props: {
@@ -33,41 +35,41 @@
       disabled: Boolean,
       value: String,
       type: String,
-      options:Array
+      options: Array
     },
     data() {
       return {
         dictOptions: [],
-        tagType:"",
-        arrayValue:!this.value?[]:this.value.split(",")
+        tagType: "",
+        arrayValue: !this.value ? [] : this.value.split(",")
       }
     },
     created() {
-      if(!this.type || this.type==="list_multi"){
+      if (!this.type || this.type === "list_multi") {
         this.tagType = "select"
-      }else{
+      } else {
         this.tagType = this.type
       }
       //获取字典数据
       this.initDictData();
     },
-    watch:{
-      options: function(val){
+    watch: {
+      options: function (val) {
         this.setCurrentDictOptions(val);
       },
-      value (val) {
-        if(!val){
+      value(val) {
+        if (!val) {
           this.arrayValue = []
-        }else{
+        } else {
           this.arrayValue = this.value.split(",")
         }
       }
     },
     methods: {
       initDictData() {
-        if(this.options && this.options.length>0){
+        if (this.options && this.options.length > 0) {
           this.dictOptions = [...this.options]
-        }else{
+        } else {
           //根据字典Code, 初始化字典数组
           ajaxGetDictItems(this.dictCode, null).then((res) => {
             if (res.success) {
@@ -77,13 +79,13 @@
         }
 
       },
-      onChange (selectedValue) {
+      onChange(selectedValue) {
         this.$emit('change', selectedValue.join(","));
       },
-      setCurrentDictOptions(dictOptions){
+      setCurrentDictOptions(dictOptions) {
         this.dictOptions = dictOptions
       },
-      getCurrentDictOptions(){
+      getCurrentDictOptions() {
         return this.dictOptions
       }
     },

@@ -41,7 +41,8 @@
     <div class="table-operator">
       <a-button @click="handleAdd" v-show="show" type="primary" icon="plus">新增</a-button>
       <a-button type="primary" v-show="show" icon="download" @click="handleExportXls('消息')">导出</a-button>
-      <a-upload v-show="show" name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl"
+      <a-upload v-show="show" name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader"
+                :action="importExcelUrl"
                 @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -80,7 +81,7 @@
 
         <!-- 字符串超长截取省略号显示-->
         <span slot="esContent" slot-scope="text">
-          <j-ellipsis :value="text" :length="10" />
+          <j-ellipsis :value="text" :length="10"/>
         </span>
 
         <span slot="action" slot-scope="text, record">
@@ -90,7 +91,7 @@
             <a class="ant-dropdown-link">更多<a-icon type="down"/></a>
             <a-menu slot="overlay">
                <a-menu-item v-show="show">
-                <a  @click="handleEdit(record)">编辑</a>
+                <a @click="handleEdit(record)">编辑</a>
               </a-menu-item>
               <a-menu-item>
                 <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">

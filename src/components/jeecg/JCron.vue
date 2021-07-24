@@ -9,6 +9,7 @@
 </template>
 <script>
   import JCronModal from "./modal/JCronModal";
+
   export default {
     name: 'JCron',
     components: {
@@ -20,26 +21,26 @@
         type: String,
       }
     },
-    data(){
+    data() {
       return {
         cron: this.value,
       }
     },
-    watch:{
-      value(val){
+    watch: {
+      value(val) {
         this.cron = val
       }
     },
-    methods:{
-      openModal(){
+    methods: {
+      openModal() {
         this.$refs.innerVueCron.show();
       },
-      handleOK(val){
+      handleOK(val) {
         this.cron = val;
         this.$emit("change", this.cron);
         //this.$emit("change", Object.assign({},  this.cron));
       },
-      handleEmpty(){
+      handleEmpty() {
         this.handleOK('')
       }
     },
@@ -56,9 +57,11 @@
     transition: color 0.3s;
     font-size: 12px;
   }
+
   .components-input-demo-presuffix .anticon-close-circle:hover {
     color: #f5222d;
   }
+
   .components-input-demo-presuffix .anticon-close-circle:active {
     color: #666;
   }

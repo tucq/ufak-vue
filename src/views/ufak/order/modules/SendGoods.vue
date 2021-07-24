@@ -8,10 +8,10 @@
     okText="发货"
     @cancel="handleCancel"
     cancelText="关闭">
-    
+
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-      
+
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -22,7 +22,7 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="物流编号">
-          <a-input placeholder="请输入物流编号" v-decorator="['logisticsNo', {}]" />
+          <a-input placeholder="请输入物流编号" v-decorator="['logisticsNo', {}]"/>
         </a-form-item>
       </a-form>
     </a-spin>
@@ -30,54 +30,53 @@
 </template>
 
 <script>
-  import { httpAction } from '@/api/manage'
+  import {httpAction} from '@/api/manage'
   import pick from 'lodash.pick'
   import moment from "moment"
 
   export default {
     name: "SendGoods",
-    data () {
+    data() {
       return {
-        title:"操作",
+        title: "操作",
         visible: false,
         model: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
         confirmLoading: false,
         form: this.$form.createForm(this),
-        validatorRules:{
-        },
+        validatorRules: {},
         url: {
           sendGoods: "/order/send/goods",
         },
       }
     },
-    created () {
+    created() {
     },
     methods: {
-      add () {
+      add() {
         this.edit({});
       },
-      edit (record) {
+      edit(record) {
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'orderNo','logisticsNo'))
+          this.form.setFieldsValue(pick(this.model, 'orderNo', 'logisticsNo'))
         });
 
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleOk () {
+      handleOk() {
         const that = this;
         // 触发表单验证
         this.form.validateFields((err, values) => {
@@ -86,11 +85,11 @@
             let httpurl = this.url.sendGoods;
             let method = 'post';
             let formData = Object.assign(this.model, values);
-            httpAction(httpurl,formData,method).then((res)=>{
-              if(res.success){
+            httpAction(httpurl, formData, method).then((res) => {
+              if (res.success) {
                 that.$message.success(res.message);
                 that.$emit('ok');
-              }else{
+              } else {
                 that.$message.warning(res.message);
               }
             }).finally(() => {
@@ -102,7 +101,7 @@
           }
         })
       },
-      handleCancel () {
+      handleCancel() {
         this.close()
       },
 

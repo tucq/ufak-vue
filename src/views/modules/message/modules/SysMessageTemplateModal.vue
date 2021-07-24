@@ -30,12 +30,13 @@
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="模板类型">
-              <j-dict-select-tag  @change="handleChangeTemplateType" :triggerChange="true" dictCode="msgType" v-decorator="['templateType', validatorRules.templateType ]" placeholder="请选择模板类型">
+              <j-dict-select-tag @change="handleChangeTemplateType" :triggerChange="true" dictCode="msgType"
+                                 v-decorator="['templateType', validatorRules.templateType ]" placeholder="请选择模板类型">
               </j-dict-select-tag>
             </a-form-item>
           </a-col>
         </a-row>
-        <a-row class="form-row" :gutter="24" >
+        <a-row class="form-row" :gutter="24">
           <a-col :span="24" pull="2">
             <a-form-item
               :labelCol="labelCol"
@@ -58,7 +59,8 @@
               :wrapperCol="wrapperCol"
               label="模板内容"
               style="margin-left: 4px;width: 126%">
-              <a-textarea placeholder="请输入模板内容" v-decorator="['templateContent', validatorRules.templateContent ]" :autosize="{ minRows: 8, maxRows: 8 }"/>
+              <a-textarea placeholder="请输入模板内容" v-decorator="['templateContent', validatorRules.templateContent ]"
+                          :autosize="{ minRows: 8, maxRows: 8 }"/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -70,7 +72,7 @@
               :wrapperCol="wrapperCol"
               label="模板内容"
               style="margin-left: 4px;width: 126%">
-              <j-editor  v-model="templateEditorContent"></j-editor>
+              <j-editor v-model="templateEditorContent"></j-editor>
             </a-form-item>
           </a-col>
         </a-row>
@@ -83,12 +85,12 @@
 <script>
   import {httpAction} from '@/api/manage'
   import pick from 'lodash.pick'
-  import { duplicateCheck } from '@/api/api'
+  import {duplicateCheck} from '@/api/api'
   import JEditor from '@/components/jeecg/JEditor'
 
   export default {
     name: "SysMessageTemplateModal",
-    components:{
+    components: {
       JEditor
     },
     data() {
@@ -108,17 +110,17 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules: {
-        templateCode: {rules: [{required: true, message: '请输入模板CODE!' },{validator: this.validateTemplateCode}]},
-        templateName: {rules: [{required: true, message: '请输入模板标题!'}]},
-        templateContent: {rules: []},
-        templateType: {rules: [{required: true, message: '请输入模板类型!'}]},
+          templateCode: {rules: [{required: true, message: '请输入模板CODE!'}, {validator: this.validateTemplateCode}]},
+          templateName: {rules: [{required: true, message: '请输入模板标题!'}]},
+          templateContent: {rules: []},
+          templateType: {rules: [{required: true, message: '请输入模板类型!'}]},
         },
         url: {
           add: "/message/sysMessageTemplate/add",
           edit: "/message/sysMessageTemplate/edit",
         },
-        useEditor:false,
-        templateEditorContent:""
+        useEditor: false,
+        templateEditorContent: ""
       }
     },
     created() {
@@ -131,17 +133,17 @@
       edit(record) {
         this.form.resetFields();
         this.model = Object.assign({}, record);
-        this.useEditor = (record.templateType==2 || record.templateType==4)
-        if(this.useEditor){
-          this.templateEditorContent=record.templateContent
-        }else{
-          this.templateEditorContent=''
+        this.useEditor = (record.templateType == 2 || record.templateType == 4)
+        if (this.useEditor) {
+          this.templateEditorContent = record.templateContent
+        } else {
+          this.templateEditorContent = ''
         }
         this.visible = true;
         this.$nextTick(() => {
-          if(this.useEditor){
+          if (this.useEditor) {
             this.form.setFieldsValue(pick(this.model, 'templateCode', 'templateName', 'templateTestJson', 'templateType'))
-          }else{
+          } else {
             this.form.setFieldsValue(pick(this.model, 'templateCode', 'templateContent', 'templateName', 'templateTestJson', 'templateType'))
           }
         });
@@ -170,8 +172,8 @@
             let formData = Object.assign(this.model, values);
             //时间格式化
 
-            if(this.useEditor){
-              formData.templateContent=this.templateEditorContent
+            if (this.useEditor) {
+              formData.templateContent = this.templateEditorContent
             }
             console.log(formData)
             httpAction(httpurl, formData, method).then((res) => {
@@ -190,17 +192,17 @@
           }
         })
       },
-      validateTemplateCode(rule, value, callback){
+      validateTemplateCode(rule, value, callback) {
         var params = {
           tableName: "sys_sms_template",
           fieldName: "template_code",
           fieldVal: value,
           dataId: this.model.id
         }
-        duplicateCheck(params).then((res)=>{
-          if(res.success){
+        duplicateCheck(params).then((res) => {
+          if (res.success) {
             callback();
-          }else{
+          } else {
             callback(res.message);
           }
         })
@@ -209,9 +211,9 @@
       handleCancel() {
         this.close()
       },
-      handleChangeTemplateType(value){
+      handleChangeTemplateType(value) {
         //如果是邮件类型那么则改变模板内容是富文本编辑器
-        this.useEditor = (value==2 || value==4)
+        this.useEditor = (value == 2 || value == 4)
       }
 
     }

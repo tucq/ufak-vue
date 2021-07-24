@@ -13,22 +13,22 @@
         <detail-list-item term="联系电话">18100000000</detail-list-item>
         <detail-list-item term="常用快递">菜鸟仓储</detail-list-item>
         <detail-list-item term="取货地址">浙江省杭州市西湖区万塘路18号</detail-list-item>
-        <detail-list-item term="备注">	无</detail-list-item>
+        <detail-list-item term="备注"> 无</detail-list-item>
       </detail-list>
       <a-divider style="margin-bottom: 32px"/>
 
       <div class="title">退货商品</div>
       <s-table
-        style="margin-bottom: 24px" 
-        :columns="goodsColumns" 
+        style="margin-bottom: 24px"
+        :columns="goodsColumns"
         :data="loadGoodsData">
 
       </s-table>
 
       <div class="title">退货进度</div>
       <s-table
-        style="margin-bottom: 24px" 
-        :columns="scheduleColumns" 
+        style="margin-bottom: 24px"
+        :columns="scheduleColumns"
         :data="loadScheduleData">
 
         <template
@@ -47,6 +47,7 @@
   import STable from '@/components/table/'
   import DetailList from '@/components/tools/DetailList'
   import ABadge from "ant-design-vue/es/badge/Badge"
+
   const DetailListItem = DetailList.Item
 
   export default {
@@ -57,7 +58,7 @@
       DetailListItem,
       STable
     },
-    data () {
+    data() {
       return {
         goodsColumns: [
           {
@@ -157,7 +158,7 @@
             title: '状态',
             dataIndex: 'status',
             key: 'status',
-            scopedSlots: { customRender: 'status' },
+            scopedSlots: {customRender: 'status'},
           },
           {
             title: '操作员ID',
@@ -237,7 +238,7 @@
       }
     },
     computed: {
-      title () {
+      title() {
         return this.$route.meta.title
       }
     },
@@ -247,7 +248,7 @@
 
 <style lang="scss" scoped>
   .title {
-    color: rgba(0,0,0,.85);
+    color: rgba(0, 0, 0, .85);
     font-size: 16px;
     font-weight: 500;
     margin-bottom: 16px;

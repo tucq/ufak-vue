@@ -19,7 +19,7 @@
               <a-col :md="2" :sm="8">
                 <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
                   <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
-<!--                  <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>-->
+                  <!--                  <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>-->
                 </span>
               </a-col>
             </a-row>
@@ -81,8 +81,8 @@
 <script>
   import UserAddressModal from './modules/UserAddressModal'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
-  import { getAction } from '@/api/manage'
-  import { filterObj } from '@/utils/util'
+  import {getAction} from '@/api/manage'
+  import {filterObj} from '@/utils/util'
 
   export default {
     name: "UserAddressList",
@@ -90,11 +90,11 @@
     components: {
       UserAddressModal
     },
-    data () {
+    data() {
       return {
         description: '客户信息',
         userId: "",
-        realname:'',
+        realname: '',
         // 表头
         columns: [
           {
@@ -108,11 +108,11 @@
             }
           },
           {
-              title: '头像',
-              align: "center",
-              width: "20%",
-              dataIndex: 'avatar',
-              scopedSlots: {customRender: 'avatar'},
+            title: '头像',
+            align: "center",
+            width: "20%",
+            dataIndex: 'avatar',
+            scopedSlots: {customRender: 'avatar'},
           },
           {
             title: '微信身份证',
@@ -127,7 +127,7 @@
             dataIndex: 'realname'
           },
         ],
-        addressDataSource:[],
+        addressDataSource: [],
         addressColumns: [
           {
             title: '收货姓名',
@@ -154,7 +154,7 @@
             dataIndex: 'detailAddress'
           },
         ],
-        addressPagination:{
+        addressPagination: {
           current: 1,
           pageSize: 10,
           pageSizeOptions: ['10', '20', '30'],
@@ -167,7 +167,7 @@
         },
         url: {
           list: "/usr/address/userList",
-          addressList:"/usr/address/list",
+          addressList: "/usr/address/list",
         },
       }
     },
@@ -175,18 +175,18 @@
       this.loadData(1);
     },
     methods: {
-      loadData (arg){
-        if(arg===1){
+      loadData(arg) {
+        if (arg === 1) {
           this.ipagination.current = 1;
         }
         let params = this.getQueryParams();//查询条件
-        getAction(this.url.list,params).then((res)=>{
-          if(res.success){
+        getAction(this.url.list, params).then((res) => {
+          if (res.success) {
             this.dataSource = res.result.records;
             this.ipagination.total = res.result.total;
 
             //加载完后查询地址信息
-            if(this.dataSource.length > 0){
+            if (this.dataSource.length > 0) {
               let user = this.dataSource[0];
               this.userId = user.id;
               this.realname = user.realname;
@@ -195,32 +195,32 @@
           }
         })
       },
-      getQueryParams(){
-        let param = Object.assign({}, this.queryParam,this.isorter);
+      getQueryParams() {
+        let param = Object.assign({}, this.queryParam, this.isorter);
         param.pageNo = this.ipagination.current;
         param.pageSize = this.ipagination.pageSize;
         return filterObj(param);
       },
-      searchQuery(){
+      searchQuery() {
         this.loadData(1);
       },
-      searchReset(){
-        this.queryParam={};
+      searchReset() {
+        this.queryParam = {};
         this.loadData(1);
       },
 
-      loadAddress(arg){
-        if(arg===1){
+      loadAddress(arg) {
+        if (arg === 1) {
           this.addressPagination.current = 1;
         }
-        getAction(this.url.addressList,{userId: this.userId}).then((res)=>{
-          if(res.success){
+        getAction(this.url.addressList, {userId: this.userId}).then((res) => {
+          if (res.success) {
             this.addressDataSource = res.result.records;
             this.addressPagination.total = res.result.total;
           }
         })
       },
-      onClickRow (record) {
+      onClickRow(record) {
         return {
           on: {
             click: () => {

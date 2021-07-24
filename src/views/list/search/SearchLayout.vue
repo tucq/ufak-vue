@@ -1,13 +1,13 @@
 <template>
   <div class="search-content">
-    <router-view />
+    <router-view/>
   </div>
 </template>
 
 <script>
   export default {
     name: "SearchLayout",
-    data () {
+    data() {
       return {
         tabs: {
           items: [
@@ -55,24 +55,23 @@
         search: true
       }
     },
-    computed: {
-
-    },
-    methods: {
-    }
+    computed: {},
+    methods: {}
   }
 </script>
 
 <style lang="scss" scoped>
-  .search-head{
+  .search-head {
     background-color: #fff;
     margin: -25px -24px -24px;
-    .search-input{
+
+    .search-input {
       text-align: center;
       margin-bottom: 16px;
     }
   }
-  .search-content{
+
+  .search-content {
     margin-top: 48px;
   }
 </style>

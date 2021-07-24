@@ -21,7 +21,8 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="代理人用户名">
-          <j-select-user-by-dep placeholder="请输入代理人用户名" v-decorator="['agentUserName', validatorRules.agentUserName]" :trigger-change="true"></j-select-user-by-dep>
+          <j-select-user-by-dep placeholder="请输入代理人用户名" v-decorator="['agentUserName', validatorRules.agentUserName]"
+                                :trigger-change="true"></j-select-user-by-dep>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
@@ -33,7 +34,7 @@
             :showTime="true"
             date-format="YYYY-MM-DD HH:mm:ss"
             style="width:100%"
-            placeholder="请选择开始时间" >
+            placeholder="请选择开始时间">
           </j-date>
         </a-form-item>
         <a-form-item
@@ -46,7 +47,7 @@
             :showTime="true"
             date-format="YYYY-MM-DD HH:mm:ss"
             style="width:100%"
-            placeholder="请选择结束时间" >
+            placeholder="请选择结束时间">
           </j-date>
         </a-form-item>
         <a-form-item
@@ -67,7 +68,7 @@
 
 <script>
   import pick from 'lodash.pick'
-  import { httpAction, getAction } from '@/api/manage'
+  import {httpAction, getAction} from '@/api/manage'
   import JDate from '@/components/jeecg/JDate.vue';
   import JSelectUserByDep from '@/components/jeecgbiz/JSelectUserByDep'
 
@@ -77,66 +78,66 @@
       JDate,
       JSelectUserByDep
     },
-    data () {
+    data() {
       return {
-        title:"操作",
+        title: "操作",
         visible: false,
         model: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
-        username:"",
+        username: "",
         confirmLoading: false,
         form: this.$form.createForm(this),
-        validatorRules:{
-          agentUserName:{rules: [{ required: true, message: '请输入代理人用户名!' }]},
-          startTime:{rules: [{ required: true, message: '请输入代理开始时间!' }]},
-          endTime:{rules: [{ required: true, message: '请输入代理结束时间!' }]},
+        validatorRules: {
+          agentUserName: {rules: [{required: true, message: '请输入代理人用户名!'}]},
+          startTime: {rules: [{required: true, message: '请输入代理开始时间!'}]},
+          endTime: {rules: [{required: true, message: '请输入代理结束时间!'}]},
         },
         url: {
           add: "/sys/sysUserAgent/add",
           edit: "/sys/sysUserAgent/edit",
-          queryByUserName:"/sys/sysUserAgent/queryByUserName",
+          queryByUserName: "/sys/sysUserAgent/queryByUserName",
         },
       }
     },
-    created () {
+    created() {
     },
     methods: {
-      agentSettings(username){
+      agentSettings(username) {
         this.username = username;
         this.init();
 
       },
-      init () {
-        var params = {userName:this.username};//查询条件
-        getAction(this.url.queryByUserName,params).then((res)=>{
-          if(res.success){
-            console.log("获取流程节点信息",res);
-            this.edit (res.result);
-          }else{
-            this.edit({userName:this.username,status:"0"});
+      init() {
+        var params = {userName: this.username};//查询条件
+        getAction(this.url.queryByUserName, params).then((res) => {
+          if (res.success) {
+            console.log("获取流程节点信息", res);
+            this.edit(res.result);
+          } else {
+            this.edit({userName: this.username, status: "0"});
           }
         })
       },
-      edit (record) {
+      edit(record) {
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'userName','agentUserName','status','startTime','endTime'))
+          this.form.setFieldsValue(pick(this.model, 'userName', 'agentUserName', 'status', 'startTime', 'endTime'))
         });
       },
-      close () {
+      close() {
         this.$emit('close');
         this.visible = false;
       },
-      handleOk () {
+      handleOk() {
         const that = this;
         // 触发表单验证
         this.form.validateFields((err, values) => {
@@ -144,19 +145,19 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.id){
-              httpurl+=this.url.add;
+            if (!this.model.id) {
+              httpurl += this.url.add;
               method = 'post';
-            }else{
-              httpurl+=this.url.edit;
-               method = 'put';
+            } else {
+              httpurl += this.url.edit;
+              method = 'put';
             }
             let formData = Object.assign(this.model, values);
-            httpAction(httpurl,formData,method).then((res)=>{
-              if(res.success){
+            httpAction(httpurl, formData, method).then((res) => {
+              if (res.success) {
                 that.$message.success(res.message);
                 //this.init();
-              }else{
+              } else {
                 that.$message.warning(res.message);
               }
             }).finally(() => {
@@ -165,11 +166,10 @@
             })
 
 
-
           }
         })
       },
-      handleCancel () {
+      handleCancel() {
         this.close()
       }
     }

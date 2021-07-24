@@ -21,7 +21,8 @@
         <a-form-item
           fieldDecoratorId="password"
           :fieldDecoratorOptions="{rules: [{ required: false}, { validator: this.handlePasswordLevel }], validateTrigger: ['change', 'blur']}">
-          <a-input size="large" type="password" @click="handlePasswordInputClick" autocomplete="false" placeholder="至少8位密码，区分大小写"></a-input>
+          <a-input size="large" type="password" @click="handlePasswordInputClick" autocomplete="false"
+                   placeholder="至少8位密码，区分大小写"></a-input>
         </a-form-item>
       </a-popover>
 

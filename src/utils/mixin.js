@@ -1,5 +1,5 @@
 // import Vue from 'vue'
-import { mapState } from "vuex";
+import {mapState} from "vuex";
 
 // const mixinsComputed = Vue.config.optionMergeStrategies.computed
 // const mixinsMethods = Vue.config.optionMergeStrategies.methods
@@ -28,13 +28,13 @@ const mixinDevice = {
     })
   },
   methods: {
-    isMobile () {
+    isMobile() {
       return this.device === 'mobile'
     },
-    isDesktop () {
+    isDesktop() {
       return this.device === 'desktop'
     }
   }
 }
 
-export { mixin, mixinDevice }
+export {mixin, mixinDevice}

@@ -10,12 +10,12 @@
   import enquireScreen from '@/utils/device'
 
   export default {
-    data () {
+    data() {
       return {
         locale: zhCN,
       }
     },
-    created () {
+    created() {
       let that = this
       enquireScreen(deviceType => {
         // tablet
@@ -27,8 +27,7 @@
         else if (deviceType === 1) {
           that.$store.commit('TOGGLE_DEVICE', 'mobile')
           that.$store.dispatch('setSidebar', false)
-        }
-        else {
+        } else {
           that.$store.commit('TOGGLE_DEVICE', 'desktop')
           that.$store.dispatch('setSidebar', true)
         }

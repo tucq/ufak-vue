@@ -52,10 +52,10 @@
       </div>
       <span slot="action" slot-scope="text, record">
         <a @click="handleEdit(record)">编辑</a>
-        <a-divider type="vertical" />
+        <a-divider type="vertical"/>
         <a-dropdown>
           <a class="ant-dropdown-link">
-            更多 <a-icon type="down" />
+            更多 <a-icon type="down"/>
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
@@ -88,7 +88,7 @@
           hasFeedback
           validateStatus="success"
         >
-          <a-input placeholder="唯一识别码" v-model="mdl.id" id="no" disabled="disabled" />
+          <a-input placeholder="唯一识别码" v-model="mdl.id" id="no" disabled="disabled"/>
         </a-form-item>
 
         <a-form-item
@@ -98,7 +98,7 @@
           hasFeedback
           validateStatus="success"
         >
-          <a-input placeholder="起一个名字" v-model="mdl.name" id="role_name" />
+          <a-input placeholder="起一个名字" v-model="mdl.name" id="role_name"/>
         </a-form-item>
 
         <a-form-item
@@ -123,7 +123,7 @@
           <a-textarea :rows="5" v-model="mdl.describe" placeholder="..." id="describe"/>
         </a-form-item>
 
-        <a-divider />
+        <a-divider/>
 
         <a-form-item
           :labelCol="labelCol"
@@ -150,25 +150,25 @@
 
 <script>
   import STable from '@/components/table/'
-  import { getRoleList, getServiceList } from '@/api/manage'
+  import {getRoleList, getServiceList} from '@/api/manage'
 
   export default {
     name: "TableList",
     components: {
       STable
     },
-    data () {
+    data() {
       return {
         description: '列表使用场景：后台管理中的权限管理以及角色管理，可用于基于 RBAC 设计的角色权限控制，颗粒度细到每一个操作类型。',
 
         visible: false,
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
         form: null,
         mdl: {},
@@ -199,7 +199,7 @@
             title: '操作',
             width: '150px',
             dataIndex: 'action',
-            scopedSlots: { customRender: 'action' },
+            scopedSlots: {customRender: 'action'},
           }
         ],
         // 加载数据方法 必须为 Promise 对象
@@ -214,7 +214,7 @@
         selectedRows: []
       }
     },
-    created () {
+    created() {
       getServiceList().then(res => {
         console.log('getServiceList.call()', res)
       })
@@ -224,25 +224,25 @@
       })
     },
     methods: {
-      handleEdit (record) {
+      handleEdit(record) {
         this.mdl = Object.assign({}, record)
 
         this.mdl.permissions.forEach(permission => {
           permission.actionsOptions = permission.actionEntitySet.map(action => {
-            return { label: action.describe, value: action.action, defaultCheck: action.defaultCheck }
+            return {label: action.describe, value: action.action, defaultCheck: action.defaultCheck}
           })
         })
 
         this.visible = true
       },
-      handleOk () {
+      handleOk() {
 
       },
-      onChange (selectedRowKeys, selectedRows) {
+      onChange(selectedRowKeys, selectedRows) {
         this.selectedRowKeys = selectedRowKeys
         this.selectedRows = selectedRows
       },
-      toggleAdvanced () {
+      toggleAdvanced() {
         this.advanced = !this.advanced
       },
     },

@@ -81,8 +81,8 @@
 <script>
   import UserAddressModal from './modules/UserAddressModal'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
-  import { getAction } from '@/api/manage'
-  import { filterObj } from '@/utils/util'
+  import {getAction} from '@/api/manage'
+  import {filterObj} from '@/utils/util'
 
   export default {
     name: "ShoppingCarList",
@@ -90,11 +90,11 @@
     components: {
       UserAddressModal
     },
-    data () {
+    data() {
       return {
         description: '购物车',
         userId: "",
-        realname:'',
+        realname: '',
         // 表头
         columns: [
           {
@@ -115,13 +115,13 @@
             scopedSlots: {customRender: 'avatar'},
           },
           {
-              title: '微信名称',
-              align: "center",
-              width: "60%",
-              dataIndex: 'realname'
+            title: '微信名称',
+            align: "center",
+            width: "60%",
+            dataIndex: 'realname'
           },
         ],
-        carDataSource:[],
+        carDataSource: [],
         addressColumns: [
           {
             title: '#',
@@ -165,7 +165,7 @@
             dataIndex: 'buyNum'
           },
         ],
-        carPagination:{
+        carPagination: {
           current: 1,
           pageSize: 10,
           pageSizeOptions: ['10', '20', '30'],
@@ -178,8 +178,8 @@
         },
         url: {
           list: "/usr/address/userList",
-          shoppingCarList:"/shopping/car/list",
-          imgerver: window._CONFIG['domianURL']+"/sys/common/view",
+          shoppingCarList: "/shopping/car/list",
+          imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
         },
       }
     },
@@ -187,18 +187,18 @@
       this.loadData(1);
     },
     methods: {
-      loadData (arg){
-        if(arg===1){
+      loadData(arg) {
+        if (arg === 1) {
           this.ipagination.current = 1;
         }
         let params = this.getQueryParams();//查询条件
-        getAction(this.url.list,params).then((res)=>{
-          if(res.success){
+        getAction(this.url.list, params).then((res) => {
+          if (res.success) {
             this.dataSource = res.result.records;
             this.ipagination.total = res.result.total;
 
             //加载完后查询地址信息
-            if(this.dataSource.length > 0){
+            if (this.dataSource.length > 0) {
               let user = this.dataSource[0];
               this.userId = user.id;
               this.realname = user.realname;
@@ -207,32 +207,32 @@
           }
         })
       },
-      getQueryParams(){
-        let param = Object.assign({}, this.queryParam,this.isorter);
+      getQueryParams() {
+        let param = Object.assign({}, this.queryParam, this.isorter);
         param.pageNo = this.ipagination.current;
         param.pageSize = this.ipagination.pageSize;
         return filterObj(param);
       },
-      searchQuery(){
+      searchQuery() {
         this.loadData(1);
       },
-      searchReset(){
-        this.queryParam={};
+      searchReset() {
+        this.queryParam = {};
         this.loadData(1);
       },
 
-      loadShoppingCarList(arg){
-        if(arg===1){
+      loadShoppingCarList(arg) {
+        if (arg === 1) {
           this.carPagination.current = 1;
         }
-        getAction(this.url.shoppingCarList,{userId: this.userId}).then((res)=>{
-          if(res.success){
+        getAction(this.url.shoppingCarList, {userId: this.userId}).then((res) => {
+          if (res.success) {
             this.carDataSource = res.result.records;
             this.carPagination.total = res.result.total;
           }
         })
       },
-      onClickRow (record) {
+      onClickRow(record) {
         return {
           on: {
             click: () => {
@@ -243,8 +243,8 @@
           }
         }
       },
-      getAvatarView(image){
-        return this.url.imgerver +"/"+ image;
+      getAvatarView(image) {
+        return this.url.imgerver + "/" + image;
       },
     }
   }

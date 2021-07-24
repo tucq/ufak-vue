@@ -15,116 +15,116 @@
 </template>
 <script>
 
-  import { getAction } from '@/api/manage'
+  import {getAction} from '@/api/manage'
 
   export default {
     name: 'JCategorySelect',
     props: {
-      value:{
+      value: {
         type: String,
         required: false
       },
-      placeholder:{
+      placeholder: {
         type: String,
         default: '请选择',
         required: false
       },
-      disabled:{
-        type:Boolean,
-        default:false,
-        required:false
+      disabled: {
+        type: Boolean,
+        default: false,
+        required: false
       },
-      condition:{
-        type:String,
-        default:'',
-        required:false
+      condition: {
+        type: String,
+        default: '',
+        required: false
       },
       // 是否支持多选
       multiple: {
         type: Boolean,
         default: false,
       },
-      loadTriggleChange:{
+      loadTriggleChange: {
         type: Boolean,
         default: false,
-        required:false
+        required: false
       },
-      pid:{
-        type:String,
-        default:'',
-        required:false
+      pid: {
+        type: String,
+        default: '',
+        required: false
       },
-      pcode:{
-        type:String,
-        default:'',
-        required:false
+      pcode: {
+        type: String,
+        default: '',
+        required: false
       },
-      back:{
-        type:String,
-        default:'',
-        required:false
+      back: {
+        type: String,
+        default: '',
+        required: false
       }
     },
-    data () {
+    data() {
       return {
-        treeValue:"",
-        treeData:[],
-        url:"/sys/category/loadTreeData",
-        view:'/sys/category/loadDictItem/',
-        tableName:"",
-        text:"",
-        code:"",
+        treeValue: "",
+        treeData: [],
+        url: "/sys/category/loadTreeData",
+        view: '/sys/category/loadDictItem/',
+        tableName: "",
+        text: "",
+        code: "",
 
       }
     },
     watch: {
-      value () {
+      value() {
         this.loadItemByCode()
       },
-      pcode(){
+      pcode() {
         this.loadRoot();
       }
     },
-    created(){
-      this.validateProp().then(()=>{
+    created() {
+      this.validateProp().then(() => {
         this.loadRoot()
         this.loadItemByCode()
       })
     },
     methods: {
       /**加载一级节点 */
-      loadRoot(){
+      loadRoot() {
         let param = {
-          pid:this.pid,
-          pcode:this.pcode,
-          condition:this.condition
+          pid: this.pid,
+          pcode: this.pcode,
+          condition: this.condition
         }
-        getAction(this.url,param).then(res=>{
-          if(res.success && res.result){
-            for(let i of res.result){
+        getAction(this.url, param).then(res => {
+          if (res.success && res.result) {
+            for (let i of res.result) {
               i.value = i.key
-              if(i.leaf==false){
-                i.isLeaf=false
-              }else if(i.leaf==true){
-                i.isLeaf=true
+              if (i.leaf == false) {
+                i.isLeaf = false
+              } else if (i.leaf == true) {
+                i.isLeaf = true
               }
             }
             this.treeData = [...res.result]
-          }else{
-            console.log("树一级节点查询结果-else",res)
+          } else {
+            console.log("树一级节点查询结果-else", res)
           }
         })
       },
 
       /** 数据回显*/
-      loadItemByCode(){
-        if(!this.value || this.value=="0"){
+      loadItemByCode() {
+        if (!this.value || this.value == "0") {
           this.treeValue = []
-        }else{
-          getAction(this.view,{ids:this.value}).then(res=>{
+        } else {
+          getAction(this.view, {ids: this.value}).then(res => {
             console.log(124345)
-            console.log(124345,res)
-            if(res.success){
+            console.log(124345, res)
+            if (res.success) {
               let values = this.value.split(',')
               this.treeValue = res.result.map((item, index) => ({
                 key: values[index],
@@ -136,20 +136,20 @@
           })
         }
       },
-      onLoadTriggleChange(text){
+      onLoadTriggleChange(text) {
         //只有单选才会触发
-        if(!this.multiple && this.loadTriggleChange){
-          this.backValue(this.value,text)
+        if (!this.multiple && this.loadTriggleChange) {
+          this.backValue(this.value, text)
         }
       },
-      backValue(value,label){
+      backValue(value, label) {
         let obj = {}
-        if(this.back){
+        if (this.back) {
           obj[this.back] = label
         }
         this.$emit('change', value, obj)
       },
-      asyncLoadTreeData (treeNode) {
+      asyncLoadTreeData(treeNode) {
         return new Promise((resolve) => {
           if (treeNode.$vnode.children) {
             resolve()
@@ -157,73 +157,73 @@
           }
           let pid = treeNode.$vnode.key
           let param = {
-            pid:pid,
-            condition:this.condition
+            pid: pid,
+            condition: this.condition
           }
-          getAction(this.url,param).then(res=>{
-            if(res.success){
-              for(let i of res.result){
+          getAction(this.url, param).then(res => {
+            if (res.success) {
+              for (let i of res.result) {
                 i.value = i.key
-                if(i.leaf==false){
-                  i.isLeaf=false
-                }else if(i.leaf==true){
-                  i.isLeaf=true
+                if (i.leaf == false) {
+                  i.isLeaf = false
+                } else if (i.leaf == true) {
+                  i.isLeaf = true
                 }
               }
-              this.addChildren(pid,res.result,this.treeData)
+              this.addChildren(pid, res.result, this.treeData)
               this.treeData = [...this.treeData]
             }
             resolve()
           })
         })
       },
-      addChildren(pid,children,treeArray){
-        if(treeArray && treeArray.length>0){
-          for(let item of treeArray){
-            if(item.key == pid){
-              if(!children || children.length==0){
-                item.isLeaf=true
-              }else{
+      addChildren(pid, children, treeArray) {
+        if (treeArray && treeArray.length > 0) {
+          for (let item of treeArray) {
+            if (item.key == pid) {
+              if (!children || children.length == 0) {
+                item.isLeaf = true
+              } else {
                 item.children = children
               }
               break
-            }else{
-              this.addChildren(pid,children,item.children)
+            } else {
+              this.addChildren(pid, children, item.children)
             }
           }
         }
       },
 
-      onChange(value){
-        if(!value){
+      onChange(value) {
+        if (!value) {
           this.$emit('change', '');
           this.treeValue = ''
         } else if (value instanceof Array) {
           //this.$emit('change', value.map(item => item.value).join(','))
           //this.treeValue = value
         } else {
-          this.backValue(value.value,value.label)
+          this.backValue(value.value, value.label)
           this.treeValue = value
         }
       },
-      getCurrTreeData(){
+      getCurrTreeData() {
         return this.treeData
       },
-      validateProp(){
+      validateProp() {
         let mycondition = this.condition
-        return new Promise((resolve,reject)=>{
-          if(!mycondition){
+        return new Promise((resolve, reject) => {
+          if (!mycondition) {
             resolve();
-          }else{
+          } else {
             try {
-              let test=JSON.parse(mycondition);
-              if(typeof test == 'object' && test){
+              let test = JSON.parse(mycondition);
+              if (typeof test == 'object' && test) {
                 resolve()
-              }else{
+              } else {
                 this.$message.error("组件JTreeSelect-condition传值有误，需要一个json字符串!")
                 reject()
               }
-            } catch(e) {
+            } catch (e) {
               this.$message.error("组件JTreeSelect-condition传值有误，需要一个json字符串!")
               reject()
             }

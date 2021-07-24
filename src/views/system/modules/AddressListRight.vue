@@ -43,8 +43,8 @@
 </template>
 
 <script>
-  import { getAction } from '@/api/manage'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {getAction} from '@/api/manage'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 
   export default {
     name: 'AddressListRight',
@@ -171,7 +171,7 @@
 
       // 查询职务信息
       queryPositionInfo() {
-        getAction(this.url.listByPosition, { pageSize: 99999 }).then(res => {
+        getAction(this.url.listByPosition, {pageSize: 99999}).then(res => {
           if (res.success) {
             let positionInfo = {}
             res.result.records.forEach(record => {

@@ -6,7 +6,7 @@
  *
  * */
 
-import { getRefPromise } from '@/utils/JEditableTableUtil'
+import {getRefPromise} from '@/utils/JEditableTableUtil'
 
 /* 日历的视图类型 */
 const calendarViewType = {
@@ -71,7 +71,7 @@ const CalendarMixins = {
       return {
         // 处理 view changed 事件
         viewRender: (view, element) => {
-          let { type } = view
+          let {type} = view
 
           let lastViewType = this.calenderCurrentViewType
           this.calenderCurrentViewType = type
@@ -104,4 +104,4 @@ const CalendarMixins = {
   }
 }
 
-export { defaultSettings, calendarViewType, CalendarMixins }
+export {defaultSettings, calendarViewType, CalendarMixins}

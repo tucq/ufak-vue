@@ -28,11 +28,11 @@
         </template>
 
         <template slot="responseStatus" slot-scope="text">
-          <a-tag v-if="text < 200" color="pink">{{ text }} </a-tag>
-          <a-tag v-else-if="text < 201" color="green">{{ text }} </a-tag>
-          <a-tag v-else-if="text < 399" color="cyan">{{ text }} </a-tag>
-          <a-tag v-else-if="text < 403" color="orange">{{ text }} </a-tag>
-          <a-tag v-else-if="text < 501" color="red">{{ text }} </a-tag>
+          <a-tag v-if="text < 200" color="pink">{{ text }}</a-tag>
+          <a-tag v-else-if="text < 201" color="green">{{ text }}</a-tag>
+          <a-tag v-else-if="text < 399" color="cyan">{{ text }}</a-tag>
+          <a-tag v-else-if="text < 403" color="orange">{{ text }}</a-tag>
+          <a-tag v-else-if="text < 501" color="red">{{ text }}</a-tag>
           <span v-else>{{ text }}</span>
         </template>
 
@@ -52,7 +52,7 @@
 
 <script>
   import moment from 'moment'
-  import { getAction } from '@/api/manage'
+  import {getAction} from '@/api/manage'
 
   moment.locale('zh-cn')
 
@@ -84,12 +84,12 @@
         }, {
           title: '请求方法',
           dataIndex: 'request.method',
-          scopedSlots: { customRender: 'requestMethod' },
+          scopedSlots: {customRender: 'requestMethod'},
           filters: [
-            { text: 'GET', value: 'GET' },
-            { text: 'POST', value: 'POST' },
-            { text: 'PUT', value: 'PUT' },
-            { text: 'DELETE', value: 'DELETE' }
+            {text: 'GET', value: 'GET'},
+            {text: 'POST', value: 'POST'},
+            {text: 'PUT', value: 'PUT'},
+            {text: 'DELETE', value: 'DELETE'}
           ],
           filterMultiple: true,
           onFilter: (value, record) => record.request.method.includes(value)
@@ -102,11 +102,11 @@
         }, {
           title: '响应状态',
           dataIndex: 'response.status',
-          scopedSlots: { customRender: 'responseStatus' }
+          scopedSlots: {customRender: 'responseStatus'}
         }, {
           title: '请求耗时',
           dataIndex: 'timeTaken',
-          scopedSlots: { customRender: 'timeTaken' }
+          scopedSlots: {customRender: 'timeTaken'}
         }]
       }
     },

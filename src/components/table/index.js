@@ -1,5 +1,6 @@
 import T from "ant-design-vue/es/table/Table";
 import get from "lodash.get"
+
 export default {
   data() {
     return {
@@ -123,7 +124,8 @@ export default {
       const totalList = []
       columns && columns instanceof Array && columns.forEach(column => {
         if (column.needTotal) {
-          totalList.push({ ...column,
+          totalList.push({
+            ...column,
             total: 0
           })
         }
@@ -176,12 +178,12 @@ export default {
             }
           },
           [
-            `${ item.title }总计 `,
+            `${item.title}总计 `,
             h('a', {
               style: {
                 fontWeight: 600
               }
-            }, `${ !item.customRender ? item.total : item.customRender(item.total) }`)
+            }, `${!item.customRender ? item.total : item.customRender(item.total)}`)
           ]))
       });
 
@@ -211,7 +213,7 @@ export default {
       localKeys = Object.keys(this.$data);
 
     Object.keys(T.props).forEach(k => {
-      let localKey = `local${k.substring(0,1).toUpperCase()}${k.substring(1)}`;
+      let localKey = `local${k.substring(0, 1).toUpperCase()}${k.substring(1)}`;
       if (localKeys.includes(localKey)) {
         return props[k] = _vm[localKey];
       }
@@ -226,7 +228,7 @@ export default {
         selectedRowKeys: this.selectedRowKeys,
         onChange: (selectedRowKeys, selectedRows) => {
           _vm.updateSelect(selectedRowKeys, selectedRows)
-          _vm.$emit('onSelect', { selectedRowKeys: selectedRowKeys, selectedRows: selectedRows })
+          _vm.$emit('onSelect', {selectedRowKeys: selectedRowKeys, selectedRows: selectedRows})
         }
       };
 

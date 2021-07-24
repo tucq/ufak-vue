@@ -39,7 +39,7 @@
 
 <script>
   import pick from 'lodash.pick'
-  import { addDict, editDict, duplicateCheck } from '@/api/api'
+  import {addDict, editDict, duplicateCheck} from '@/api/api'
 
   export default {
     name: 'DictModal',
@@ -50,20 +50,20 @@
         visible: false,
         model: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 }
+          xs: {span: 24},
+          sm: {span: 5}
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 }
+          xs: {span: 24},
+          sm: {span: 16}
         },
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules: {
-          dictName: { rules: [{ required: true, message: '请输入字典名称!' }] },
+          dictName: {rules: [{required: true, message: '请输入字典名称!'}]},
           dictCode: {
-            rules: [{ required: true, message: '请输入字典编码!' },
-              { validator: this.validateDictCode }]
+            rules: [{required: true, message: '请输入字典编码!'},
+              {validator: this.validateDictCode}]
           }
         }
       }

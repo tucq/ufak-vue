@@ -48,7 +48,8 @@
             </a-col>
           </template>
           <a-col :md="!advanced && 8 || 24" :sm="24">
-            <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+            <span class="table-page-search-submitButtons"
+                  :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
               <a-button type="primary">查询</a-button>
               <a-button style="margin-left: 8px" @click="resetSearchForm">重置</a-button>
               <a @click="toggleAdvanced" style="margin-left: 8px">
@@ -65,12 +66,19 @@
       <a-button type="primary" icon="plus" @click="() => this.handleModalVisible(true)">新建</a-button>
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
-          <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
+          <a-menu-item key="1">
+            <a-icon type="delete"/>
+            删除
+          </a-menu-item>
           <!-- lock | unlock -->
-          <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
+          <a-menu-item key="2">
+            <a-icon type="lock"/>
+            锁定
+          </a-menu-item>
         </a-menu>
         <a-button style="margin-left: 8px">
-          批量操作 <a-icon type="down" />
+          批量操作
+          <a-icon type="down"/>
         </a-button>
       </a-dropdown>
     </div>
@@ -85,10 +93,10 @@
     >
       <span slot="action" slot-scope="text, record">
         <a @click="handleEdit(record)">编辑</a>
-        <a-divider type="vertical" />
+        <a-divider type="vertical"/>
         <a-dropdown>
           <a class="ant-dropdown-link">
-            更多 <a-icon type="down" />
+            更多 <a-icon type="down"/>
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
@@ -120,7 +128,7 @@
           hasFeedback
           validateStatus="success"
         >
-          <a-input placeholder="规则编号" v-model="mdl.no" id="no" />
+          <a-input placeholder="规则编号" v-model="mdl.no" id="no"/>
         </a-form-item>
 
         <a-form-item
@@ -130,7 +138,7 @@
           hasFeedback
           validateStatus="success"
         >
-          <a-input-number :min="1" id="callNo" v-model="mdl.callNo" style="width: 100%" />
+          <a-input-number :min="1" id="callNo" v-model="mdl.callNo" style="width: 100%"/>
         </a-form-item>
 
         <a-form-item
@@ -175,11 +183,13 @@
       </a-form>
     </a-modal>
 
-    <a-modal title="新建规则" destroyOnClose :visible="visibleCreateModal" @ok="handleCreateModalOk" @cancel="handleCreateModalCancel">
+    <a-modal title="新建规则" destroyOnClose :visible="visibleCreateModal" @ok="handleCreateModalOk"
+             @cancel="handleCreateModalCancel">
       <!---->
       <a-form style="margin-top: 8px" :autoFormCreate="(form)=>{this.createForm = form}">
-        <a-form-item :labelCol="{ span: 5 }" :wrapperCol="{ span: 15 }" label="描述" fieldDecoratorId="description" :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }]}">
-          <a-input placeholder="请输入" />
+        <a-form-item :labelCol="{ span: 5 }" :wrapperCol="{ span: 15 }" label="描述" fieldDecoratorId="description"
+                     :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }]}">
+          <a-input placeholder="请输入"/>
         </a-form-item>
       </a-form>
     </a-modal>
@@ -193,7 +203,7 @@
   import AInput from "ant-design-vue/es/input/Input"
   import moment from "moment"
   import axios from 'axios';
-  import { getRoleList, getServiceList } from '@/api/manage'
+  import {getRoleList, getServiceList} from '@/api/manage'
 
   export default {
     name: "TableList",
@@ -202,17 +212,17 @@
       ATextarea,
       STable
     },
-    data () {
+    data() {
       return {
-        visibleCreateModal:false,
+        visibleCreateModal: false,
         visible: false,
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 12 },
+          xs: {span: 24},
+          sm: {span: 12},
         },
         form: null,
         mdl: {},
@@ -252,7 +262,7 @@
             table: '操作',
             dataIndex: 'action',
             width: '150px',
-            scopedSlots: { customRender: 'action' },
+            scopedSlots: {customRender: 'action'},
           }
         ],
         // 加载数据方法 必须为 Promise 对象
@@ -267,16 +277,16 @@
         selectedRows: []
       }
     },
-    created () {
-      getRoleList({ t: new Date()})
+    created() {
+      getRoleList({t: new Date()})
     },
     methods: {
-      handleEdit (record) {
+      handleEdit(record) {
         this.mdl = Object.assign({}, record)
         console.log(this.mdl)
         this.visible = true
       },
-      handleOk () {
+      handleOk() {
 
       },
 
@@ -303,17 +313,17 @@
         this.visibleCreateModal = false;
       },
 
-      onChange (row) {
+      onChange(row) {
         this.selectedRowKeys = row.selectedRowKeys
         this.selectedRows = row.selectedRows
 
         console.log(this.$refs.table)
       },
-      toggleAdvanced () {
+      toggleAdvanced() {
         this.advanced = !this.advanced
       },
 
-      resetSearchForm () {
+      resetSearchForm() {
         this.queryParam = {
           date: moment(new Date())
         }

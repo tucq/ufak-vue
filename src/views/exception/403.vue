@@ -1,5 +1,5 @@
 <template>
-  <exception-page type="403" />
+  <exception-page type="403"/>
 </template>
 
 <script>

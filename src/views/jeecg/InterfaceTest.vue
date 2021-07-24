@@ -13,7 +13,7 @@
           v-model="url"
           @search="onSearch"
           enterButton="Send"
-          size="large" />
+          size="large"/>
       </a-col>
     </a-row>
 
@@ -33,49 +33,50 @@
   </a-card>
 </template>
 <script>
-  import { postAction,getAction } from '@/api/manage'
-  import { ACCESS_TOKEN } from "@/store/mutation-types"
+  import {postAction, getAction} from '@/api/manage'
+  import {ACCESS_TOKEN} from "@/store/mutation-types"
   import Vue from 'vue'
+
   export default {
     name: 'FlowTest',
-    data(){
+    data() {
       return {
-        url:"",
-        paramJson:"",
-        resultJson:{},
-        requestMethod:"POST"
+        url: "",
+        paramJson: "",
+        resultJson: {},
+        requestMethod: "POST"
       }
     },
     methods: {
-      onSearch (value) {
+      onSearch(value) {
         let that = this
         this.resultJson = {};
-        if("POST"===this.requestMethod.toUpperCase()){
-          postAction(value,this.paramJson).then((res)=>{
+        if ("POST" === this.requestMethod.toUpperCase()) {
+          postAction(value, this.paramJson).then((res) => {
             console.log(res)
             this.resultJson = res
           }).catch((err) => {
-            that.$message.error("请求异常："+err)
+            that.$message.error("请求异常：" + err)
           })
-        }else {
-          getAction(value,this.paramJson).then((res)=>{
+        } else {
+          getAction(value, this.paramJson).then((res) => {
             console.log(res)
             this.resultJson = res;
           }).catch((err) => {
-            that.$message.error("请求异常："+err)
+            that.$message.error("请求异常：" + err)
           })
         }
       },
-      changeVal(e){
+      changeVal(e) {
         try {
           let json = e.target.value;
-          json = json.replace(/\n/g,"");
-          json = json.replace(/\s*/g,"");
-          if(json.indexOf(",}")>0){
-            json = json.replace(",}","}");
+          json = json.replace(/\n/g, "");
+          json = json.replace(/\s*/g, "");
+          if (json.indexOf(",}") > 0) {
+            json = json.replace(",}", "}");
           }
           this.paramJson = JSON.parse(json);
-        }catch (e) {
+        } catch (e) {
           console.log(e);
           this.$message.error("非法的JSON字符串")
         }
@@ -83,9 +84,9 @@
       handleChange(value) {
         this.requestMethod = value;
       },
-      created () {
+      created() {
         const token = Vue.ls.get(ACCESS_TOKEN);
-        this.headers = {"X-Access-Token":token}
+        this.headers = {"X-Access-Token": token}
 
       }
     }

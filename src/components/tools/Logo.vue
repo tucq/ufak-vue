@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import { mixin } from '@/utils/mixin.js'
+  import {mixin} from '@/utils/mixin.js'
 
   export default {
     name: 'Logo',
@@ -38,6 +38,7 @@
 
   .sider {
     box-shadow: none !important;
+
     .logo {
       height: @height !important;
       line-height: @height !important;
@@ -46,6 +47,7 @@
 
       a {
         color: white;
+
         &:hover {
           color: rgba(255, 255, 255, 0.8);
         }

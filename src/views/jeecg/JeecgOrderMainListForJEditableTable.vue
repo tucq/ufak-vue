@@ -100,7 +100,7 @@
 
 <script>
 
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JeecgOrderModalForJEditableTable from './modules/JeecgOrderModalForJEditableTable'
 
   export default {
@@ -126,7 +126,7 @@
             key: 'rowIndex',
             width: 60,
             align: 'center',
-            customRender: function(t, r, index) {
+            customRender: function (t, r, index) {
               return parseInt(index) + 1
             }
           },
@@ -168,7 +168,7 @@
             title: '操作',
             dataIndex: 'action',
             align: 'center',
-            scopedSlots: { customRender: 'action' }
+            scopedSlots: {customRender: 'action'}
           }
         ]
       }

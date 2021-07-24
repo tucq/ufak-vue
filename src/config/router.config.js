@@ -1,4 +1,4 @@
-import { UserLayout, TabLayout, RouteView, BlankLayout, PageView } from '@/components/layouts'
+import {UserLayout, TabLayout, RouteView, BlankLayout, PageView} from '@/components/layouts'
 
 /**
  * 走菜单，走权限控制
@@ -10,7 +10,7 @@ export const asyncRouterMap = [
     path: '/',
     name: 'dashboard',
     component: TabLayout,
-    meta: { title: '首页' },
+    meta: {title: '首页'},
     redirect: '/dashboard/workplace',
     children: [
 

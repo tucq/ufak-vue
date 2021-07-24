@@ -147,20 +147,22 @@
           font-size: 20px;
           line-height: 28px;
           font-weight: 500;
-          color: rgba(0,0,0,.85);
+          color: rgba(0, 0, 0, .85);
           margin-bottom: 16px;
           flex: auto;
 
         }
+
         .logo {
           width: 28px;
           height: 28px;
           border-radius: 4px;
           margin-right: 16px;
         }
+
         .content, .headerContent {
           flex: auto;
-          color: rgba(0,0,0,.45);
+          color: rgba(0, 0, 0, .45);
           line-height: 22px;
 
           .link {
@@ -173,17 +175,20 @@
             }
           }
         }
+
         .extra {
           flex: 0 1 auto;
           margin-left: 88px;
           min-width: 242px;
           text-align: right;
         }
+
         .action {
           margin-left: 56px;
           min-width: 266px;
           flex: 0 1 auto;
           text-align: right;
+
           &:empty {
             display: none;
           }
@@ -203,6 +208,7 @@
           flex: 0 1 25%;
           margin: 0 2% 8px 0;
         }
+
         .content, .headerContent {
           flex: 0 1 70%;
 
@@ -216,18 +222,21 @@
             }
           }
         }
+
         .extra {
           flex: 1 1 auto;
           margin-left: 0;
           min-width: 0;
           text-align: right;
         }
+
         .action {
           margin-left: unset;
           min-width: 266px;
           flex: 0 1 auto;
           text-align: left;
           margin-bottom: 12px;
+
           &:empty {
             display: none;
           }

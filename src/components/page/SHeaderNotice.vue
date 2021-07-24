@@ -11,7 +11,7 @@
     </template>
     <span @click="fetchNotice" class="header-notice">
       <a-badge count="12">
-        <a-icon style="font-size: 16px; padding: 4px" type="bell" />
+        <a-icon style="font-size: 16px; padding: 4px" type="bell"/>
       </a-badge>
     </span>
   </a-popover>
@@ -27,13 +27,13 @@
         required: true
       }
     },
-    data () {
+    data() {
       return {
         loadding: false
       }
     },
     methods: {
-      fetchNotice () {
+      fetchNotice() {
         if (this.loadding) {
           this.loadding = false
           return
@@ -48,9 +48,10 @@
 </script>
 
 <style lang="scss" scoped>
-  .header-notice{
+  .header-notice {
     display: inline-block;
     transition: all 0.3s;
+
     span {
       vertical-align: initial;
     }

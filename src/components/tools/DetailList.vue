@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import { Col } from 'ant-design-vue/es/grid/'
+  import {Col} from 'ant-design-vue/es/grid/'
 
   const Item = {
     name: 'DetailListItem',
@@ -24,21 +24,32 @@
         type: Number
       }
     },
-    render () {
+    render() {
       return (
-        <Col {...{props: responsive[this.col]}}>
-          <div class="term">{this.$props.term}</div>
-          <div class="content">{this.$slots.default}</div>
-        </Col>
-      )
+        < Col
+      {...
+        {
+          props: responsive[this.col]
+        }
+      }
+    >
+    <
+      div
+    class
+      = "term" > {this.$props.term} < /div>
+        < div
+    class
+      = "content" > {this.$slots.default} < /div>
+        < /Col>
+    )
     }
   }
 
   const responsive = {
-    1: { xs: 24 },
-    2: { xs: 24, sm: 12 },
-    3: { xs: 24, sm: 12, md: 8 },
-    4: { xs: 24, sm: 12, md: 6 }
+    1: {xs: 24},
+    2: {xs: 24, sm: 12},
+    3: {xs: 24, sm: 12, md: 8},
+    4: {xs: 24, sm: 12, md: 6}
   }
 
   export default {
@@ -69,7 +80,7 @@
         default: 'horizontal'
       }
     },
-    provide () {
+    provide() {
       return {
         col: this.col > 4 ? 4 : this.col
       }
@@ -82,14 +93,14 @@
   .detail-list {
 
     .title {
-      color: rgba(0,0,0,.85);
+      color: rgba(0, 0, 0, .85);
       font-size: 14px;
       font-weight: 500;
       margin-bottom: 16px;
     }
 
     .term {
-      color: rgba(0,0,0,.85);
+      color: rgba(0, 0, 0, .85);
       display: table-cell;
       line-height: 20px;
       margin-right: 8px;
@@ -105,7 +116,7 @@
     }
 
     .content {
-      color: rgba(0,0,0,.65);
+      color: rgba(0, 0, 0, .65);
       display: table-cell;
       line-height: 22px;
       padding-bottom: 16px;
@@ -120,6 +131,7 @@
         font-weight: normal;
         margin-bottom: 12px;
       }
+
       .term, .content {
         padding-bottom: 8px;
       }
@@ -139,6 +151,7 @@
       .term {
         padding-bottom: 8px;
       }
+
       .term, .content {
         display: block;
       }

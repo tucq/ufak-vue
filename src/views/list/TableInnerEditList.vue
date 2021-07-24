@@ -48,7 +48,8 @@
             </a-col>
           </template>
           <a-col :md="!advanced && 8 || 24" :sm="24">
-            <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+            <span class="table-page-search-submitButtons"
+                  :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
               <a-button type="primary">查询</a-button>
               <a-button style="margin-left: 8px">重置</a-button>
               <a @click="toggleAdvanced" style="margin-left: 8px">
@@ -65,12 +66,19 @@
       <a-button type="primary" icon="plus" @click="() => $router.push({name: 'anime-add'})">新建</a-button>
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
-          <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
+          <a-menu-item key="1">
+            <a-icon type="delete"/>
+            删除
+          </a-menu-item>
           <!-- lock | unlock -->
-          <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
+          <a-menu-item key="2">
+            <a-icon type="lock"/>
+            锁定
+          </a-menu-item>
         </a-menu>
         <a-button style="margin-left: 8px">
-          批量操作 <a-icon type="down" />
+          批量操作
+          <a-icon type="down"/>
         </a-button>
       </a-dropdown>
     </div>
@@ -83,7 +91,8 @@
       :showAlertInfo="true"
       @onSelect="onChange"
     >
-      <template v-for="(col, index) in columns" v-if="col.scopedSlots" :slot="col.dataIndex" slot-scope="text, record, index">
+      <template v-for="(col, index) in columns" v-if="col.scopedSlots" :slot="col.dataIndex"
+                slot-scope="text, record, index">
         <div :key="index">
           <a-input
             v-if="record.editable"
@@ -98,14 +107,14 @@
         <div class="editable-row-operations">
           <span v-if="record.editable">
             <a @click="() => save(record)">保存</a>
-            <a-divider type="vertical" />
+            <a-divider type="vertical"/>
             <a-popconfirm title="真的放弃编辑吗?" @confirm="() => cancel(record)">
               <a>取消</a>
             </a-popconfirm>
           </span>
           <span v-else>
             <a class="edit" @click="() => edit(record)">修改</a>
-            <a-divider type="vertical" />
+            <a-divider type="vertical"/>
             <a class="delete" @click="() => del(record)">删除</a>
           </span>
         </div>
@@ -123,7 +132,7 @@
     components: {
       STable
     },
-    data () {
+    data() {
       return {
         // 高级搜索 展开/关闭
         advanced: false,
@@ -139,7 +148,7 @@
           {
             title: '描述',
             dataIndex: 'description',
-            scopedSlots: { customRender: 'description' },
+            scopedSlots: {customRender: 'description'},
           },
           {
             title: '服务调用次数',
@@ -147,7 +156,7 @@
             width: '150px',
             sorter: true,
             needTotal: true,
-            scopedSlots: { customRender: 'callNo' },
+            scopedSlots: {customRender: 'callNo'},
             // customRender: (text) => text + ' 次'
           },
           {
@@ -155,20 +164,20 @@
             dataIndex: 'status',
             width: '100px',
             needTotal: true,
-            scopedSlots: { customRender: 'status' },
+            scopedSlots: {customRender: 'status'},
           },
           {
             title: '更新时间',
             dataIndex: 'updatedAt',
             width: '150px',
             sorter: true,
-            scopedSlots: { customRender: 'updatedAt' },
+            scopedSlots: {customRender: 'updatedAt'},
           },
           {
             table: '操作',
             dataIndex: 'action',
             width: '120px',
-            scopedSlots: { customRender: 'action' },
+            scopedSlots: {customRender: 'action'},
           }
         ],
         // 加载数据方法 必须为 Promise 对象
@@ -186,16 +195,16 @@
     },
     methods: {
 
-      handleChange (value, key, column) {
+      handleChange(value, key, column) {
         console.log(value, key, column)
       },
-      edit (row) {
+      edit(row) {
         row.editable = true
         // row = Object.assign({}, row)
         this.$refs.table.updateEdit()
       },
       // eslint-disable-next-line
-      del (row) {
+      del(row) {
         this.$confirm({
           title: '警告',
           content: '真的要删除吗?',
@@ -214,20 +223,20 @@
           },
         });
       },
-      save (row) {
+      save(row) {
         delete row.editable
         this.$refs.table.updateEdit()
       },
-      cancel (row) {
+      cancel(row) {
         delete row.editable
         this.$refs.table.updateEdit()
       },
 
-      onChange (row) {
+      onChange(row) {
         this.selectedRowKeys = row.selectedRowKeys
         this.selectedRows = row.selectedRows
       },
-      toggleAdvanced () {
+      toggleAdvanced() {
         this.advanced = !this.advanced
       },
     },

@@ -49,12 +49,14 @@
       line-height: 22px;
       margin-bottom: 4px;
     }
+
     p {
       color: rgba(0, 0, 0, .85);
       font-size: 24px;
       line-height: 32px;
       margin: 0;
     }
+
     em {
       background-color: #e8e8e8;
       position: absolute;

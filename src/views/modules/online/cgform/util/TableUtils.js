@@ -76,7 +76,7 @@ export function setDataSource(vm, queryData) {
   // 遍历查询出来的数据
   queryData.forEach(value => {
 
-    let data = { id: value['id'] }
+    let data = {id: value['id']}
     vm.columns.forEach(column => {
       let key = column.key
       if (key) {
@@ -181,7 +181,7 @@ export function getMasterTableInitialData() {
       fieldLength: '120',
       queryMode: 'single',
       orderNum: 5
-    },{
+    }, {
       dbFieldName: 'sys_org_code',
       dbFieldTxt: '所属部门',
       dbLength: 64,
@@ -228,6 +228,7 @@ export function getMasterTableInitialData() {
     // }
   ]
 }
+
 /** 获取树的初始化数据 */
 export function getTreeNeedFields() {
   return [{
@@ -246,7 +247,7 @@ export function getTreeNeedFields() {
     fieldLength: '120',
     queryMode: 'single',
     orderNum: 7
-  },{
+  }, {
     dbFieldName: 'has_child',
     dbFieldTxt: '是否有子节点',
     dbLength: 3,
@@ -263,6 +264,6 @@ export function getTreeNeedFields() {
     queryMode: 'single',
     orderNum: 8,
     // table3
-    dictField:"yn"
+    dictField: "yn"
   }]
 }

@@ -28,7 +28,9 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="条件规则">
-          <j-dict-select-tag @change="handleChangeRuleCondition" v-decorator="['ruleConditions', validatorRules.ruleConditions]" placeholder="请输入条件规则" :triggerChange="true" dictCode="rule_conditions"/>
+          <j-dict-select-tag @change="handleChangeRuleCondition"
+                             v-decorator="['ruleConditions', validatorRules.ruleConditions]" placeholder="请输入条件规则"
+                             :triggerChange="true" dictCode="rule_conditions"/>
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
@@ -52,7 +54,7 @@
   </a-modal>
 </template>
 <script>
-  import { httpAction } from '@/api/manage'
+  import {httpAction} from '@/api/manage'
   import pick from 'lodash.pick'
 
   export default {
@@ -86,7 +88,7 @@
           add: '/sys/permission/addPermissionRule',
           edit: '/sys/permission/editPermissionRule'
         },
-        showRuleColumn:true
+        showRuleColumn: true
       }
     },
     created() {
@@ -107,7 +109,7 @@
         this.visible = true
         this.initRuleCondition()
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model, 'status','ruleName', 'ruleColumn', 'ruleConditions', 'ruleValue'))
+          this.form.setFieldsValue(pick(this.model, 'status', 'ruleName', 'ruleColumn', 'ruleConditions', 'ruleValue'))
         })
       },
       close() {
@@ -130,10 +132,10 @@
               method = 'put'
             }
             let formData = Object.assign(this.model, values)
-            if(formData.ruleColumn && formData.ruleColumn.length>0){
+            if (formData.ruleColumn && formData.ruleColumn.length > 0) {
               formData.ruleColumn = formData.ruleColumn.trim()
             }
-            if(formData.ruleValue && formData.ruleValue.length>0){
+            if (formData.ruleValue && formData.ruleValue.length > 0) {
               formData.ruleValue = formData.ruleValue.trim()
             }
             httpAction(httpurl, formData, method).then((res) => {
@@ -153,20 +155,20 @@
       handleCancel() {
         this.close()
       },
-      initRuleCondition(){
-        if(this.model.ruleConditions && this.model.ruleConditions=='USE_SQL_RULES'){
+      initRuleCondition() {
+        if (this.model.ruleConditions && this.model.ruleConditions == 'USE_SQL_RULES') {
           this.showRuleColumn = false
-        }else{
+        } else {
           this.showRuleColumn = true
         }
       },
-      handleChangeRuleCondition(val){
-        if(val=='USE_SQL_RULES'){
+      handleChangeRuleCondition(val) {
+        if (val == 'USE_SQL_RULES') {
           this.form.setFieldsValue({
-            ruleColumn:''
+            ruleColumn: ''
           })
           this.showRuleColumn = false
-        }else{
+        } else {
           this.showRuleColumn = true
         }
       }

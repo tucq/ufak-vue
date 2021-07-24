@@ -38,7 +38,7 @@
 </template>
 <script>
   import moment from 'moment'
-  import { getAction } from '@/api/manage'
+  import {getAction} from '@/api/manage'
 
   moment.locale('zh-cn')
 
@@ -52,38 +52,38 @@
           title: '参数',
           width: '30%',
           dataIndex: 'param',
-          scopedSlots: { customRender: 'param' }
+          scopedSlots: {customRender: 'param'}
         }, {
           title: '描述',
           width: '40%',
           dataIndex: 'text',
-          scopedSlots: { customRender: 'text' }
+          scopedSlots: {customRender: 'text'}
         }, {
           title: '当前值',
           width: '30%',
           dataIndex: 'value',
-          scopedSlots: { customRender: 'value' }
+          scopedSlots: {customRender: 'value'}
         }],
         dataSource: [],
         // 列表通过 textInfo 渲染出颜色、描述和单位
         textInfo: {
-          'tomcat.sessions.created': { color: 'green', text: 'tomcat 已创建 session 数', unit: '个' },
-          'tomcat.sessions.expired': { color: 'green', text: 'tomcat 已过期 session 数', unit: '个' },
-          'tomcat.sessions.active.current': { color: 'green', text: 'tomcat 当前活跃 session 数', unit: '个' },
-          'tomcat.sessions.active.max': { color: 'green', text: 'tomcat 活跃 session 数峰值', unit: '个' },
-          'tomcat.sessions.rejected': { color: 'green', text: '超过session 最大配置后，拒绝的 session 个数', unit: '个' },
+          'tomcat.sessions.created': {color: 'green', text: 'tomcat 已创建 session 数', unit: '个'},
+          'tomcat.sessions.expired': {color: 'green', text: 'tomcat 已过期 session 数', unit: '个'},
+          'tomcat.sessions.active.current': {color: 'green', text: 'tomcat 当前活跃 session 数', unit: '个'},
+          'tomcat.sessions.active.max': {color: 'green', text: 'tomcat 活跃 session 数峰值', unit: '个'},
+          'tomcat.sessions.rejected': {color: 'green', text: '超过session 最大配置后，拒绝的 session 个数', unit: '个'},
 
-          'tomcat.global.sent': { color: 'purple', text: '发送的字节数', unit: 'bytes' },
-          'tomcat.global.request.max': { color: 'purple', text: 'request 请求最长耗时', unit: '秒' },
-          'tomcat.global.request.count': { color: 'purple', text: '全局 request 请求次数', unit: '次' },
-          'tomcat.global.request.totalTime': { color: 'purple', text: '全局 request 请求总耗时', unit: '秒' },
+          'tomcat.global.sent': {color: 'purple', text: '发送的字节数', unit: 'bytes'},
+          'tomcat.global.request.max': {color: 'purple', text: 'request 请求最长耗时', unit: '秒'},
+          'tomcat.global.request.count': {color: 'purple', text: '全局 request 请求次数', unit: '次'},
+          'tomcat.global.request.totalTime': {color: 'purple', text: '全局 request 请求总耗时', unit: '秒'},
 
-          'tomcat.servlet.request.max': { color: 'cyan', text: 'servlet 请求最长耗时', unit: '秒' },
-          'tomcat.servlet.request.count': { color: 'cyan', text: 'servlet 总请求次数', unit: '次' },
-          'tomcat.servlet.request.totalTime': { color: 'cyan', text: 'servlet 请求总耗时', unit: '秒' },
+          'tomcat.servlet.request.max': {color: 'cyan', text: 'servlet 请求最长耗时', unit: '秒'},
+          'tomcat.servlet.request.count': {color: 'cyan', text: 'servlet 总请求次数', unit: '次'},
+          'tomcat.servlet.request.totalTime': {color: 'cyan', text: 'servlet 请求总耗时', unit: '秒'},
 
-          'tomcat.threads.current': { color: 'pink', text: 'tomcat 当前线程数（包括守护线程）', unit: '个' },
-          'tomcat.threads.config.max': { color: 'pink', text: 'tomcat 配置的线程最大数', unit: '个' }
+          'tomcat.threads.current': {color: 'pink', text: 'tomcat 当前线程数（包括守护线程）', unit: '个'},
+          'tomcat.threads.config.max': {color: 'pink', text: 'tomcat 配置的线程最大数', unit: '个'}
         },
         // 当一条记录中需要取出多条数据的时候需要配置该字段
         moreInfo: {

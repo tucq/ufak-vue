@@ -13,7 +13,7 @@
           <head-info title="团队排名" content="8/24" :center="false" :bordered="false"/>
         </a-col>
         <a-col :span="8">
-          <head-info title="项目访问" content="2,223" :center="false" />
+          <head-info title="项目访问" content="2,223" :center="false"/>
         </a-col>
       </a-row>
     </div>
@@ -54,7 +54,7 @@
             <a-list>
               <a-list-item :key="index" v-for="(item, index) in activities">
                 <a-list-item-meta>
-                  <a-avatar slot="avatar" :src="item.user.avatar" />
+                  <a-avatar slot="avatar" :src="item.user.avatar"/>
                   <div slot="title">
                     <span>{{ item.user.nickname }}</span>&nbsp;
                     在&nbsp;<a href="#">{{ item.project.name }}</a>&nbsp;
@@ -85,10 +85,11 @@
               <a-button size="small" type="primary" ghost icon="plus">添加</a-button>
             </div>
           </a-card>
-          <a-card title="XX 指数" style="margin-bottom: 24px" :loading="radarLoading" :bordered="false" :body-style="{ padding: 0 }">
+          <a-card title="XX 指数" style="margin-bottom: 24px" :loading="radarLoading" :bordered="false"
+                  :body-style="{ padding: 0 }">
             <div style="min-height: 400px;">
               <!-- :scale="scale" :axis1Opts="axis1Opts" :axis2Opts="axis2Opts"  -->
-              <radar :data="radarData" />
+              <radar :data="radarData"/>
             </div>
           </a-card>
           <a-card :loading="loading" title="团队" :bordered="false">
@@ -96,7 +97,7 @@
               <a-row>
                 <a-col :span="12" v-for="(item, index) in teams" :key="index">
                   <a>
-                    <a-avatar size="small" :src="item.avatar" />
+                    <a-avatar size="small" :src="item.avatar"/>
                     <span class="member">{{ item.name }}</span>
                   </a>
                 </a-col>
@@ -110,13 +111,13 @@
 </template>
 
 <script>
-  import { timeFix } from "@/utils/util"
+  import {timeFix} from "@/utils/util"
   import {mapGetters} from "vuex"
 
   import PageLayout from '@/components/page/PageLayout'
   import HeadInfo from '@/components/tools/HeadInfo'
   import Radar from '@/components/chart/Radar'
-  import { getRoleList, getServiceList } from "@/api/manage"
+  import {getRoleList, getServiceList} from "@/api/manage"
 
   const DataSet = require('@antv/data-set')
 
@@ -168,12 +169,12 @@
           max: 80
         }],
         axisData: [
-          { item: '引用', a: 70, b: 30, c: 40 },
-          { item: '口碑', a: 60, b: 70, c: 40 },
-          { item: '产量', a: 50, b: 60, c: 40 },
-          { item: '贡献', a: 40, b: 50, c: 40 },
-          { item: '热度', a: 60, b: 70, c: 40 },
-          { item: '引用', a: 70, b: 50, c: 40 }
+          {item: '引用', a: 70, b: 30, c: 40},
+          {item: '口碑', a: 60, b: 70, c: 40},
+          {item: '产量', a: 50, b: 60, c: 40},
+          {item: '贡献', a: 40, b: 50, c: 40},
+          {item: '热度', a: 60, b: 70, c: 40},
+          {item: '引用', a: 70, b: 50, c: 40}
         ],
         radarData: []
       }
@@ -185,8 +186,8 @@
     },
     created() {
       this.user = this.userInfo
-      this.avatar = window._CONFIG['imgDomainURL'] +"/"+ this.userInfo.avatar
-      console.log('this.avatar :'+ this.avatar)
+      this.avatar = window._CONFIG['imgDomainURL'] + "/" + this.userInfo.avatar
+      console.log('this.avatar :' + this.avatar)
 
       getRoleList().then(res => {
         console.log('workplace -> call getRoleList()', res)
@@ -265,12 +266,14 @@
         }
       }
     }
+
     .card-description {
       color: rgba(0, 0, 0, 0.45);
       height: 44px;
       line-height: 22px;
       overflow: hidden;
     }
+
     .project-item {
       display: flex;
       margin-top: 8px;
@@ -278,6 +281,7 @@
       font-size: 12px;
       height: 20px;
       line-height: 20px;
+
       a {
         color: rgba(0, 0, 0, 0.45);
         display: inline-block;
@@ -287,12 +291,14 @@
           color: #1890ff;
         }
       }
+
       .datetime {
         color: rgba(0, 0, 0, 0.25);
         flex: 0 0 auto;
         float: right;
       }
     }
+
     .ant-card-meta-description {
       color: rgba(0, 0, 0, 0.45);
       height: 44px;
@@ -304,6 +310,7 @@
   .item-group {
     padding: 20px 0 8px 24px;
     font-size: 0;
+
     a {
       color: rgba(0, 0, 0, 0.65);
       display: inline-block;
@@ -319,6 +326,7 @@
       margin: 12px 0;
       line-height: 24px;
       height: 24px;
+
       .member {
         font-size: 14px;
         color: rgba(0, 0, 0, .65);
@@ -329,6 +337,7 @@
         transition: all 0.3s;
         display: inline-block;
       }
+
       &:hover {
         span {
           color: #1890ff;

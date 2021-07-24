@@ -22,7 +22,7 @@
               <i class="address"></i><span>浙江省</span><span>杭州市</span>
             </p>
           </div>
-          <a-divider />
+          <a-divider/>
 
           <div class="account-center-tags">
             <div class="tagsTitle">标签</div>
@@ -33,7 +33,8 @@
                     {{ `${tag.slice(0, 20)}...` }}
                   </a-tag>
                 </a-tooltip>
-                <a-tag v-else :key="tag" :closable="index !== 0" :afterClose="() => handleTagClose(tag)">{{ tag }}</a-tag>
+                <a-tag v-else :key="tag" :closable="index !== 0" :afterClose="() => handleTagClose(tag)">{{ tag }}
+                </a-tag>
               </template>
               <a-input
                 v-if="tagInputVisible"
@@ -47,11 +48,12 @@
                 @keyup.enter="handleTagInputConfirm"
               />
               <a-tag v-else @click="showTagInput" style="background: #fff; borderStyle: dashed;">
-                <a-icon type="plus" /> New Tag
+                <a-icon type="plus"/>
+                New Tag
               </a-tag>
             </div>
           </div>
-          <a-divider :dashed="true" />
+          <a-divider :dashed="true"/>
 
           <div class="account-center-team">
             <div class="teamTitle">团队</div>
@@ -60,7 +62,7 @@
                 <a-row>
                   <a-col :span="12" v-for="(item, index) in teams" :key="index">
                     <a>
-                      <a-avatar size="small" :src="item.avatar" />
+                      <a-avatar size="small" :src="item.avatar"/>
                       <span class="member">{{ item.name }}</span>
                     </a>
                   </a-col>
@@ -92,8 +94,8 @@
 <script>
   import PageLayout from '@/components/page/PageLayout'
   import RouteView from "@/components/layouts/RouteView"
-  import { AppPage, ArticlePage, ProjectPage } from './page'
-  import { mapGetters } from 'vuex'
+  import {AppPage, ArticlePage, ProjectPage} from './page'
+  import {mapGetters} from 'vuex'
 
   export default {
     components: {
@@ -114,26 +116,26 @@
         teamSpinning: true,
 
         tabListNoTitle: [{
-            key: 'article',
-            tab: '文章(8)',
-          }, {
-            key: 'app',
-            tab: '应用(8)',
-          }, {
-            key: 'project',
-            tab: '项目(8)',
-          }
+          key: 'article',
+          tab: '文章(8)',
+        }, {
+          key: 'app',
+          tab: '应用(8)',
+        }, {
+          key: 'project',
+          tab: '项目(8)',
+        }
         ],
         noTitleKey: 'app',
       }
     },
-    mounted () {
+    mounted() {
       this.getTeams()
     },
     methods: {
       ...mapGetters(["nickname", "avatar"]),
-      getAvatar(){
-          return window._CONFIG['imgDomainURL']+"/"+this.avatar();
+      getAvatar() {
+        return window._CONFIG['imgDomainURL'] + "/" + this.avatar();
       },
       getTeams() {
         this.$http.get('/api/workplace/teams')
@@ -143,27 +145,27 @@
           })
       },
 
-      handleTabChange (key, type) {
+      handleTabChange(key, type) {
         this[type] = key
       },
 
-      handleTagClose (removeTag) {
+      handleTagClose(removeTag) {
         const tags = this.tags.filter(tag => tag != removeTag)
         this.tags = tags
       },
 
-      showTagInput () {
+      showTagInput() {
         this.tagInputVisible = true
         this.$nextTick(() => {
           this.$refs.tagInput.focus()
         })
       },
 
-      handleInputChange (e) {
+      handleInputChange(e) {
         this.tagInputValue = e.target.value
       },
 
-      handleTagInputConfirm () {
+      handleTagInputConfirm() {
         const inputValue = this.tagInputValue
         let tags = this.tags
         if (inputValue && tags.indexOf(inputValue) === -1) {
@@ -198,6 +200,7 @@
         margin-bottom: 20px;
         border-radius: 50%;
         overflow: hidden;
+
         img {
           height: 100%;
           width: 100%;
@@ -233,9 +236,11 @@
       .title {
         background-position: 0 0;
       }
+
       .group {
         background-position: 0 -22px;
       }
+
       .address {
         background-position: 0 -44px;
       }
@@ -255,6 +260,7 @@
           margin: 12px 0;
           line-height: 24px;
           height: 24px;
+
           .member {
             font-size: 14px;
             color: rgba(0, 0, 0, .65);
@@ -265,6 +271,7 @@
             transition: all 0.3s;
             display: inline-block;
           }
+
           &:hover {
             span {
               color: #1890ff;
@@ -276,7 +283,7 @@
 
     .tagsTitle, .teamTitle {
       font-weight: 500;
-      color: rgba(0,0,0,.85);
+      color: rgba(0, 0, 0, .85);
       margin-bottom: 12px;
     }
 

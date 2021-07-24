@@ -8,7 +8,8 @@
           <a-button @click="handleAdd(2)" type="primary">添加子部门</a-button>
           <a-button @click="handleAdd(1)" type="primary">添加一级部门</a-button>
           <a-button type="primary" icon="download" @click="handleExportXls('部门信息')">导出</a-button>
-          <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+          <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader"
+                    :action="importExcelUrl" @change="handleImportExcel">
             <a-button type="primary" icon="import">导入</a-button>
           </a-upload>
           <a-button title="删除多条数据" @click="batchDel" type="default">批量删除</a-button>
@@ -65,7 +66,8 @@
             <a-menu-item key="6" @click="closeAll">合并所有</a-menu-item>
           </a-menu>
           <a-button>
-            树操作 <a-icon type="up" />
+            树操作
+            <a-icon type="up"/>
           </a-button>
         </a-dropdown>
       </div>
@@ -226,7 +228,7 @@
         autoIncr: 1,
         currSelected: {},
 
-        allTreeKeys:[],
+        allTreeKeys: [],
         checkStrictly: true,
 
         form: this.$form.createForm(this),
@@ -255,7 +257,7 @@
           exportXlsUrl: "sys/sysDepart/exportXls",
           importExcelUrl: "sys/sysDepart/importExcel",
         },
-        orgCategoryDisabled:false,
+        orgCategoryDisabled: false,
       }
     },
     computed: {
@@ -386,9 +388,9 @@
         this.hiding = false
         //this.checkedKeys = checkedKeys.checked
         // <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
-        if(this.checkStrictly){
+        if (this.checkStrictly) {
           this.checkedKeys = checkedKeys.checked;
-        }else{
+        } else {
           this.checkedKeys = checkedKeys
         }
         // <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
@@ -408,13 +410,13 @@
       },
       // 触发onSelect事件时,为部门树右侧的form表单赋值
       setValuesToForm(record) {
-        if(record.orgCategory == '1'){
+        if (record.orgCategory == '1') {
           this.orgCategoryDisabled = true;
-        }else{
+        } else {
           this.orgCategoryDisabled = false;
         }
         this.form.getFieldDecorator('fax', {initialValue: ''})
-        this.form.setFieldsValue(pick(record, 'departName','orgCategory', 'orgCode', 'departOrder', 'mobile', 'fax', 'address', 'memo'))
+        this.form.setFieldsValue(pick(record, 'departName', 'orgCategory', 'orgCode', 'departOrder', 'mobile', 'fax', 'address', 'memo'))
       },
       getCurrSelectedTitle() {
         return !this.currSelected.title ? '' : this.currSelected.title
@@ -517,25 +519,25 @@
           }
         }
       },
-     // <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
-      expandAll () {
+      // <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
+      expandAll() {
         this.iExpandedKeys = this.allTreeKeys
       },
-      closeAll () {
+      closeAll() {
         this.iExpandedKeys = []
       },
-      checkALL () {
+      checkALL() {
         this.checkStriccheckStrictlytly = false
         this.checkedKeys = this.allTreeKeys
       },
-      cancelCheckALL () {
+      cancelCheckALL() {
         //this.checkedKeys = this.defaultCheckedKeys
         this.checkedKeys = []
       },
-      switchCheckStrictly (v) {
-        if(v==1){
+      switchCheckStrictly(v) {
+        if (v == 1) {
           this.checkStrictly = false
-        }else if(v==2){
+        } else if (v == 2) {
           this.checkStrictly = true
         }
       },
@@ -549,7 +551,7 @@
         }
       }
       // <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
-      
+
     },
     created() {
       this.currFlowId = this.$route.params.id

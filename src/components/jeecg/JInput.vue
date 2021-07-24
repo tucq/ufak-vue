@@ -7,29 +7,29 @@
   const JINPUT_QUERY_NE = 'ne';
   const JINPUT_QUERY_GE = 'ge'; //大于等于
   const JINPUT_QUERY_LE = 'le'; //小于等于
-  
+
   export default {
     name: 'JInput',
-    props:{
-      value:{
-        type:String,
-        required:false
+    props: {
+      value: {
+        type: String,
+        required: false
       },
-      type:{
-        type:String,
-        required:false,
-        default:JINPUT_QUERY_LIKE
+      type: {
+        type: String,
+        required: false,
+        default: JINPUT_QUERY_LIKE
       },
-      placeholder:{
-        type:String,
-        required:false,
-        default:''
+      placeholder: {
+        type: String,
+        required: false,
+        default: ''
       }
     },
-    watch:{
-      value:{
-        immediate:true,
-        handler:function(){
+    watch: {
+      value: {
+        immediate: true,
+        handler: function () {
           this.initVal();
         }
       }
@@ -38,20 +38,20 @@
       prop: 'value',
       event: 'change'
     },
-    data(){
+    data() {
       return {
-        inputVal:''
+        inputVal: ''
       }
     },
-    methods:{
-      initVal(){
-        if(!this.value){
+    methods: {
+      initVal() {
+        if (!this.value) {
           this.inputVal = ''
-        }else{
+        } else {
           let text = this.value
           switch (this.type) {
             case JINPUT_QUERY_LIKE:
-              text = text.substring(1,text.length-1);
+              text = text.substring(1, text.length - 1);
               break;
             case JINPUT_QUERY_NE:
               text = text.substring(1);
@@ -67,24 +67,24 @@
           this.inputVal = text
         }
       },
-      backValue(e){
+      backValue(e) {
         let text = e.target.value
         switch (this.type) {
           case JINPUT_QUERY_LIKE:
-            text = "*"+text+"*";
+            text = "*" + text + "*";
             break;
           case JINPUT_QUERY_NE:
-            text = "!"+text;
+            text = "!" + text;
             break;
           case JINPUT_QUERY_GE:
-            text = ">="+text;
+            text = ">=" + text;
             break;
           case JINPUT_QUERY_LE:
-            text = "<="+text;
+            text = "<=" + text;
             break;
           default:
         }
-        this.$emit("change",text)
+        this.$emit("change", text)
       }
     }
   }

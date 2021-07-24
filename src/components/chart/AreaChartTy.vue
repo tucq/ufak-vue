@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import { triggerWindowResizeEvent } from '@/utils/util'
+  import {triggerWindowResizeEvent} from '@/utils/util'
 
   export default {
     name: 'AreaChartTy',
@@ -72,8 +72,8 @@
     computed: {
       scale() {
         return [
-          { dataKey: 'x', title: this.x, alias: this.x },
-          { dataKey: 'y', title: this.y, alias: this.y, min: this.min, max: this.max }
+          {dataKey: 'x', title: this.x, alias: this.x},
+          {dataKey: 'y', title: this.y, alias: this.y, min: this.min, max: this.max}
         ]
       }
     },

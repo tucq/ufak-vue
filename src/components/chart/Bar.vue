@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import { triggerWindowResizeEvent } from '@/utils/util'
+  import {triggerWindowResizeEvent} from '@/utils/util'
 
   export default {
     name: 'Bar',
@@ -33,7 +33,7 @@
       }
     },
     data() {
-      return { padding: ['auto', 'auto', '40', '50'] }
+      return {padding: ['auto', 'auto', '40', '50']}
     },
     computed: {
       scale() {

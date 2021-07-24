@@ -46,8 +46,8 @@
     computed: {
       scale() {
         return [
-          { dataKey: 'x', title: this.x, alias: this.x },
-          { dataKey: 'y', title: this.y, alias: this.y }
+          {dataKey: 'x', title: this.x, alias: this.x},
+          {dataKey: 'y', title: this.y, alias: this.y}
         ]
       }
     },

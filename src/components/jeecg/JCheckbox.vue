@@ -1,37 +1,37 @@
 <template>
-  <a-checkbox-group :options="options" :value="checkboxArray" v-bind="$attrs" @change="onChange" />
+  <a-checkbox-group :options="options" :value="checkboxArray" v-bind="$attrs" @change="onChange"/>
 </template>
 
 <script>
   export default {
     name: 'JCheckbox',
     props: {
-      value:{
+      value: {
         type: String,
         required: false
       },
       /*label value*/
-      options:{
+      options: {
         type: Array,
         required: true
       }
     },
-    data(){
+    data() {
       return {
-        checkboxArray:!this.value?[]:this.value.split(",")
+        checkboxArray: !this.value ? [] : this.value.split(",")
       }
     },
-    watch:{
-      value (val) {
-        if(!val){
+    watch: {
+      value(val) {
+        if (!val) {
           this.checkboxArray = []
-        }else{
+        } else {
           this.checkboxArray = this.value.split(",")
         }
       }
     },
-    methods:{
-      onChange (checkedValues) {
+    methods: {
+      onChange(checkedValues) {
         this.$emit('change', checkedValues.join(","));
       },
     },

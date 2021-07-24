@@ -103,8 +103,11 @@
                     </div>
 
                     <a-menu slot="overlay">
-                      <a-menu-item key="0" :disabled="rowIndex===0" @click="_handleRowMoveUp(rowIndex)">向上移</a-menu-item>
-                      <a-menu-item key="1" :disabled="rowIndex===(rows.length-1)" @click="_handleRowMoveDown(rowIndex)">向下移</a-menu-item>
+                      <a-menu-item key="0" :disabled="rowIndex===0" @click="_handleRowMoveUp(rowIndex)">向上移
+                      </a-menu-item>
+                      <a-menu-item key="1" :disabled="rowIndex===(rows.length-1)" @click="_handleRowMoveDown(rowIndex)">
+                        向下移
+                      </a-menu-item>
                       <a-menu-divider/>
                       <a-menu-item key="3" @click="_handleRowInsertDown(rowIndex)">插入一行</a-menu-item>
                     </a-menu>
@@ -254,8 +257,10 @@
                             </a-tooltip>
                           </template>
 
-                          <template v-if="col.allowDownload!==false || col.allowRemove!==false" slot="addonAfter" style="width: 30px">
-                            <a-dropdown :trigger="['click']" placement="bottomRight" :getPopupContainer="getParentContainer">
+                          <template v-if="col.allowDownload!==false || col.allowRemove!==false" slot="addonAfter"
+                                    style="width: 30px">
+                            <a-dropdown :trigger="['click']" placement="bottomRight"
+                                        :getPopupContainer="getParentContainer">
                               <a-tooltip title="操作" :getPopupContainer="getParentContainer">
                                 <a-icon
                                   v-if="file.status!=='uploading'"
@@ -443,7 +448,8 @@
                             v-bind="buildProps(row,col)"
                             :value="radioValues[id]"
                             @change="(e)=>handleRadioChange(e.target.value,id,row,col)">
-                            <a-radio v-for="(item, key) in col.options" :key="key" :value="item.value">{{ item.text }}</a-radio>
+                            <a-radio v-for="(item, key) in col.options" :key="key"
+                                     :value="item.value">{{ item.text }}</a-radio>
                           </a-radio-group>
                         </span>
                       </a-tooltip>
@@ -568,11 +574,11 @@
 <script>
   import Vue from 'vue'
   import Draggable from 'vuedraggable'
-  import { ACCESS_TOKEN } from '@/store/mutation-types'
-  import { FormTypes, VALIDATE_NO_PASSED } from '@/utils/JEditableTableUtil'
-  import { cloneObject, randomString } from '@/utils/util'
+  import {ACCESS_TOKEN} from '@/store/mutation-types'
+  import {FormTypes, VALIDATE_NO_PASSED} from '@/utils/JEditableTableUtil'
+  import {cloneObject, randomString} from '@/utils/util'
   import JDate from '@/components/jeecg/JDate'
-  import { initDictOptions } from '@/components/dict/JDictSelectUtil'
+  import {initDictOptions} from '@/components/dict/JDictSelectUtil'
 
 
   // 行高，需要在实例加载完成前用到
@@ -580,7 +586,7 @@
 
   export default {
     name: 'JEditableTable',
-    components: { JDate, Draggable },
+    components: {JDate, Draggable},
     props: {
       // 列信息
       columns: {
@@ -652,10 +658,10 @@
         // 存储各个div的style
         style: {
           // 'max-height': '400px'
-          tbody: { left: '0px' },
+          tbody: {left: '0px'},
           // 左侧固定td的style
-          tdLeft: { 'min-width': '4%', 'max-width': '45px' },
-          tdLeftDs: { 'min-width': '30px', 'max-width': '35px' },
+          tdLeft: {'min-width': '4%', 'max-width': '45px'},
+          tdLeftDs: {'min-width': '30px', 'max-width': '35px'},
         },
         // 表单的类型
         formTypes: FormTypes,
@@ -731,7 +737,7 @@
       realTrWidth() {
         let calcWidth = 'calc('
         this.columns.forEach((column, i) => {
-          let { type, width } = column
+          let {type, width} = column
           // 隐藏字段不参与计算
           if (type !== FormTypes.hidden) {
             if (typeof width === 'number') {
@@ -792,8 +798,8 @@
               data.id = this.removeCaseId(this.generateId() + newValueIndex)
             }
 
-            let value = { id: this.caseId + data.id }
-            let row = { id: value.id }
+            let value = {id: this.caseId + data.id}
+            let row = {id: value.id}
             let disabled = false
             this.columns.forEach(column => {
               let inputId = column.key + value.id
@@ -939,7 +945,7 @@
         // vm.recalcTrHiddenItem(event.target.scrollTop)
       }
 
-      let { thead, scrollView } = this.$refs
+      let {thead, scrollView} = this.$refs
       scrollView.onscroll = function (event) {
 
         // console.log(event.target.scrollTop, ' - ', event.target.scrollLeft)
@@ -996,7 +1002,7 @@
       },
       /** 重置滚动条位置，参数留空则滚动到上次记录的位置 */
       resetScrollTop(top) {
-        let { scrollView } = this.$refs
+        let {scrollView} = this.$refs
         if (top != null && typeof top === 'number') {
           scrollView.scrollTop = top
         } else {
@@ -1040,8 +1046,8 @@
         if (record.id.indexOf(this.caseId) === -1) {
           record.id = this.caseId + record.id
         }
-        let row = { id: record.id }
-        let value = { id: row.id }
+        let row = {id: record.id}
+        let value = {id: row.id}
         let checkboxValues = Object.assign({}, this.checkboxValues)
         let selectValues = Object.assign({}, this.selectValues)
         let jdateValues = Object.assign({}, this.jdateValues)
@@ -1139,7 +1145,7 @@
         let row
         for (let i = 0; i < num; i++) {
           // row = { id: `${this.caseId}${timestamp}${rows.length}` }
-          row = { id: this.generateId(rows) }
+          row = {id: this.generateId(rows)}
           rows = this.push(row, false, rows)
         }
         this.rows = rows
@@ -1180,7 +1186,7 @@
         let rows = this.rows
         let newRows = []
         for (let i = 0; i < num; i++) {
-          let row = { id: this.generateId(rows) }
+          let row = {id: this.generateId(rows)}
           rows = this.push(row, false, rows, insertIndex)
           newRows.push(row)
         }
@@ -1247,7 +1253,7 @@
 
       /** 获取表格表单里的值（同步版） */
       getValuesSync(options = {}) {
-        let { validate, rowIds } = options
+        let {validate, rowIds} = options
         if (typeof validate !== 'boolean') validate = true
         if (!(rowIds instanceof Array)) rowIds = null
         // console.log('options:', { validate, rowIds })
@@ -1352,12 +1358,12 @@
           this.tooltips = tooltips
           this.notPassedIds = notPassedIds
         }
-        return { error, values }
+        return {error, values}
       },
 
       /** 获取表格表单里的值 */
       getValues(callback, validate = true, rowIds) {
-        let result = this.getValuesSync({ validate, rowIds })
+        let result = this.getValuesSync({validate, rowIds})
         if (typeof callback === 'function') {
           callback(result.error, result.values)
         }
@@ -1365,7 +1371,7 @@
       /** getValues的Promise版 */
       getValuesPromise(validate = true, rowIds) {
         return new Promise((resolve, reject) => {
-          let { error, values } = this.getValuesSync({ validate, rowIds })
+          let {error, values} = this.getValuesSync({validate, rowIds})
           if (error === 0) {
             resolve(values)
           } else {
@@ -1382,7 +1388,7 @@
         return new Promise((resolve, reject) => {
           let deleteIds = this.getDeleteIds()
           this.getValuesPromise(validate).then((values) => {
-            resolve({ values, deleteIds })
+            resolve({values, deleteIds})
           }).catch(error => {
             reject(error)
           })
@@ -1390,13 +1396,13 @@
       },
       /** Sync 获取所有的数据，包括values、deleteIds */
       getAllSync(validate, rowIds) {
-        let result = this.getValuesSync({ validate, rowIds })
+        let result = this.getValuesSync({validate, rowIds})
         result.deleteIds = this.getDeleteIds()
         return result
       },
       // slot 获取值
       _getValueForSlot(rowId) {
-        return this.getValuesSync({ rowIds: [rowId] }).values[0]
+        return this.getValuesSync({rowIds: [rowId]}).values[0]
       },
       _getAllValuesForSlot() {
         return cloneObject({
@@ -1416,7 +1422,7 @@
       setValues(values) {
 
         values.forEach(item => {
-          let { rowKey, values: newValues } = item
+          let {rowKey, values: newValues} = item
           for (let newValueKey in newValues) {
             if (newValues.hasOwnProperty(newValueKey)) {
               let newValue = newValues[newValueKey]
@@ -1563,9 +1569,9 @@
             if (rule.required === true && isNull) {
               passed = false
             } else // 使用 else-if 是为了防止一个 rule 中出现两个规则
-            // 验证规则：唯一校验
+              // 验证规则：唯一校验
             if (rule.unique === true || rule.pattern === 'only') {
-              let { values } = this.getValuesSync({ validate: false })
+              let {values} = this.getValuesSync({validate: false})
               let findCount = 0
               for (let val of values) {
                 if (val[column.key] === value) {
@@ -1576,23 +1582,27 @@
                 }
               }
             } else
-            // 验证规则：正则表达式
+              // 验证规则：正则表达式
             if (!!rule.pattern && !isNull) {
 
               // 兼容 online 的规则
               let foo = [
-                { title: '6到16位数字', value: 'n6-16', pattern: /\d{6,18}/ },
-                { title: '6到16位任意字符', value: '*6-16', pattern: /^.{6,16}$/ },
-                { title: '网址', value: 'url', pattern: /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/ },
-                { title: '电子邮件', value: 'e', pattern: /^([\w]+\.*)([\w]+)@[\w]+\.\w{3}(\.\w{2}|)$/ },
-                { title: '手机号码', value: 'm', pattern: /^1[3456789]\d{9}$/ },
-                { title: '邮政编码', value: 'p', pattern: /^[1-9]\d{5}$/ },
-                { title: '字母', value: 's', pattern: /^[A-Z|a-z]+$/ },
-                { title: '数字', value: 'n', pattern: /^-?\d+\.?\d*$/ },
-                { title: '整数', value: 'z', pattern: /^-?\d+$/ },
-                { title: '非空', value: '*', pattern: /^.+$/ },
-                { title: '6到18位字符串', value: 's6-18', pattern: /^.{6,18}$/ },
-                { title: '金额', value: 'money', pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/ },
+                {title: '6到16位数字', value: 'n6-16', pattern: /\d{6,18}/},
+                {title: '6到16位任意字符', value: '*6-16', pattern: /^.{6,16}$/},
+                {
+                  title: '网址',
+                  value: 'url',
+                  pattern: /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/
+                },
+                {title: '电子邮件', value: 'e', pattern: /^([\w]+\.*)([\w]+)@[\w]+\.\w{3}(\.\w{2}|)$/},
+                {title: '手机号码', value: 'm', pattern: /^1[3456789]\d{9}$/},
+                {title: '邮政编码', value: 'p', pattern: /^[1-9]\d{5}$/},
+                {title: '字母', value: 's', pattern: /^[A-Z|a-z]+$/},
+                {title: '数字', value: 'n', pattern: /^-?\d+\.?\d*$/},
+                {title: '整数', value: 'z', pattern: /^-?\d+$/},
+                {title: '非空', value: '*', pattern: /^.+$/},
+                {title: '6到18位字符串', value: 's6-18', pattern: /^.{6,18}$/},
+                {title: '金额', value: 'money', pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2}))$/},
               ]
               let flag = false
               for (let item of foo) {
@@ -1604,7 +1614,7 @@
               }
               if (!flag) passed = new RegExp(rule.pattern).test(value)
             } else
-            // 校验规则：自定义函数校验
+              // 校验规则：自定义函数校验
             if (typeof rule.handler === 'function') {
               return [rule.handler, rule.message]
             }
@@ -1645,7 +1655,7 @@
         this.visibleTrEls = trEls
         // 向新增的tr中赋值
         newTrEls.forEach(tr => {
-          let { idx } = tr.dataset
+          let {idx} = tr.dataset
           let value = this.inputValues[idx]
           for (let key in value) {
             if (value.hasOwnProperty(key)) {
@@ -1678,7 +1688,7 @@
       },
       /** 左侧行选择框change事件 */
       handleChangeLeftCheckbox(event) {
-        let { id } = event.target
+        let {id} = event.target
 
         if ((this.disabledRowIds || []).indexOf(id) !== -1) {
           return
@@ -1725,7 +1735,7 @@
           // !!value ：不添加空值
           if (!flag && !!value) {
             // searchAdd 是否是通过搜索添加的
-            col.options.push({ title: value, value: value, searchAdd: true })
+            col.options.push({title: value, value: value, searchAdd: true})
           }
 
         }
@@ -1754,12 +1764,12 @@
 
       /** 触发已拖动事件 */
       emitDragged(oldIndex, newIndex) {
-        this.$emit('dragged', { oldIndex, newIndex, target: this })
+        this.$emit('dragged', {oldIndex, newIndex, target: this})
       },
 
       /** 拖动结束，交换inputValue中的值 */
       handleDragMoveEnd(event) {
-        let { oldIndex, newIndex, item: { dataset: { idx: dataIdx } } } = event
+        let {oldIndex, newIndex, item: {dataset: {idx: dataIdx}}} = event
 
         // 由于动态显示隐藏行导致index有误差，需要算出真实的index
         let diff = Number.parseInt(dataIdx) - oldIndex
@@ -1829,7 +1839,7 @@
       },
       /** input事件 */
       handleInputCommono(target, index, row, column) {
-        let { value, dataset, selectionStart } = target
+        let {value, dataset, selectionStart} = target
         let type = FormTypes.input
         let change = true
         if (`${dataset.inputNumber}` === 'true') {
@@ -1864,12 +1874,12 @@
         this.elemValueChange(FormTypes.slot, row, column, value)
       },
       handleBlurCommono(target, index, row, column) {
-        let { value } = target
+        let {value} = target
         // 做单个表单验证
         this.validateOneInput(value, row, column, this.notPassedIds, true, 'blur')
       },
       handleChangeCheckboxCommon(event, row, column) {
-        let { id, checked } = event.target
+        let {id, checked} = event.target
         this.checkboxValues = this.bindValuesChange(checked, id, 'checkboxValues')
 
         // 触发valueChange 事件
@@ -1895,7 +1905,7 @@
         }
       },
       handleChangeUpload(info, id, row, column) {
-        let { file } = info
+        let {file} = info
         let value = {
           name: file.name,
           type: file.type,
@@ -1940,11 +1950,11 @@
         let row = Object.assign({}, rowSource)
         row.id = this.removeCaseId(row.id)
         // 获取整行的数据
-        let { values } = this.getValuesSync({ validate: false, rowIds: [row.id] })
+        let {values} = this.getValuesSync({validate: false, rowIds: [row.id]})
         if (values.length > 0) {
           Object.assign(row, values[0])
         }
-        this.$emit('valueChange', { type, row, column, value, target: this })
+        this.$emit('valueChange', {type, row, column, value, target: this})
       },
 
       /** 将caseId去除 */
@@ -1957,7 +1967,7 @@
         this.uploadValues[id] = null
       },
       handleClickDownloadFile(id) {
-        let { path } = this.uploadValues[id] || {}
+        let {path} = this.uploadValues[id] || {}
         if (path) {
           let url = window._CONFIG['downloadUrl'] + '/' + path
           window.open(url)
@@ -2020,7 +2030,7 @@
               let temp = ifParent(child.parentNode)
               return temp != null ? temp : child.parentNode
             } else
-            // 当前标签没有 hidden ，如果有父级并且父级不是 body 的话就继续递归判断父级
+              // 当前标签没有 hidden ，如果有父级并且父级不是 body 的话就继续递归判断父级
             if (child.parentNode && child.parentNode.tagName.toLocaleLowerCase() !== 'body') {
               return ifParent(child.parentNode)
             } else {

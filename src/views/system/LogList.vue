@@ -38,9 +38,10 @@
           </a-col>
 
           <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
-            <a-col :md="6" :sm="24" >
-                <a-button type="primary"  style="left: 10px" @click="searchQuery" icon="search">查询</a-button>
-                <a-button type="primary"  @click="searchReset" icon="reload" style="margin-left: 8px;left: 10px">重置</a-button>
+            <a-col :md="6" :sm="24">
+                <a-button type="primary" style="left: 10px" @click="searchQuery" icon="search">查询</a-button>
+                <a-button type="primary" @click="searchReset" icon="reload"
+                          style="margin-left: 8px;left: 10px">重置</a-button>
             </a-col>
           </span>
 
@@ -60,8 +61,12 @@
       @change="handleTableChange">
 
       <div v-show="queryParam.logType==2" slot="expandedRowRender" slot-scope="record" style="margin: 0">
-        <div style="margin-bottom: 5px"><a-badge status="success" style="vertical-align: middle;"/><span style="vertical-align: middle;">请求方法:{{ record.method }}</span></div>
-        <div><a-badge status="processing" style="vertical-align: middle;"/><span style="vertical-align: middle;">请求参数:{{ record.requestParam }}</span></div>
+        <div style="margin-bottom: 5px">
+          <a-badge status="success" style="vertical-align: middle;"/>
+          <span style="vertical-align: middle;">请求方法:{{ record.method }}</span></div>
+        <div>
+          <a-badge status="processing" style="vertical-align: middle;"/>
+          <span style="vertical-align: middle;">请求参数:{{ record.requestParam }}</span></div>
       </div>
       <!-- 字符串超长截取省略号显示-->
       <span slot="logContent" slot-scope="text, record">
@@ -73,25 +78,25 @@
 </template>
 
 <script>
-  import { filterObj } from '@/utils/util';
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {filterObj} from '@/utils/util';
+  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
   import JEllipsis from '@/components/jeecg/JEllipsis'
 
   export default {
     name: "LogList",
-    mixins:[JeecgListMixin],
+    mixins: [JeecgListMixin],
     components: {
       JEllipsis
     },
-    data () {
+    data() {
       return {
         description: '这是日志管理页面',
         // 查询条件
         queryParam: {
-          ipInfo:'',
-          createTimeRange:[],
-          logType:'1',
-          keyWord:'',
+          ipInfo: '',
+          createTimeRange: [],
+          logType: '1',
+          keyWord: '',
         },
         tabKey: "1",
         // 表头
@@ -99,41 +104,41 @@
           {
             title: '#',
             dataIndex: '',
-            key:'rowIndex',
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
+            key: 'rowIndex',
+            align: "center",
+            customRender: function (t, r, index) {
+              return parseInt(index) + 1;
             }
           },
           {
             title: '日志内容',
-            align:"left",
+            align: "left",
             dataIndex: 'logContent',
-            scopedSlots: { customRender: 'logContent' },
+            scopedSlots: {customRender: 'logContent'},
             sorter: true
           },
           {
             title: '操作人ID',
             dataIndex: 'userid',
-            align:"center",
+            align: "center",
             sorter: true
           },
           {
             title: '操作人名称',
             dataIndex: 'username',
-            align:"center",
+            align: "center",
             sorter: true
           },
           {
             title: 'IP',
             dataIndex: 'ip',
-            align:"center",
+            align: "center",
             sorter: true
           },
           {
             title: '耗时(毫秒)',
             dataIndex: 'costTime',
-            align:"center",
+            align: "center",
             sorter: true
           },
           {
@@ -148,28 +153,28 @@
                 return text;
               }
             },*/
-            align:"center",
+            align: "center",
           },
           {
             title: '创建时间',
             dataIndex: 'createTime',
-            align:"center",
+            align: "center",
             sorter: true
           }
         ],
         operateColumn:
-        {
-          title: '操作类型',
-          dataIndex: 'operateType_dictText',
-          align:"center",
-        },
+          {
+            title: '操作类型',
+            dataIndex: 'operateType_dictText',
+            align: "center",
+          },
         labelCol: {
-          xs: { span: 1 },
-          sm: { span: 2 },
+          xs: {span: 1},
+          sm: {span: 2},
         },
         wrapperCol: {
-          xs: { span: 10 },
-          sm: { span: 16 },
+          xs: {span: 10},
+          sm: {span: 16},
         },
         url: {
           list: "/sys/log/list",
@@ -177,9 +182,9 @@
       }
     },
     methods: {
-      getQueryParams(){
+      getQueryParams() {
         console.log(this.queryParam.createTimeRange)
-        var param = Object.assign({}, this.queryParam,this.isorter);
+        var param = Object.assign({}, this.queryParam, this.isorter);
         param.field = this.getQueryField();
         param.pageNo = this.ipagination.current;
         param.pageSize = this.ipagination.pageSize;
@@ -188,7 +193,7 @@
       },
 
       // 重置
-      searchReset(){
+      searchReset() {
         var that = this;
         var logType = that.queryParam.logType;
         that.queryParam = {}; //清空查询区域参数
@@ -196,26 +201,25 @@
         that.loadData(this.ipagination.current);
       },
       // 日志类型
-      callback(key){
+      callback(key) {
 
         // 动态添加操作类型列
         if (key == 2) {
           this.tabKey = '2';
           this.columns.splice(7, 0, this.operateColumn);
-        }else if(this.columns.length == 9)
-        {
+        } else if (this.columns.length == 9) {
           this.tabKey = '1';
-          this.columns.splice(7,1);
+          this.columns.splice(7, 1);
         }
 
-        let that=this;
-        that.queryParam.logType=key;
+        let that = this;
+        that.queryParam.logType = key;
         that.loadData();
       },
       onDateChange: function (value, dateString) {
-        console.log(dateString[0],dateString[1]);
-        this.queryParam.createTime_begin=dateString[0];
-        this.queryParam.createTime_end=dateString[1];
+        console.log(dateString[0], dateString[1]);
+        this.queryParam.createTime_begin = dateString[0];
+        this.queryParam.createTime_end = dateString[1];
       },
       onDateOk(value) {
         console.log(value);

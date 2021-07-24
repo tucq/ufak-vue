@@ -6,8 +6,8 @@
       :data="datasource"
       :forceFit="true"
       :padding="['auto', 'auto', '40', '50']">
-      <v-tooltip />
-      <v-axis />
+      <v-tooltip/>
+      <v-axis/>
       <v-bar position="x*y"/>
     </v-chart>
   </div>
@@ -47,12 +47,12 @@
         default: ''
       }
     },
-    mounted(){
+    mounted() {
       this.datasource = data
     },
-    data () {
+    data() {
       return {
-        datasource:[],
+        datasource: [],
         scale,
         tooltip
       }

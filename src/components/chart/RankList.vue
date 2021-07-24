@@ -62,10 +62,12 @@
             width: 20px;
             text-align: center;
           }
+
           &.active {
             background-color: #314659;
             color: #fff;
           }
+
           &:last-child {
             float: right;
           }

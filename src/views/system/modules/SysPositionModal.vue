@@ -50,34 +50,34 @@
 
 <script>
   import pick from 'lodash.pick'
-  import { httpAction } from '@/api/manage'
-  import { duplicateCheck } from '@/api/api'
+  import {httpAction} from '@/api/manage'
+  import {duplicateCheck} from '@/api/api'
   import JDictSelectTag from '@/components/dict/JDictSelectTag'
 
   let validatorCodeTimer = null
 
   export default {
     name: 'SysPositionModal',
-    components: { JDictSelectTag },
+    components: {JDictSelectTag},
     data() {
       return {
         title: '操作',
         visible: false,
         model: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules: {
           code: {
             rules: [
-              { required: true, message: '请输入职务编码' },
+              {required: true, message: '请输入职务编码'},
               {
                 validator: (rule, value, callback) => {
                   // 函数消抖的简单实现，防止一段时间内发送多次请求
@@ -103,8 +103,8 @@
               }
             ]
           },
-          name: { rules: [{ required: true, message: '请输入职务名称' }] },
-          postRank: { rules: [{ required: true, message: '请选择职级' }] },
+          name: {rules: [{required: true, message: '请输入职务名称'}]},
+          postRank: {rules: [{required: true, message: '请选择职级'}]},
         },
         url: {
           add: '/sys/position/add',

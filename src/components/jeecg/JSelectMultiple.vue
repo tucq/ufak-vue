@@ -14,49 +14,49 @@
   export default {
     name: 'JSelectMultiple',
     props: {
-      placeholder:{
+      placeholder: {
         type: String,
-        default:'',
+        default: '',
         required: false
       },
-      value:{
+      value: {
         type: String,
         required: false
       },
-      readOnly:{
+      readOnly: {
         type: Boolean,
         required: false,
         default: false
       },
-      options:{
+      options: {
         type: Array,
         required: true
       },
-      triggerChange:{
+      triggerChange: {
         type: Boolean,
         required: false,
         default: false
       }
     },
-    data(){
+    data() {
       return {
-        arrayValue:!this.value?[]:this.value.split(",")
+        arrayValue: !this.value ? [] : this.value.split(",")
       }
     },
-    watch:{
-      value (val) {
-        if(!val){
+    watch: {
+      value(val) {
+        if (!val) {
           this.arrayValue = []
-        }else{
+        } else {
           this.arrayValue = this.value.split(",")
         }
       }
     },
-    methods:{
-      onChange (selectedValue) {
-        if(this.triggerChange){
+    methods: {
+      onChange(selectedValue) {
+        if (this.triggerChange) {
           this.$emit('change', selectedValue.join(","));
-        }else{
+        } else {
           this.$emit('input', selectedValue.join(","));
         }
       },

@@ -3,7 +3,7 @@
     class="announcementCustomModal"
     :width="modelStyle.width"
     :visible="visible"
-    :bodyStyle ="bodyStyle"
+    :bodyStyle="bodyStyle"
     @cancel="handleCancel"
     destroyOnClose
     :footer="null">
@@ -15,7 +15,7 @@
         :title="record.titile"
         :description="'发布人：'+record.sender + ' 发布时间： ' + record.sendTime">
       </a-card-meta>
-      <a-divider />
+      <a-divider/>
       <span v-html="record.msgContent" class="article-content"></span>
     </a-card>
   </a-modal>
@@ -24,43 +24,42 @@
 <script>
   export default {
     name: "SysAnnouncementModal",
-    components: {
-    },
-    data () {
+    components: {},
+    data() {
       return {
-        title:"通知消息",
+        title: "通知消息",
         record: {},
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 },
+          xs: {span: 24},
+          sm: {span: 5},
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 },
+          xs: {span: 24},
+          sm: {span: 16},
         },
         visible: false,
         loading: false,
-        bodyStyle:{
+        bodyStyle: {
           padding: "0",
-          height:(window.innerHeight*0.8)+"px",
-          "overflow-y":"auto",
+          height: (window.innerHeight * 0.8) + "px",
+          "overflow-y": "auto",
 
         },
-        modelStyle:{
+        modelStyle: {
           width: '60%',
-          style: { top: '20px' },
+          style: {top: '20px'},
           fullScreen: false
         }
       }
     },
-    created () {
+    created() {
     },
     methods: {
-      detail (record) {
+      detail(record) {
         this.visible = true;
         this.record = record;
       },
-      handleCancel () {
+      handleCancel() {
         this.visible = false;
       },
       /** 切换全屏显示 */
@@ -80,7 +79,7 @@
 </script>
 
 <style lang="less">
-  .announcementCustomModal{
+  .announcementCustomModal {
     .ant-modal-header {
       border: none;
       display: inline-block;
@@ -88,8 +87,9 @@
       z-index: 1;
       right: 56px;
       padding: 0;
-      .ant-modal-title{
-        .custom-btn{
+
+      .ant-modal-title {
+        .custom-btn {
           width: 56px;
           height: 56px;
           border: none;
@@ -97,7 +97,8 @@
         }
       }
     }
-    .daily-article{
+
+    .daily-article {
       border-bottom: 0;
     }
   }
@@ -107,15 +108,19 @@
     .article-button {
       font-size: 1.2rem !important;
     }
+
     .ant-card-body {
       padding: 18px !important;
     }
+
     .ant-card-head {
       padding: 0 1rem;
     }
+
     .ant-card-meta {
       margin-bottom: 1rem;
     }
+
     .article-content {
       p {
         word-wrap: break-word;

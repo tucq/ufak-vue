@@ -89,9 +89,9 @@
   // 注释这个因为在个人设置模块已经加载了SettingDrawer页面
   // update-end ---- author:os_chengtgen -- date:20190830 --  for:issues/463 -编译主题颜色已生效，但还一直转圈，显示主题 正在编译 ------
 
-  import { triggerWindowResizeEvent } from '@/utils/util'
-  import { mapState, mapActions } from 'vuex'
-  import { mixin, mixinDevice } from '@/utils/mixin.js'
+  import {triggerWindowResizeEvent} from '@/utils/util'
+  import {mapState, mapActions} from 'vuex'
+  import {mixin, mixinDevice} from '@/utils/mixin.js'
 
   export default {
     name: 'GlobalLayout',
@@ -109,7 +109,7 @@
     data() {
       return {
         collapsed: false,
-        activeMenu:{},
+        activeMenu: {},
         menus: []
       }
     },
@@ -134,7 +134,7 @@
       console.log('----加载菜单逻辑----')
       console.log(this.mainRouters)
       console.log(this.permissionMenuList)
-      console.log('----navTheme------'+this.navTheme)
+      console.log('----navTheme------' + this.navTheme)
       //--update-end----author:scott---date:20190320------for:根据后台菜单配置，判断是否路由菜单字段，动态选择是否生成路由（为了支持参数URL菜单）------
     },
     methods: {
@@ -150,17 +150,17 @@
         }
       },
       //update-begin-author:taoyan date:20190430 for:动态路由title显示配置的菜单title而不是其对应路由的title
-      myMenuSelect(value){
+      myMenuSelect(value) {
         //此处触发动态路由被点击事件
-        this.findMenuBykey(this.menus,value.key)
-        this.$emit("dynamicRouterShow",value.key,this.activeMenu.meta.title)
+        this.findMenuBykey(this.menus, value.key)
+        this.$emit("dynamicRouterShow", value.key, this.activeMenu.meta.title)
       },
-      findMenuBykey(menus,key){
-        for(let i of menus){
-          if(i.path==key){
+      findMenuBykey(menus, key) {
+        for (let i of menus) {
+          if (i.path == key) {
             this.activeMenu = {...i}
-          }else if(i.children && i.children.length>0){
-            this.findMenuBykey(i.children,key)
+          } else if (i.children && i.children.length > 0) {
+            this.findMenuBykey(i.children, key)
           }
         }
       }
@@ -201,10 +201,12 @@
         .ant-table-content {
           overflow-y: auto;
         }
+
         .ant-table-body {
           min-width: 800px;
         }
       }
+
       .sidemenu {
         .ant-header-fixedHeader {
 
@@ -222,6 +224,7 @@
           }
         }
       }
+
       .header, .top-nav-header-index {
         .user-wrapper .action {
           padding: 0 12px;
@@ -262,6 +265,7 @@
           width: 100%;
         }
       }
+
       /* 必须为 topmenu  才能启用流式布局 */
       &.content-width-Fluid {
         .header-index-wide {
@@ -388,6 +392,7 @@
               }
             }
           }
+
           //
         }
       }
@@ -462,6 +467,7 @@
           float: right;
           height: 59px;
           overflow: hidden;
+
           .action:hover {
             background-color: rgba(0, 0, 0, 0.05);
           }
@@ -494,6 +500,7 @@
             }
           }
         }
+
         .header-index-wide .header-index-left .trigger:hover {
           background: rgba(255, 255, 255, 0.3);
         }
@@ -528,8 +535,10 @@
         background-color: rgb(0, 21, 41);
       }
     }
+
     &.light {
       box-shadow: none;
+
       .ant-drawer-content {
         background-color: #fff;
       }
@@ -642,6 +651,7 @@
           padding-right: 8px;
           width: auto;
         }
+
         .ant-form-item-control {
           height: 32px;
           line-height: 32px;

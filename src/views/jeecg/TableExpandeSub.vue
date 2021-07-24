@@ -51,7 +51,8 @@
     <!-- table区域-begin -->
     <div>
       <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
+        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{
+        selectedRowKeys.length }}</a>项
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div>
 
@@ -62,7 +63,7 @@
         :columns="columns"
         :dataSource="dataSource"
         :pagination="false"
-        :expandedRowKeys= "expandedRowKeys"
+        :expandedRowKeys="expandedRowKeys"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange"
         @expand="handleExpand"
@@ -85,7 +86,7 @@
           rowKey="id"
           :pagination="false"
           :loading="loading"
-          >
+        >
         </a-table>
       </a-table>
     </div>
@@ -97,7 +98,7 @@
 </template>
 
 <script>
-  import { getAction } from '@/api/manage'
+  import {getAction} from '@/api/manage'
   import JeecgOrderDMainModal from '@/views/jeecg/tablist/form/JeecgOrderDMainModal'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 
@@ -210,15 +211,15 @@
       }
     },
     computed: {
-      currentId(){
+      currentId() {
         return this.id;
       }
     },
     methods: {
-      handleExpand(expanded, record){
-        this.expandedRowKeys=[];
-        this.innerData=[];
-        if(expanded===true){
+      handleExpand(expanded, record) {
+        this.expandedRowKeys = [];
+        this.innerData = [];
+        if (expanded === true) {
           this.loading = true;
           this.expandedRowKeys.push(record.id);
           getAction(this.url.customerListByMainId, {mainId: record.id}).then((res) => {
