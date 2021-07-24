@@ -14,7 +14,7 @@
     <a-card>
 
       <trend flag="up" style="margin-right: 16px;">
-        <span slot="term">工资test</span>
+        <span slot="term">工资</span>
         5%
       </trend>
       <trend flag="up" style="margin-right: 16px;">
