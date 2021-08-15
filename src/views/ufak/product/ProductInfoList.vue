@@ -63,7 +63,7 @@
             @change="handleTableChange">
         <span slot="image" slot-scope="image">
             <a-row>
-              <img :src="getAvatarView(image.split(',')[0])" style="height:50px;max-width:50px"/>
+              <img :src="image.split(',')[0]" style="height:50px;max-width:50px"/>
             </a-row>
         </span>
 
@@ -168,6 +168,7 @@
         computed: {},
         methods: {
             getAvatarView(image){
+                console.log(image);
                 return this.url.imgerver +"/"+ image;
             },
             setPrice(record){

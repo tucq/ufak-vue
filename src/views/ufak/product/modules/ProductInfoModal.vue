@@ -158,7 +158,7 @@
                 @preview="handlePreview"
                 @change="imageChange"
               >
-                <div v-if="fileList.length < 10">
+                <div>
                   <a-icon type="plus"/>
                   <div class="ant-upload-text">上传主图</div>
                 </div>
@@ -298,7 +298,7 @@
                 if(this.model.image){
                     let tmpUrls = this.model.image.substring(0,this.model.image.length-1).split(',');
                     let tmpIdx = 0;
-                    let baseUrl = window._CONFIG['domianURL'] + "/sys/common/view/";
+                    // let baseUrl = window._CONFIG['domianURL'] + "/sys/common/view/";
                     for(let i=0;i<tmpUrls.length;i++){
                         let imgUrl = tmpUrls[i];
                         tmpIdx--;
@@ -306,8 +306,8 @@
                             uid: tmpIdx, //根据官方API文档，该值最好给个负数值，以免与内部对象冲突
                             name: imgUrl.substring(imgUrl.lastIndexOf("/"),imgUrl.indexOf(".")),
                             status: 'done',
-                            url: baseUrl + imgUrl,
-                            thumbUrl: baseUrl + imgUrl,
+                            url: imgUrl,
+                            thumbUrl: imgUrl,
                             isCommit: true, //图片是否已提交
                         }
                     }
@@ -419,6 +419,7 @@
             },
             handlePreview(file) {
                 this.previewImage = file.url || file.thumbUrl;
+                alert(this.previewImage);
                 this.previewVisible = true;
             },
             imageChange(info) {
@@ -426,6 +427,7 @@
                 console.log(this.fileList);
             },
             imageRemove(file) {
+              alert("删除图片路径：", file.url);
                 if(file.url){
                     let rmUrl = file.url.substring(file.url.indexOf("/files"), file.url.length);
                     this.removeFileList.push(rmUrl);
@@ -433,19 +435,20 @@
                     this.removeFileList.push(file.response.message);
                 }
 
-                console.log("删除图片路径：", this.removeFileList);
+                alert("删除图片路径：", this.removeFileList);
             },
             beforeUpload: function (file) {
 //                const isJPG = file.type === 'image/jpeg';
 //                if (!isJPG) {
 //                    this.$message.error('请上传jpg格式图片!');
 //                }
-                const isLt2M = file.size / 1024 / 1024 < 2;
-                if (!isLt2M) {
-                    this.$message.error('上传照片不要超过2MB!');
-                }
+//                 const isLt2M = file.size / 1024 / 1024 < 2;
+//                 if (!isLt2M) {
+//                     this.$message.error('上传照片不要超过2MB!');
+//                 }
 //                return isJPG && isLt2M;
-                return isLt2M;
+//                 return isLt2M;
+                return true;
             },
             handleRemoveFile(files){
                 postAction(this.url.removeFile, {filePaths:files}).then((res) => {
