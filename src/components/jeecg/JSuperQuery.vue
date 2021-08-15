@@ -223,22 +223,13 @@
 
         visible: false,
         queryParamsModel: [{}],
-        treeIcon: < a - icon
-      type = "file-text" / >,
-        treeData
-    :
-      [],
+        treeIcon: <a-icon type="file-text"/>,
+        treeData: [],
         // 保存查询条件的前缀名
-        saveCodeBefore
-    :
-      'JSuperQuerySaved_',
-        selectValue
-    :
-      'and',
-        superQueryFlag
-    :
-      false
-    }
+        saveCodeBefore: 'JSuperQuerySaved_',
+        selectValue: 'and',
+        superQueryFlag: false
+      }
     },
     watch: {
       // 当 saveCode 变化时，重新查询已保存的条件
